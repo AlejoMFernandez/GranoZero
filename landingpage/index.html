@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GranoZero — Entendé cada sorbo</title>
+  <meta name="description" content="La plataforma educativa de café de especialidad. Aprendé, explorá y compartí con la comunidad." />
+  <link rel="icon" href="./logofinal.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Variables ──────────────────────────────────────── */
+    :root {
+      --brown:  #3E1C00;
+      --dark:   #3E1C00;
+      --dark2:  #2d1300;
+      --gold:   #B8820A;
+      --cream:  #FAF7F0;
+      --mid:    rgba(250,247,240,.55);
+      --dim:    rgba(250,247,240,.32);
+      --line:   rgba(250,247,240,.09);
+      --gold-a: rgba(184,130,10,.08);
+    }
+
+    /* ── Reset ──────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--dark);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Scroll reveal ──────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ── Reusable tokens ────────────────────────────────── */
+    .eyebrow {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 18px;
+    }
+    .h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(54px, 9vw, 112px);
+      line-height: 1.04; font-weight: 700;
+    }
+    .h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.15; font-weight: 700;
+    }
+    .h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.5vw, 28px);
+      line-height: 1.25; font-weight: 600;
+    }
+    em { font-style: italic; color: var(--gold); }
+    .sub {
+      font-size: 16px; font-weight: 300; line-height: 1.75;
+      color: var(--mid); max-width: 520px;
+    }
+
+    /* ── Buttons ────────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 14px 36px;
+      border: 1px solid var(--gold);
+      color: var(--gold); background: transparent;
+      cursor: pointer;
+      transition: background .22s, color .22s;
+    }
+    .btn:hover { background: var(--gold); color: var(--dark); }
+    .btn-gold {
+      background: var(--gold); color: var(--dark);
+      border-color: var(--gold);
+    }
+    .btn-gold:hover { opacity: .88; background: var(--gold); color: var(--dark); }
+
+    /* ── NAV ────────────────────────────────────────────── */
+    nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 7vw;
+      background: linear-gradient(to bottom, rgba(21,7,0,.98) 60%, transparent);
+      transition: background .3s;
+    }
+    nav.scrolled { background: rgba(21,7,0,.97); box-shadow: 0 1px 0 var(--line); }
+
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-brand img { height: 26px; width: auto; }
+    .nav-brand-name {
+      font-family: 'Playfair Display', serif; font-size: 19px; color: var(--cream);
+    }
+    .nav-brand-name em { font-style: italic; color: var(--gold); }
+
+    .nav-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--gold); background: transparent;
+      border: 1px solid rgba(184,130,10,.45);
+      padding: 9px 20px; cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .nav-btn:hover { background: var(--gold); color: var(--dark); }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero {
+      height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 140px 7vw 100px;
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse at 50% 0%, #5a2800 0%, var(--dark) 65%);
+    }
+
+    .hero-watermark {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(700px, 100vw); height: auto;
+      opacity: .045; pointer-events: none;
+      filter: sepia(1) saturate(5) brightness(1.5);
+    }
+
+    .hero-title {
+      color: var(--cream); margin-bottom: 26px;
+    }
+
+    .hero-sub {
+      max-width: 580px; margin: 0 auto 46px;
+    }
+
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+
+    /* ── STATS BAR ──────────────────────────────────────── */
+    .stats-bar {
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .stat {
+      flex: 1; min-width: 180px;
+      padding: 28px 20px;
+      text-align: center;
+      border-right: 1px solid var(--line);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px; color: var(--gold); display: block;
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--dim); margin-top: 6px; display: block;
+    }
+
+    /* ── QUÉ ES ─────────────────────────────────────────── */
+    .que-es { padding: 96px 7vw; }
+    .que-es-head { max-width: 660px; margin-bottom: 64px; }
+
+    .pilares {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .pilar {
+      background: var(--dark2);
+      padding: 48px 36px;
+      transition: background .25s;
+    }
+    .pilar:hover { background: rgba(184,130,10,.05); }
+    .pilar-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(184,130,10,.35); margin-bottom: 28px; display: block;
+    }
+    .pilar-ico {
+      width: 24px; margin-bottom: 20px;
+      filter: sepia(1) saturate(8) brightness(.85);
+    }
+    .pilar-desc {
+      font-size: 14px; font-weight: 300; line-height: 1.7;
+      color: var(--mid); margin-top: 12px;
+    }
+
+    /* ── LA CARTA ───────────────────────────────────────── */
+    .la-carta {
+      padding: 96px 7vw;
+      background: rgba(0,0,0,.2);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .carta-head {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: end;
+      margin-bottom: 56px;
+    }
+
+    .cafes-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .cafe-card {
+      background: var(--dark);
+      padding: 32px 28px;
+      transition: background .25s;
+    }
+    .cafe-card:hover { background: rgba(184,130,10,.05); }
+    .cafe-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 12px; display: block;
+    }
+    .cafe-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-style: italic;
+      color: var(--cream); margin-bottom: 14px;
+    }
+    .cafe-desc {
+      font-size: 13px; font-weight: 300; line-height: 1.65;
+      color: var(--mid); margin-bottom: 24px;
+    }
+    .cafe-int { display: flex; gap: 4px; align-items: center; flex-wrap: nowrap; }
+    .int-logo {
+      width: 15px; height: 15px; object-fit: contain; flex-shrink: 0;
+      filter: sepia(1) saturate(4) brightness(0.75);
+      opacity: .1;
+    }
+    .int-logo.on { opacity: .9; }
+
+    /* ── EXPLORAR: MAPA + GLOSARIO ──────────────────────── */
+    .explorar {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--line);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .exp-item {
+      background: var(--dark2); padding: 80px 7vw;
+    }
+    .exp-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 88px; line-height: 1;
+      color: rgba(184,130,10,.09); margin-bottom: 12px;
+    }
+    .exp-desc {
+      font-size: 14px; font-weight: 300; line-height: 1.7;
+      color: var(--mid); margin: 14px 0 28px;
+    }
+    .exp-link {
+      font-family: 'Space Mono', monospace;
+      font-size: 8.5px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); transition: opacity .2s;
+    }
+    .exp-link:hover { opacity: .6; }
+
+    /* ── IDENTIDAD ──────────────────────────────────────── */
+    .identidad {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .ident-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 520px;
+    }
+    .ident-texto {
+      padding: 80px 7vw;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .ident-img {
+      background: url('../public/marca/hero.png') center/cover no-repeat;
+      min-height: 400px; position: relative;
+    }
+    .ident-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--dark2) 0%, transparent 40%);
+    }
+
+
+    /* ── COMUNIDAD ──────────────────────────────────────── */
+    .comunidad {
+      padding: 96px 7vw;
+      border-top: 1px solid var(--line);
+    }
+    .com-head {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: end; margin-bottom: 52px;
+    }
+
+    .resenas-wrap { display: flex; flex-direction: column; gap: 1px; }
+    .resena-card {
+      background: var(--dark2);
+      border: 1px solid var(--line);
+      padding: 26px 28px;
+      transition: background .25s;
+    }
+    .resena-card:hover { background: rgba(184,130,10,.04); }
+    .resena-meta {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+    }
+    .resena-autor {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+    }
+    .resena-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 7.5px; letter-spacing: 1.5px; text-transform: uppercase;
+      border: 1px solid var(--line); padding: 2px 8px; color: var(--dim);
+    }
+    .resena-badge-cafe { border-color: rgba(184,130,10,.3); color: var(--gold); }
+    .resena-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; color: var(--cream); margin-bottom: 8px;
+    }
+    .resena-cuerpo {
+      font-size: 13px; font-weight: 300; line-height: 1.65; color: var(--mid); margin-bottom: 14px;
+    }
+    .resena-rating { display: flex; align-items: center; gap: 4px; }
+    .resena-score {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px; color: var(--dim); margin-left: 8px;
+    }
+
+    /* ── QUIZ CTA ───────────────────────────────────────── */
+    .quiz-cta {
+      padding: 120px 7vw;
+      text-align: center;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse at 50% 50%, rgba(184,130,10,.09) 0%, transparent 65%);
+    }
+    .quiz-watermark {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(440px, 85vw); height: auto;
+      opacity: .05; pointer-events: none;
+      filter: sepia(1) saturate(5) brightness(1.5);
+    }
+    .quiz-star { font-size: 28px; color: var(--gold); opacity: .45; display: block; margin-bottom: 18px; }
+    .quiz-sub { max-width: 440px; margin: 0 auto 42px; }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      padding: 48px 7vw;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 22px;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; }
+    .footer-brand img { height: 22px; width: auto; }
+    .footer-brand-name {
+      font-family: 'Playfair Display', serif; font-size: 18px; color: var(--cream);
+    }
+    .footer-brand-name em { font-style: italic; color: var(--gold); }
+    .footer-tagline { font-size: 12px; font-weight: 300; color: var(--dim); font-style: italic; }
+    .footer-link {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); transition: opacity .2s;
+    }
+    .footer-link:hover { opacity: .6; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .pilares         { grid-template-columns: 1fr; }
+      .cafes-grid      { grid-template-columns: 1fr; }
+      .carta-head      { grid-template-columns: 1fr; gap: 28px; }
+      .explorar        { grid-template-columns: 1fr; }
+      .ident-inner     { grid-template-columns: 1fr; }
+      .ident-img       { min-height: 300px; }
+      .ident-img::after { background: linear-gradient(to bottom, var(--dark2) 0%, transparent 30%); }
+      .com-head        { grid-template-columns: 1fr; gap: 20px; }
+      .mockups-imgs    { grid-template-columns: 1fr; }
+      .stat            { min-width: 140px; }
+    }
+    @media (max-width: 580px) {
+      nav { padding: 16px 5vw; }
+      .hero { padding: 120px 5vw 80px; }
+      .que-es, .la-carta, .comunidad, .mockups { padding: 72px 5vw; }
+      .exp-item { padding: 56px 5vw; }
+      .ident-texto { padding: 56px 5vw; }
+      .quiz-cta { padding: 88px 5vw; }
+      footer { padding: 40px 5vw; }
+      .pilar { padding: 36px 24px; }
+      .cafe-card { padding: 28px 20px; }
+      .hero-cta { gap: 10px; }
+      .hero-cta .btn, .hero-cta .btn-gold { padding: 12px 24px; font-size: 9px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ─────────────────────────────────────────────── -->
+  <nav id="nav">
+    <a href="#" class="nav-brand">
+      <img src="./logofinal.png" alt="GranoZero" />
+      <span class="nav-brand-name">Grano<em>Zero</em></span>
+    </a>
+    <!-- Reemplazá este link con tu URL de Vercel -->
+    <a href="https://granozero.vercel.app" class="nav-btn">Entrar a la app →</a>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────── -->
+  <section class="hero">
+    <img src="./logofinal.png" class="hero-watermark" alt="" aria-hidden="true" />
+
+    <h1 class="h1 hero-title reveal">
+      Entendé<br>cada <em>sorbo.</em>
+    </h1>
+
+    <p class="sub hero-sub reveal">
+      GranoZero es la plataforma educativa de café de especialidad pensada para
+      curiosos, amantes del café y los que simplemente quieren saber más.
+    </p>
+
+    <div class="hero-cta reveal">
+      <a href="https://granozero.vercel.app" class="btn btn-gold">Explorar la plataforma →</a>
+      <a href="#que-es" class="btn">¿Qué es GranoZero?</a>
+    </div>
+
+  </section>
+
+  <!-- ── STATS BAR ─────────────────────────────────────────── -->
+  <div class="stats-bar">
+    <div class="stat reveal">
+      <span class="stat-num">10</span>
+      <span class="stat-label">Tipos de café</span>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-num">20</span>
+      <span class="stat-label">Términos del especialidad</span>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-num">+15</span>
+      <span class="stat-label">Reseñas de la comunidad</span>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-num">1</span>
+      <span class="stat-label">Quiz de personalidad</span>
+    </div>
+  </div>
+
+  <!-- ── QUÉ ES ─────────────────────────────────────────────── -->
+  <section class="que-es" id="que-es">
+    <div class="que-es-head">
+      <span class="eyebrow reveal">La plataforma</span>
+      <h2 class="h2 reveal">
+        Todo lo que necesitás saber sobre café de especialidad.
+      </h2>
+      <p class="sub reveal" style="margin-top:18px">
+        Desde la extracción hasta el origen. GranoZero reúne en un solo lugar
+        todo lo que necesitás para entender, elegir y disfrutar mejor tu café.
+      </p>
+    </div>
+
+    <div class="pilares">
+      <div class="pilar reveal">
+        <span class="pilar-num">01</span>
+        <img src="./logofinal.png" class="pilar-ico" alt="" />
+        <h3 class="h3">Aprendé</h3>
+        <p class="pilar-desc">
+          La carta completa de 10 preparaciones — espresso, latte, flat white y más —
+          con intensidad, temperatura y notas de sabor explicadas en detalle.
+        </p>
+      </div>
+      <div class="pilar reveal">
+        <span class="pilar-num">02</span>
+        <img src="./logofinal.png" class="pilar-ico" alt="" />
+        <h3 class="h3">Explorá</h3>
+        <p class="pilar-desc">
+          El mapa de orígenes del café y el glosario de 20 términos clave del
+          mundo del especialidad. Del grano al terroir, cada detalle importa.
+        </p>
+      </div>
+      <div class="pilar reveal">
+        <span class="pilar-num">03</span>
+        <img src="./logofinal.png" class="pilar-ico" alt="" />
+        <h3 class="h3">Compartí</h3>
+        <p class="pilar-desc">
+          Una comunidad que reseña, recomienda y conecta. Descubrí en qué cafeterías
+          toman el mejor latte o el espresso más intenso de Buenos Aires.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LA CARTA ───────────────────────────────────────────── -->
+  <section class="la-carta">
+    <div class="carta-head">
+      <div>
+        <span class="eyebrow reveal">La carta</span>
+        <h2 class="h2 reveal">
+          10 tipos de café.<br>Explicados como<br><em>nunca antes.</em>
+        </h2>
+      </div>
+      <div>
+        <p class="sub reveal">
+          Cada preparación tiene su historia, su técnica y su perfil de sabor.
+          Aprendé a distinguirlos y a pedir exactamente lo que querés.
+        </p>
+        <a href="https://granozero.vercel.app/carta" class="btn reveal" style="margin-top:28px;display:inline-block">
+          Ver la carta completa →
+        </a>
+      </div>
+    </div>
+
+    <div class="cafes-grid">
+      <div class="cafe-card reveal">
+        <span class="cafe-tag">Alta intensidad</span>
+        <div class="cafe-nombre">Espresso</div>
+        <p class="cafe-desc">
+          30 ml de concentración pura. El corazón de todo café con leche.
+          Extracción a alta presión, sabor intenso y crema característica.
+        </p>
+        <div class="cafe-int">
+          <img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo" alt="">
+        </div>
+      </div>
+      <div class="cafe-card reveal">
+        <span class="cafe-tag">Baja intensidad</span>
+        <div class="cafe-nombre">Latte</div>
+        <p class="cafe-desc">
+          El más suave y cremoso. Espresso cubierto de abundante leche vaporizada.
+          El más accesible para quienes se inician en el especialidad.
+        </p>
+        <div class="cafe-int">
+          <img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo" alt=""><img src="./logofinal.png" class="int-logo" alt=""><img src="./logofinal.png" class="int-logo" alt=""><img src="./logofinal.png" class="int-logo" alt=""><img src="./logofinal.png" class="int-logo" alt=""><img src="./logofinal.png" class="int-logo" alt=""><img src="./logofinal.png" class="int-logo" alt="">
+        </div>
+      </div>
+      <div class="cafe-card reveal">
+        <span class="cafe-tag">Intensidad media</span>
+        <div class="cafe-nombre">Cappuccino</div>
+        <p class="cafe-desc">
+          El equilibrio perfecto entre espresso, leche y espuma.
+          Cremoso, profundo y con carácter propio. El clásico de las mañanas.
+        </p>
+        <div class="cafe-int">
+          <img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo" alt=""><img src="./logofinal.png" class="int-logo" alt=""><img src="./logofinal.png" class="int-logo" alt=""><img src="./logofinal.png" class="int-logo" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MAPA + GLOSARIO ─────────────────────────────────────── -->
+  <div class="explorar">
+    <div class="exp-item reveal">
+      <div class="exp-num">01</div>
+      <span class="eyebrow">Mapa de orígenes</span>
+      <h3 class="h3">Del grano al viaje</h3>
+      <p class="exp-desc">
+        El café que tomás viajó miles de kilómetros antes de llegar a tu taza.
+        Etiopía, Colombia, Brasil, Guatemala — cada origen tiene su historia,
+        su altitud y su perfil de sabor único.
+      </p>
+      <a href="https://granozero.vercel.app/mapa" class="exp-link">Explorar el mapa →</a>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-num">02</div>
+      <span class="eyebrow">Glosario</span>
+      <h3 class="h3">Hablá el idioma del café</h3>
+      <p class="exp-desc">
+        Terroir, extracción, crema, dry cappuccino, espresso lungo.
+        Los 20 términos que necesitás dominar para hablar de café
+        con el lenguaje de quien realmente sabe.
+      </p>
+      <a href="https://granozero.vercel.app/glosario" class="exp-link">Ver el glosario →</a>
+    </div>
+  </div>
+
+  <!-- ── IDENTIDAD DE MARCA ───────────────────────────────────── -->
+  <section class="identidad">
+    <div class="ident-inner">
+      <div class="ident-texto">
+        <span class="eyebrow reveal">Identidad</span>
+        <h2 class="h2 reveal">
+          GranoZero<br>en el mundo real.
+        </h2>
+        <p class="sub reveal" style="margin-top:16px">
+          Una marca construida desde el especialidad hacia afuera.
+          Del delantal a la tarjeta, del tazón al digital —
+          cada pieza pensada para quien entiende su café.
+        </p>
+        <a href="https://granozero.vercel.app" class="btn reveal" style="margin-top:32px;display:inline-block">
+          Ingresar a GranoZero →
+        </a>
+      </div>
+      <div class="ident-img"></div>
+    </div>
+  </section>
+
+  <!-- ── COMUNIDAD ─────────────────────────────────────────────── -->
+  <section class="comunidad">
+    <div class="com-head">
+      <div>
+        <span class="eyebrow reveal">Comunidad</span>
+        <h2 class="h2 reveal">
+          Una comunidad<br>que sabe lo que <em>toma.</em>
+        </h2>
+      </div>
+      <div>
+        <p class="sub reveal">
+          Reseñas reales de cafeterías reales. Descubrí dónde toman el mejor
+          flat white y dónde el espresso realmente vale la pena.
+        </p>
+        <a href="https://granozero.vercel.app/recomendaciones" class="btn reveal" style="margin-top:26px;display:inline-block">
+          Ver recomendaciones →
+        </a>
+      </div>
+    </div>
+
+    <div class="resenas-wrap">
+      <div class="resena-card reveal">
+        <div class="resena-meta">
+          <span class="resena-autor">Lucía Fontana</span>
+          <span class="resena-badge resena-badge-cafe">Flat White</span>
+          <span class="resena-badge">Birkin</span>
+        </div>
+        <h4 class="resena-titulo">Birkin nunca decepciona</h4>
+        <p class="resena-cuerpo">
+          El flat white es consistente visita tras visita. Ratio perfecto, leche sedosa,
+          sin necesidad de azúcar. De los mejores cafés de especialidad de Palermo.
+        </p>
+        <div class="cafe-int">
+          <img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo" alt="">
+          <span class="resena-score">9/10</span>
+        </div>
+      </div>
+      <div class="resena-card reveal">
+        <div class="resena-meta">
+          <span class="resena-autor">Ignacio Blanco</span>
+          <span class="resena-badge resena-badge-cafe">Ristretto</span>
+          <span class="resena-badge">LAB Tostadores</span>
+        </div>
+        <h4 class="resena-titulo">El mejor ristretto de Buenos Aires</h4>
+        <p class="resena-cuerpo">
+          LAB Tostadores es otro nivel. Concentrado, con cuerpo, acidez brillante y final
+          largo. Se nota que toman en serio desde el tostado hasta la extracción.
+        </p>
+        <div class="cafe-int">
+          <img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt=""><img src="./logofinal.png" class="int-logo on" alt="">
+          <span class="resena-score">10/10</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUIZ CTA ───────────────────────────────────────────────── -->
+  <section class="quiz-cta">
+    <img src="./logofinal.png" class="quiz-watermark" alt="" aria-hidden="true" />
+    <span class="quiz-star">✦</span>
+    <span class="eyebrow reveal" style="color:rgba(184,130,10,.6)">El quiz</span>
+    <h2 class="h2 reveal" style="font-style:italic;margin-bottom:18px">¿Qué café sos?</h2>
+    <p class="sub quiz-sub reveal">
+      Respondé 5 preguntas y descubrí cuál de los 10 tipos de café define tu forma de ser.
+      Puede que te sorprenda.
+    </p>
+    <a href="https://granozero.vercel.app" class="btn btn-gold reveal">Hacer el quiz →</a>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+  <footer>
+    <a href="https://granozero.vercel.app" class="footer-brand">
+      <img src="./logofinal.png" alt="GranoZero" />
+      <span class="footer-brand-name">Grano<em>Zero</em></span>
+    </a>
+    <p class="footer-tagline">Del grano a la taza. Con criterio.</p>
+    <a href="https://granozero.vercel.app" class="footer-link">Ir a la plataforma →</a>
+  </footer>
+
+  <script>
+    // Nav shadow on scroll
+    const nav = document.getElementById('nav')
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50)
+    }, { passive: true })
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in')
+          observer.unobserve(e.target)
+        }
+      })
+    }, { threshold: 0.1 })
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+  </script>
+</body>
+</html>
