@@ -25,7 +25,7 @@ const tiposCafe = ['Espresso', 'Ristretto', 'Americano', 'Macchiato', 'Cortado',
                    'Cappuccino', 'Flat White', 'Latte', 'Mocha']
 
 // Ubicación
-const placesInput     = ref(null)
+const placesContainer = ref(null)
 const locationName    = ref('')
 const locationDisplay = ref('')
 const locationLat     = ref(null)
@@ -36,27 +36,28 @@ function quitarUbicacion() {
   locationDisplay.value = ''
   locationLat.value     = null
   locationLng.value     = null
+  if (placesContainer.value) {
+    placesContainer.value.innerHTML = ''
+    initGooglePlaces()
+  }
 }
 
 function initGooglePlaces() {
-  if (!placesInput.value || !window.google?.maps?.places) return
-  const ac = new window.google.maps.places.Autocomplete(placesInput.value, {
-    types:  ['establishment'],
-    fields: ['name', 'formatted_address', 'geometry'],
-  })
-  ac.addListener('place_changed', () => {
-    const place = ac.getPlace()
-    if (!place.geometry) return
-    locationName.value    = place.name
-    locationDisplay.value = place.formatted_address
-    locationLat.value     = place.geometry.location.lat()
-    locationLng.value     = place.geometry.location.lng()
+  if (!placesContainer.value || !window.google?.maps?.places) return
+  const pac = new window.google.maps.places.PlaceAutocompleteElement()
+  placesContainer.value.appendChild(pac)
+  pac.addEventListener('gmp-placeselect', async ({ place }) => {
+    await place.fetchFields({ fields: ['displayName', 'formattedAddress', 'location'] })
+    locationName.value    = place.displayName
+    locationDisplay.value = place.formattedAddress
+    locationLat.value     = place.location.lat()
+    locationLng.value     = place.location.lng()
   })
 }
 
 async function abrirForm() {
   showForm.value = true
-  await nextTick()   // esperar a que el input del modal aparezca en el DOM
+  await nextTick()
   initGooglePlaces()
 }
 
@@ -230,12 +231,7 @@ function mapaLink(post) {
 
           <div class="campo">
             <span>¿Dónde lo tomaste? <em class="opcional">(opcional)</em></span>
-            <input
-              ref="placesInput"
-              v-model="locationName"
-              type="text"
-              placeholder="Buscar cafetería o lugar…"
-            />
+            <div ref="placesContainer" class="places-container"></div>
             <div v-if="locationDisplay" class="ubicacion-ok">
               <span class="ubicacion-texto">{{ locationDisplay }}</span>
               <button class="btn-quitar" @click="quitarUbicacion">✕</button>
@@ -476,28 +472,7 @@ details[open] .resena-mapa-sum { color: var(--gold); border-color: rgba(184,130,
 }
 </style>
 
-<!-- Estilos globales para el dropdown de Google Places -->
 <style>
-.pac-container {
-  min-width: 480px !important;
-  background: #2a1200;
-  border: 1px solid rgba(184,130,10,.3);
-  border-top: none;
-  box-shadow: 0 8px 24px rgba(0,0,0,.5);
-  font-family: 'DM Sans', sans-serif;
-}
-.pac-item {
-  padding: 10px 14px;
-  border-top: 1px solid rgba(250,247,240,.06);
-  color: rgba(250,247,240,.6);
-  font-size: 13px;
-  white-space: normal;
-  line-height: 1.4;
-  cursor: pointer;
-}
-.pac-item:hover { background: rgba(184,130,10,.08); }
-.pac-item-query { color: #FAF7F0; font-size: 14px; }
-.pac-matched    { color: var(--gold, #B8820A); font-weight: 600; }
-.pac-icon       { display: none; }
-.pac-logo::after { display: none; }
+.places-container { width: 100%; }
+.places-container gmp-placeautocomplete { width: 100%; }
 </style>
