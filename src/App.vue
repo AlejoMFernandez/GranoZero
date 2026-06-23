@@ -19,27 +19,9 @@ function openAuth(mode = 'login') {
 const quizAbierto = ref(false)
 
 onMounted(() => auth.init())
-
-// ── Cursor personalizado ─────────────────────────────
-const cursor = ref(null)
-onMounted(() => {
-  document.addEventListener('mousemove', e => {
-    if (!cursor.value) return
-    cursor.value.style.left = e.clientX + 'px'
-    cursor.value.style.top  = e.clientY + 'px'
-  })
-  document.addEventListener('mouseover', e => {
-    if (e.target.closest('a, button')) document.body.classList.add('hz')
-  })
-  document.addEventListener('mouseout', e => {
-    if (e.target.closest('a, button')) document.body.classList.remove('hz')
-  })
-})
 </script>
 
 <template>
-  <div ref="cursor" id="cursor" aria-hidden="true"></div>
-
   <NavBar
     @open-auth="openAuth"
     @open-quiz="quizAbierto = true"
