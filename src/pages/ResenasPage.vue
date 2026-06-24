@@ -35,22 +35,19 @@ export default {
       this.locationDisplay = ''
       this.locationLat     = null
       this.locationLng     = null
-      if (this.$refs.locationInput) {
-        this.$refs.locationInput.value = ''
-        this.initGooglePlaces()
-      }
+      if (this.$refs.placesInput) this.$refs.placesInput.value = ''
     },
     initGooglePlaces() {
-      if (!this.$refs.locationInput || !window.google?.maps?.places) return
-      const ac = new window.google.maps.places.Autocomplete(this.$refs.locationInput, {
+      if (!this.$refs.placesInput || !window.google?.maps?.places) return
+      const ac = new window.google.maps.places.Autocomplete(this.$refs.placesInput, {
         types: ['establishment'],
         fields: ['name', 'formatted_address', 'geometry'],
       })
       ac.addListener('place_changed', () => {
         const place = ac.getPlace()
         if (!place.geometry) return
-        this.locationName    = place.name || ''
-        this.locationDisplay = place.formatted_address || ''
+        this.locationName    = place.name
+        this.locationDisplay = place.formatted_address
         this.locationLat     = place.geometry.location.lat()
         this.locationLng     = place.geometry.location.lng()
       })
@@ -229,12 +226,7 @@ export default {
 
           <div class="campo">
             <span>¿Dónde lo tomaste? <em class="opcional">(opcional)</em></span>
-            <input
-              ref="locationInput"
-              type="text"
-              placeholder="Buscá una cafetería…"
-              v-show="!locationDisplay"
-            />
+            <input ref="placesInput" type="text" placeholder="Buscar cafetería o lugar…" />
             <div v-if="locationDisplay" class="ubicacion-ok">
               <span class="ubicacion-texto">{{ locationDisplay }}</span>
               <button class="btn-quitar" @click="quitarUbicacion">✕</button>
@@ -464,3 +456,4 @@ details[open] .resena-mapa-sum { color: var(--gold); border-color: rgba(184,130,
   .form-campos     { padding: 16px 20px 24px; }
 }
 </style>
+
