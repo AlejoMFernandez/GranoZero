@@ -39,15 +39,25 @@ export default {
     },
     initGooglePlaces() {
       if (!this.$refs.placesInput || !window.google?.maps?.places) return
-      const ac = new window.google.maps.places.Autocomplete(this.$refs.placesInput, {
-        types: ['establishment'],
-        fields: ['name', 'formatted_address', 'geometry'],
+      const input = this.$refs.placesInput
+      const modal = this.$refs.formModal
+
+      // bloquear scroll del modal mientras el dropdown esta visible
+      // (si no, el dropdown queda desincronizado con el input al scrollear)
+      input.addEventListener('focus', () => {
+        if (modal) modal.style.overflowY = 'hidden'
       })
+      input.addEventListener('blur', () => {
+        setTimeout(() => { if (modal) modal.style.overflowY = '' }, 300)
+      })
+
+      const ac = new window.google.maps.places.Autocomplete(input)
       ac.addListener('place_changed', () => {
+        if (modal) modal.style.overflowY = ''
         const place = ac.getPlace()
-        if (!place.geometry) return
-        this.locationName    = place.name
-        this.locationDisplay = place.formatted_address
+        if (!place.geometry?.location) return
+        this.locationName    = place.name || ''
+        this.locationDisplay = place.formatted_address || ''
         this.locationLat     = place.geometry.location.lat()
         this.locationLng     = place.geometry.location.lng()
       })
@@ -191,7 +201,7 @@ export default {
 
   <!-- Modal formulario -->
     <div v-if="showForm" class="form-overlay" @click.self="cerrarForm">
-      <div class="form-modal">
+      <div ref="formModal" class="form-modal">
 
         <div class="form-modal-top">
           <h2 class="form-titulo">Escribí una reseña</h2>
