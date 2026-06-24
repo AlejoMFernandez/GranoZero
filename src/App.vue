@@ -44,7 +44,7 @@
   />
 
   <QuizModal
-    :show="quizAbierto"
+    v-if="quizAbierto"
     @close="quizAbierto = false"
   />
 

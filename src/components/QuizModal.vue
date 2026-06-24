@@ -1,13 +1,12 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { cafes } from '../data/cafes.js'
 import BeanIcon from './BeanIcon.vue'
 
-const props = defineProps({ show: { type: Boolean, default: false } })
-const emit  = defineEmits(['close'])
+const emit = defineEmits(['close'])
 
-// Reiniciar al abrir
-watch(() => props.show, (v) => { if (v) reiniciar() })
+// Reiniciar al montar
+onMounted(() => reiniciar())
 
 /* 
 A FUTURO:
@@ -89,7 +88,7 @@ function reiniciar() {
 
 <template>
   <Teleport to="body">
-    <div v-if="show" class="overlay" @click.self="$emit('close')">
+    <div class="overlay" @click.self="$emit('close')">
         <div class="quiz-modal" role="dialog" aria-modal="true">
 
           <!-- Header del modal -->
