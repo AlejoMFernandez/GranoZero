@@ -1,5 +1,7 @@
-<script setup>
-import { RouterLink } from 'vue-router'
+<script>
+export default {
+  name: 'PreciosCTA',
+}
 </script>
 
 <template>
@@ -51,7 +53,7 @@ import { RouterLink } from 'vue-router'
   gap: 64px;
 }
 
-/* ── Texto ───────────────────────────────────────────── */
+/* texto */
 .precios-cta-titulo {
   font-family: 'Playfair Display', serif;
   font-size: 44px; line-height: 1.15;
@@ -64,7 +66,7 @@ import { RouterLink } from 'vue-router'
   color: var(--mid); max-width: 380px;
 }
 
-/* ── Derecha ─────────────────────────────────────────── */
+/* derecha */
 .precios-cta-derecha {
   display: flex; flex-direction: column;
   align-items: flex-start; gap: 24px;
@@ -103,7 +105,7 @@ import { RouterLink } from 'vue-router'
   color: var(--dim);
 }
 
-/* ── Responsive ─────────────────────────────────────── */
+/* responsive */
 @media (max-width: 900px) {
   .precios-cta-inner {
     flex-direction: column;

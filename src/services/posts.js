@@ -1,4 +1,4 @@
-/** Posts/reseñas — portado del TP1 */
+// Posts/reseñas
 import { supabase } from '../lib/supabase'
 
 export async function fetchAllPosts() {

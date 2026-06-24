@@ -1,113 +1,109 @@
-<script setup>
-import { ref, onMounted, nextTick } from 'vue'
-import { useAuthStore }   from '../stores/auth'
+<script>
+import { subscribeToAuthStateChanges } from '../services/auth'
 import { fetchAllPosts, createPost } from '../services/posts'
 import { fetchAllProfiles }          from '../services/profile'
 import RatingPicker   from '../components/RatingPicker.vue'
 import IntensityScale from '../components/IntensityScale.vue'
 import SiteFooter     from '../components/SiteFooter.vue'
 
-const auth     = useAuthStore()
-const posts    = ref([])
-const perfiles = ref({})
-
-// Formulario
-const titulo    = ref('')
-const cuerpo    = ref('')
-const enviando  = ref(false)
-const postError = ref('')
-const showForm  = ref(false)
-
-// Rating y tipo de café
-const rating   = ref(0)
-const cafeType = ref('')
-const tiposCafe = ['Espresso', 'Ristretto', 'Americano', 'Macchiato', 'Cortado',
-                   'Cappuccino', 'Flat White', 'Latte', 'Mocha']
-
-// Ubicación
-const placesContainer = ref(null)
-const locationName    = ref('')
-const locationDisplay = ref('')
-const locationLat     = ref(null)
-const locationLng     = ref(null)
-
-function quitarUbicacion() {
-  locationName.value    = ''
-  locationDisplay.value = ''
-  locationLat.value     = null
-  locationLng.value     = null
-  if (placesContainer.value) {
-    placesContainer.value.innerHTML = ''
-    initGooglePlaces()
-  }
-}
-
-function initGooglePlaces() {
-  if (!placesContainer.value || !window.google?.maps?.places) return
-  const pac = new window.google.maps.places.PlaceAutocompleteElement()
-  placesContainer.value.appendChild(pac)
-  pac.addEventListener('gmp-placeselect', async ({ place }) => {
-    await place.fetchFields({ fields: ['displayName', 'formattedAddress', 'location'] })
-    locationName.value    = place.displayName
-    locationDisplay.value = place.formattedAddress
-    locationLat.value     = place.location.lat()
-    locationLng.value     = place.location.lng()
-  })
-}
-
-async function abrirForm() {
-  showForm.value = true
-  await nextTick()
-  initGooglePlaces()
-}
-
-function cerrarForm() {
-  showForm.value = false
-}
-
-onMounted(async () => {
-  posts.value = await fetchAllPosts()
-  const ps = await fetchAllProfiles()
-  ps.forEach(p => { perfiles.value[p.user_id] = p.username })
-})
-
-async function publicar() {
-  if (!titulo.value.trim() || !cuerpo.value.trim()) return
-  enviando.value  = true
-  postError.value = ''
-  try {
-    await createPost({
-      userId:          auth.user.id,
-      title:           titulo.value,
-      body:            cuerpo.value,
-      rating:          rating.value   || null,
-      cafeType:        cafeType.value || null,
-      locationName:    locationName.value.trim() || null,
-      locationDisplay: locationDisplay.value     || null,
-      lat:             locationLat.value,
-      lng:             locationLng.value,
-    })
-    titulo.value   = ''
-    cuerpo.value   = ''
-    rating.value   = 0
-    cafeType.value = ''
-    quitarUbicacion()
-    cerrarForm()
-    posts.value = await fetchAllPosts()
-  } catch (e) {
-    postError.value = 'No se pudo publicar. Intentá de nuevo.'
-  }
-  enviando.value = false
-}
-
-function formatFecha(ts) {
-  return new Date(ts).toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' })
-}
-function mapaEmbedUrl(post) {
-  return `https://maps.google.com/maps?q=${post.lat},${post.lng}&z=16&output=embed`
-}
-function mapaLink(post) {
-  return `https://maps.google.com/?q=${post.lat},${post.lng}`
+export default {
+  name: 'ResenasPage',
+  components: { RatingPicker, IntensityScale, SiteFooter },
+  data() {
+    return {
+      authUser:  { id: null, email: null, username: null },
+      posts:     [],
+      perfiles:  {},
+      titulo:    '',
+      cuerpo:    '',
+      enviando:  false,
+      postError: '',
+      showForm:  false,
+      rating:    0,
+      cafeType:  '',
+      tiposCafe: ['Espresso', 'Ristretto', 'Americano', 'Macchiato', 'Cortado',
+                  'Cappuccino', 'Flat White', 'Latte', 'Mocha'],
+      locationName:    '',
+      locationDisplay: '',
+      locationLat:     null,
+      locationLng:     null,
+    }
+  },
+  methods: {
+    quitarUbicacion() {
+      this.locationName    = ''
+      this.locationDisplay = ''
+      this.locationLat     = null
+      this.locationLng     = null
+      if (this.$refs.placesContainer) {
+        this.$refs.placesContainer.innerHTML = ''
+        this.initGooglePlaces()
+      }
+    },
+    initGooglePlaces() {
+      if (!this.$refs.placesContainer || !window.google?.maps?.places) return
+      const pac = new window.google.maps.places.PlaceAutocompleteElement()
+      this.$refs.placesContainer.appendChild(pac)
+      pac.addEventListener('gmp-placeselect', async ({ place }) => {
+        await place.fetchFields({ fields: ['displayName', 'formattedAddress', 'location'] })
+        this.locationName    = place.displayName
+        this.locationDisplay = place.formattedAddress
+        this.locationLat     = place.location.lat()
+        this.locationLng     = place.location.lng()
+      })
+    },
+    async abrirForm() {
+      this.showForm = true
+      await this.$nextTick()
+      this.initGooglePlaces()
+    },
+    cerrarForm() {
+      this.showForm = false
+    },
+    async publicar() {
+      if (!this.titulo.trim() || !this.cuerpo.trim()) return
+      this.enviando  = true
+      this.postError = ''
+      try {
+        await createPost({
+          userId:          this.authUser.id,
+          title:           this.titulo,
+          body:            this.cuerpo,
+          rating:          this.rating   || null,
+          cafeType:        this.cafeType || null,
+          locationName:    this.locationName.trim() || null,
+          locationDisplay: this.locationDisplay     || null,
+          lat:             this.locationLat,
+          lng:             this.locationLng,
+        })
+        this.titulo   = ''
+        this.cuerpo   = ''
+        this.rating   = 0
+        this.cafeType = ''
+        this.quitarUbicacion()
+        this.cerrarForm()
+        this.posts = await fetchAllPosts()
+      } catch (e) {
+        this.postError = 'No se pudo publicar. Intentá de nuevo.'
+      }
+      this.enviando = false
+    },
+    formatFecha(ts) {
+      return new Date(ts).toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' })
+    },
+    mapaEmbedUrl(post) {
+      return `https://maps.google.com/maps?q=${post.lat},${post.lng}&z=16&output=embed`
+    },
+    mapaLink(post) {
+      return `https://maps.google.com/?q=${post.lat},${post.lng}`
+    },
+  },
+  async mounted() {
+    subscribeToAuthStateChanges(newUser => { this.authUser = newUser })
+    this.posts = await fetchAllPosts()
+    const ps = await fetchAllProfiles()
+    ps.forEach(p => { this.perfiles[p.user_id] = p.username })
+  },
 }
 </script>
 
@@ -127,12 +123,12 @@ function mapaLink(post) {
           <RouterLink to="/recomendaciones" class="link-reco">
             Ver recomendaciones por lugar →
           </RouterLink>
-          <button v-if="auth.user.id" class="btn-nueva" @click="abrirForm">
+          <button v-if="authUser.id" class="btn-nueva" @click="abrirForm">
             + Nueva reseña
           </button>
-          <button v-else class="btn-nueva btn-nueva--sec" @click="$emit('open-auth', 'login')">
+          <RouterLink v-else to="/ingresar" class="btn-nueva btn-nueva--sec">
             Accedé para reseñar
-          </button>
+          </RouterLink>
         </div>
       </div>
 

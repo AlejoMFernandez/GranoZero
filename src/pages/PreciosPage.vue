@@ -1,8 +1,11 @@
-<script setup>
+<script>
 import PreciosSection from '../components/PreciosSection.vue'
 import SiteFooter     from '../components/SiteFooter.vue'
 
-const emit = defineEmits(['open-auth'])
+export default {
+  name: 'PreciosPage',
+  components: { PreciosSection, SiteFooter },
+}
 </script>
 
 <template>
@@ -21,7 +24,7 @@ const emit = defineEmits(['open-auth'])
     </div>
 
     <!-- Sección de precios (componente reutilizado) -->
-    <PreciosSection @open-auth="$emit('open-auth', $event)" />
+    <PreciosSection />
 
     <!-- FAQ mínimo -->
     <div class="faq section">

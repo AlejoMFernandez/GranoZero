@@ -1,5 +1,8 @@
-<script setup>
-const emit = defineEmits(['open-quiz'])
+<script>
+export default {
+  name: 'QuizCTA',
+  emits: ['open-quiz'],
+}
 </script>
 
 <template>

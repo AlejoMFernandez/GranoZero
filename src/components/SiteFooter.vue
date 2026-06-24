@@ -1,5 +1,7 @@
-<script setup>
-// SiteFooter — logo + links + redes sociales + copyright
+<script>
+export default {
+  name: 'SiteFooter',
+}
 </script>
 
 <template>

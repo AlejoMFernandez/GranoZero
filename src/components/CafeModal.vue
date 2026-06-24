@@ -1,31 +1,30 @@
-<script setup>
-import { onMounted, onUnmounted } from 'vue'
+<script>
 import BeanIcon from './BeanIcon.vue'
 import IntensityScale from './IntensityScale.vue'
 
-const props = defineProps({
-  cafe: { type: Object, default: null },
-})
-const emit = defineEmits(['close'])
-
-// Cerrar con Escape
-function onKeydown(e) {
-  if (e.key === 'Escape') emit('close')
+export default {
+  name: 'CafeModal',
+  components: { BeanIcon, IntensityScale },
+  props: {
+    cafe: { type: Object, default: null },
+  },
+  emits: ['close'],
+  methods: {
+    numeroPaso(i) {
+      return String(i + 1).padStart(2, '0')
+    },
+  },
+  watch: {
+    cafe(val) {
+      document.body.style.overflow = val ? 'hidden' : ''
+    },
+  },
 }
-onMounted(()  => window.addEventListener('keydown', onKeydown))
-onUnmounted(() => window.removeEventListener('keydown', onKeydown))
-
-// Bloquear scroll del body cuando el modal está abierto
-import { watch } from 'vue'
-watch(() => props.cafe, val => {
-  document.body.style.overflow = val ? 'hidden' : ''
-})
 </script>
 
 <template>
-  <Teleport to="body">
-    <div v-if="cafe" class="overlay" @click.self="emit('close')">
-        <div class="modal" role="dialog" :aria-label="cafe.name">
+  <div v-if="cafe" class="overlay" @click.self="$emit('close')">
+      <div class="modal" role="dialog" :aria-label="cafe.name">
 
           <!-- Header -->
           <div class="modal-header">
@@ -33,7 +32,8 @@ watch(() => props.cafe, val => {
               <span class="modal-tag">{{ cafe.tag }}</span>
               <span class="modal-origin">{{ cafe.origin }}</span>
             </div>
-            <button class="close-btn" @click="emit('close')" aria-label="Cerrar">
+            <!-- boton de cerrar -->
+            <button class="close-btn" @click="$emit('close')" aria-label="Cerrar">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                 <line x1="2" y1="2" x2="16" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                 <line x1="16" y1="2" x2="2" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -95,25 +95,17 @@ watch(() => props.cafe, val => {
             <span class="block-eyebrow">Preparación</span>
             <ol class="steps-list">
               <li v-for="(step, i) in cafe.steps" :key="i" class="step-item">
-                <span class="step-num">{{ String(i + 1).padStart(2, '0') }}</span>
+                <span class="step-num">{{ numeroPaso(i) }}</span>
                 <span class="step-text">{{ step }}</span>
               </li>
             </ol>
           </div>
 
-          <!-- Maridaje -->
-          <div class="pairing-block">
-            <span class="block-eyebrow">Maridaje</span>
-            <p class="pairing-text">"{{ cafe.pairing }}"</p>
-          </div>
-
-        </div>
     </div>
-  </Teleport>
+  </div>
 </template>
 
 <style scoped>
-/* ── OVERLAY ──────────────────────────────────────────── */
 .overlay {
   position: fixed; inset: 0; z-index: 500;
   background: rgba(20, 8, 0, .82);
@@ -123,7 +115,6 @@ watch(() => props.cafe, val => {
   overflow-y: auto;
 }
 
-/* ── MODAL CARD ───────────────────────────────────────── */
 .modal {
   background: #2a1200;
   border: 1px solid rgba(184,130,10,.22);
@@ -136,7 +127,6 @@ watch(() => props.cafe, val => {
   scrollbar-color: var(--caramel) transparent;
 }
 
-/* ── HEADER ───────────────────────────────────────────── */
 .modal-header {
   display: flex; align-items: flex-start; justify-content: space-between;
   margin-bottom: 32px;
@@ -160,7 +150,6 @@ watch(() => props.cafe, val => {
 }
 .close-btn:hover { color: var(--cream); }
 
-/* ── HERO ─────────────────────────────────────────────── */
 .modal-hero {
   display: flex; align-items: center; gap: 24px;
   margin-bottom: 28px;
@@ -172,20 +161,17 @@ watch(() => props.cafe, val => {
   color: var(--cream);
 }
 
-/* ── DIVIDER ──────────────────────────────────────────── */
 .modal-divider {
   width: 48px; height: 1px;
   background: rgba(184,130,10,.4);
   margin-bottom: 24px;
 }
 
-/* ── DESCRIPCIÓN ─────────────────────────────────────── */
 .modal-desc {
   font-size: 16px; font-weight: 300; line-height: 1.75;
   color: var(--mid); margin-bottom: 36px;
 }
 
-/* ── SPECS GRID ───────────────────────────────────────── */
 .specs-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 1px; background: var(--line);
@@ -208,7 +194,6 @@ watch(() => props.cafe, val => {
   color: var(--cream);
 }
 
-/* ── BLOQUES COMUNES ──────────────────────────────────── */
 .block-eyebrow {
   display: block;
   font-family: 'Space Mono', monospace;
@@ -216,7 +201,6 @@ watch(() => props.cafe, val => {
   color: var(--gold); margin-bottom: 16px;
 }
 
-/* ── FLAVOR BARS ──────────────────────────────────────── */
 .intensidad-block, .profile-block, .notes-block, .steps-block, .pairing-block {
   margin-bottom: 32px;
 }
@@ -240,7 +224,6 @@ watch(() => props.cafe, val => {
   font-size: 9px; color: var(--dim); width: 28px; text-align: right;
 }
 
-/* ── NOTAS ────────────────────────────────────────────── */
 .notes-pills { display: flex; gap: 8px; flex-wrap: wrap; }
 .note-pill {
   font-family: 'Space Mono', monospace;
@@ -249,7 +232,6 @@ watch(() => props.cafe, val => {
   padding: 5px 13px;
 }
 
-/* ── STEPS ────────────────────────────────────────────── */
 .steps-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
 .step-item  { display: flex; gap: 16px; align-items: flex-start; }
 .step-num {
@@ -262,14 +244,12 @@ watch(() => props.cafe, val => {
   color: var(--mid); line-height: 1.6;
 }
 
-/* ── MARIDAJE ─────────────────────────────────────────── */
 .pairing-text {
   font-family: 'Playfair Display', serif;
   font-style: italic; font-size: 17px;
   color: rgba(250,247,240,.5); line-height: 1.65;
 }
 
-/* ── MOBILE ───────────────────────────────────────────── */
 @media (max-width: 640px) {
   .overlay  { padding: 0; align-items: flex-end; }
   .modal    { max-height: 92vh; padding: 32px 24px; max-width: 100%; border-bottom: none; }

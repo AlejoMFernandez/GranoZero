@@ -1,70 +1,73 @@
-<script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRoute }     from 'vue-router'
-import { useAuthStore } from '../stores/auth'
+<script>
+import { subscribeToAuthStateChanges } from '../services/auth'
 import { fetchUserProfile, updateUserProfile } from '../services/profile'
 import { fetchUserPosts } from '../services/posts'
 import { cafes }         from '../data/cafes.js'
 import BeanSeparator     from '../components/BeanSeparator.vue'
 import BeanBadge         from '../components/BeanBadge.vue'
 
-const route   = useRoute()
-const auth    = useAuthStore()
-
-const profile   = ref(null)
-const posts     = ref([])
-const loading   = ref(true)
-const editing   = ref(false)
-const guardando = ref(false)
-
-// Formulario de edición
-const form = ref({ username: '', bio: '', favorite_preparation: '' })
-
-// ¿Es el propio perfil?
-const esPropio = computed(() => auth.user.id === route.params.id)
-
-// Nombre del café favorito (si está guardado como ID)
-const nombreFavorito = computed(() => {
-  const id = profile.value?.favorite_preparation
-  if (!id) return null
-  return cafes.find(c => c.id === id)?.name ?? id
-})
-
-onMounted(async () => {
-  try {
-    const [p, ps] = await Promise.all([
-      fetchUserProfile(route.params.id),
-      fetchUserPosts(route.params.id),
-    ])
-    profile.value = p
-    posts.value   = ps
-    if (p) {
-      form.value = {
-        username:             p.username ?? '',
-        bio:                  p.bio ?? '',
-        favorite_preparation: p.favorite_preparation ?? '',
-      }
+export default {
+  name: 'ProfilePage',
+  components: { BeanSeparator, BeanBadge },
+  data() {
+    return {
+      profile:   null,
+      posts:     [],
+      loading:   true,
+      editing:   false,
+      guardando: false,
+      authUser:  { id: null, email: null, username: null },
+      form: { username: '', bio: '', favorite_preparation: '' },
+      cafes,
     }
-  } catch (e) {
-    console.error(e)
-  }
-  loading.value = false
-})
-
-async function guardar() {
-  guardando.value = true
-  try {
-    await updateUserProfile({ userId: route.params.id, profileData: form.value })
-    profile.value = { ...profile.value, ...form.value }
-    editing.value = false
-  } catch (e) {
-    console.error(e)
-  }
-  guardando.value = false
-}
-
-function formatFecha(ts) {
-  return new Date(ts).toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' })
+  },
+  computed: {
+    esPropio() {
+      return this.authUser.id === this.$route.params.id
+    },
+    nombreFavorito() {
+      const id = this.profile?.favorite_preparation
+      if (!id) return null
+      return cafes.find(c => c.id === id)?.name ?? id
+    },
+  },
+  methods: {
+    async guardar() {
+      this.guardando = true
+      try {
+        await updateUserProfile({ userId: this.$route.params.id, profileData: this.form })
+        this.profile = { ...this.profile, ...this.form }
+        this.editing = false
+      } catch (e) {
+        console.error(e)
+      }
+      this.guardando = false
+    },
+    formatFecha(ts) {
+      return new Date(ts).toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' })
+    },
+  },
+  async mounted() {
+    subscribeToAuthStateChanges(newUser => { this.authUser = newUser })
+    try {
+      const [p, ps] = await Promise.all([
+        fetchUserProfile(this.$route.params.id),
+        fetchUserPosts(this.$route.params.id),
+      ])
+      this.profile = p
+      this.posts   = ps
+      if (p) {
+        this.form = {
+          username:             p.username ?? '',
+          bio:                  p.bio ?? '',
+          favorite_preparation: p.favorite_preparation ?? '',
+        }
+      }
+    } catch (e) {
+      console.error(e)
+    }
+    this.loading = false
+  },
 }
 </script>
 

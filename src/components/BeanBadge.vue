@@ -1,12 +1,13 @@
-<!-- Sello circular del universo visual GranoZero:
-     grano al centro + texto en Space Mono + borde dorado constante.
-     (Universo Visual 02 · Sistema de sellos) -->
-<script setup>
-defineProps({
-  label:   { type: String, required: true },
-  variant: { type: String, default: 'dark' }, // 'dark' | 'gold' | 'outline'
-  size:    { type: Number, default: 86 },
-})
+<!-- Sello circular -->
+<script>
+export default {
+  name: 'BeanBadge',
+  props: {
+    label:   { type: String, required: true },
+    variant: { type: String, default: 'dark' },
+    size:    { type: Number, default: 86 },
+  },
+}
 </script>
 
 <template>
@@ -42,7 +43,7 @@ defineProps({
   color: var(--mid);
 }
 
-/* ── Variantes ──────────────────────────────────────── */
+/* variantes */
 .sello.gold {
   background: var(--gold);
   border-color: var(--gold);

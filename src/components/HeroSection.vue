@@ -1,10 +1,15 @@
-<script setup>
+<script>
 import BeanIcon from './BeanIcon.vue'
+
+export default {
+  name: 'HeroSection',
+  components: { BeanIcon },
+}
 </script>
 
 <template>
   <section class="hero" id="hero">
-    <!-- Bean decorativa de fondo -->
+    <!-- granozero decorativo de fondo -->
     <div class="hero-bg" aria-hidden="true">
       <BeanIcon :size="560" color="#FAF7F0" :stroke="1.6" />
     </div>

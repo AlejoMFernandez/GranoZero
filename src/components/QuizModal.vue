@@ -1,20 +1,7 @@
-<script setup>
-import { ref, onMounted } from 'vue'
+<script>
 import { cafes } from '../data/cafes.js'
 import BeanIcon from './BeanIcon.vue'
 
-const emit = defineEmits(['close'])
-
-// Reiniciar al montar
-onMounted(() => reiniciar())
-
-/* 
-A FUTURO:
-Hacer logica dependiendo de los resultados del usuario, para que el resultado del quiz sea distinto según lo que haya respondido el user.
-Por ahora el resultado es fijo
-*/
-
-// preguntas y resultados
 const PREGUNTAS = [
   {
     texto: '¿Qué buscás en una buena taza?',
@@ -54,42 +41,52 @@ const PREGUNTAS = [
   },
 ]
 
-// resultado siempre es el mismo
 const RESULTADO_FIJO = {
   cafe:  cafes.find(c => c.id === 'cortado'),
   frase: 'Sos el equilibrio. Ni demasiado ni poco — la precisión como filosofía.',
 }
 
-// estados
-const paso      = ref(0)
-const elegida   = ref(null)
-const resultado = ref(null)
-
-function elegir(letra) {
-  if (elegida.value) return
-  elegida.value = letra
-  setTimeout(() => {
-    elegida.value = null
-    if (paso.value < PREGUNTAS.length - 1) {
-      paso.value++
-    } else {
-      resultado.value = RESULTADO_FIJO
-      paso.value = PREGUNTAS.length
+export default {
+  name: 'QuizModal',
+  components: { BeanIcon },
+  emits: ['close'],
+  data() {
+    return {
+      preguntas:  PREGUNTAS,
+      paso:       0,
+      elegida:    null,
+      resultado:  null,
     }
-  }, 450)
-}
-
-function reiniciar() {
-  paso.value      = 0
-  elegida.value   = null
-  resultado.value = null
+  },
+  methods: {
+    elegir(letra) {
+      if (this.elegida) return
+      this.elegida = letra
+      setTimeout(() => {
+        this.elegida = null
+        if (this.paso < this.preguntas.length - 1) {
+          this.paso++
+        } else {
+          this.resultado = RESULTADO_FIJO
+          this.paso = this.preguntas.length
+        }
+      }, 450)
+    },
+    reiniciar() {
+      this.paso      = 0
+      this.elegida   = null
+      this.resultado = null
+    },
+  },
+  mounted() {
+    this.reiniciar()
+  },
 }
 </script>
 
 <template>
-  <Teleport to="body">
-    <div class="overlay" @click.self="$emit('close')">
-        <div class="quiz-modal" role="dialog" aria-modal="true">
+  <div class="overlay" @click.self="$emit('close')">
+      <div class="quiz-modal" role="dialog" aria-modal="true">
 
           <!-- Header del modal -->
           <div class="quiz-modal-header">
@@ -102,11 +99,11 @@ function reiniciar() {
 
           <!-- Contenido (pregunta o resultado) -->
             <!-- PREGUNTA -->
-            <div v-if="paso < PREGUNTAS.length" :key="'p' + paso" class="pregunta">
-              <p class="pregunta-texto">{{ PREGUNTAS[paso].texto }}</p>
+            <div v-if="paso < preguntas.length" :key="'p' + paso" class="pregunta">
+              <p class="pregunta-texto">{{ preguntas[paso].texto }}</p>
               <div class="opciones">
                 <button
-                  v-for="op in PREGUNTAS[paso].opciones"
+                  v-for="op in preguntas[paso].opciones"
                   :key="op.letra"
                   class="opcion"
                   :class="{ seleccionada: elegida === op.letra, deshabilitada: elegida && elegida !== op.letra }"
@@ -146,7 +143,6 @@ function reiniciar() {
             </div>
         </div>
       </div>
-  </Teleport>
 </template>
 
 <style scoped>

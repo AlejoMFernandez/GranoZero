@@ -1,5 +1,4 @@
-<!-- Ornamento separador del universo visual GranoZero:
-     línea dorada — grano oval — línea dorada  (Universo Visual 03 · Nivel 02) -->
+<!-- Ornamento separador -->
 <template>
   <div class="sep" aria-hidden="true">
     <span class="sep-linea"></span>
@@ -20,7 +19,7 @@
   background: rgba(184,130,10,.35);
 }
 
-/* Logo GranoZero al centro — se muestra con sus colores naturales */
+/* Logo GranoZero al centro */
 .sep-logo {
   width: 16px; height: 16px;
   object-fit: contain; display: block;

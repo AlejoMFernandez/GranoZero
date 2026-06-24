@@ -1,47 +1,35 @@
-<script setup>
-  import { ref, onMounted } from 'vue'
-  import { useAuthStore } from './stores/auth'
-  import NavBar    from './components/NavBar.vue'
-  import AuthModal from './components/AuthModal.vue'
-  import QuizModal from './components/QuizModal.vue'
+<script>
+import { subscribeToAuthStateChanges } from './services/auth'
+import NavBar    from './components/NavBar.vue'
+import QuizModal from './components/QuizModal.vue'
 
-  // authentication
-  const auth     = useAuthStore()
-  const showAuth = ref(false)
-  const authMode = ref('login')
-
-  function openAuth(mode = 'login') {
-    authMode.value = mode
-    showAuth.value  = true
-  }
-
-  // quiz
-  const quizAbierto = ref(false)
-
-  onMounted(() => auth.init())
+export default {
+  name: 'App',
+  components: { NavBar, QuizModal },
+  data() {
+    return {
+      user: { id: null, email: null, username: null },
+      quizAbierto: false,
+    }
+  },
+  mounted() {
+    subscribeToAuthStateChanges(newUser => { this.user = newUser })
+  },
+}
 </script>
 
 <template>
   <NavBar
-    @open-auth="openAuth"
+    :user="user"
     @open-quiz="quizAbierto = true"
   />
 
-  <!-- v-slot -->
   <RouterView v-slot="{ Component }">
     <component
       :is="Component"
-      @open-auth="openAuth"
       @open-quiz="quizAbierto = true"
     />
   </RouterView>
-
-  <!-- Modales globales -->
-  <AuthModal
-    v-if="showAuth"
-    :mode="authMode"
-    @close="showAuth = false"
-  />
 
   <QuizModal
     v-if="quizAbierto"

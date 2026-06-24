@@ -1,14 +1,11 @@
-/**
- * Servicio de autenticación — adaptado del TP1 para Vue 3 + Pinia.
- * Usa el mismo proyecto Supabase y las mismas tablas (profiles).
- */
+// Autenticación con Supabase
 import { supabase } from '../lib/supabase'
 
-// ── Estado compartido con el patrón observer del TP1 ─────────────────
+// observer
 let userData = { id: null, email: null, username: null }
 let observers = []
 
-// Promesa con timeout para evitar que Supabase se cuelgue indefinidamente
+// tomeout de 10000ms 
 function conTimeout(promesa, ms = 10000) {
     const timeout = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('Tiempo de espera agotado. Revisá tu conexión.')), ms)
@@ -39,7 +36,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
     notifyAll()
 })
 
-// ── Registrar nuevo usuario + crear perfil ─────────────────────────────
+// register + creacion de perifl
 export async function register({ username, email, password, favorite_preparation }) {
     console.log('[auth] register: iniciando...')
     const { data, error } = await conTimeout(
@@ -58,7 +55,7 @@ export async function register({ username, email, password, favorite_preparation
     return data.user
 }
 
-// ── Login ────────────────────────────────────────────────────────────────
+// login
 export async function login({ email, password }) {
     console.log('[auth] login: iniciando...')
     const { data, error } = await conTimeout(
@@ -83,7 +80,7 @@ export async function login({ email, password }) {
     return data.user
 }
 
-// ── Logout ────────────────────────────────────────────────────────────────
+// loguit
 export async function logout() {
     const { error } = await supabase.auth.signOut()
     if (error) throw new Error(error.message)
@@ -91,7 +88,7 @@ export async function logout() {
     notifyAll()
 }
 
-// ── Observer pattern (igual que el TP1) ──────────────────────────────────
+// observer para no desloguearse al recargar la página
 export function subscribeToAuthStateChanges(observer) {
     observers.push(observer)
     observer({ ...userData })                   // notifica el estado actual inmediatamente

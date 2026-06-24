@@ -1,15 +1,22 @@
 <!-- Selector de puntaje 1-10 con los logos de GranoZero.
      Usa v-model: <RatingPicker v-model="rating" /> -->
-<script setup>
-import { ref } from 'vue'
-
-defineProps({
-  modelValue: { type: Number, default: 0 },
-  max:        { type: Number, default: 10 },
-})
-const emit = defineEmits(['update:modelValue'])
-
-const hovered = ref(0)
+<script>
+export default {
+  name: 'RatingPicker',
+  props: {
+    modelValue: { type: Number, default: 0 },
+    max:        { type: Number, default: 10 },
+  },
+  emits: ['update:modelValue'],
+  data() {
+    return { hovered: 0 }
+  },
+  methods: {
+    setHover(i)  { this.hovered = i },
+    clearHover() { this.hovered = 0 },
+    pick(i)      { this.$emit('update:modelValue', i) },
+  },
+}
 </script>
 
 <template>
@@ -20,9 +27,9 @@ const hovered = ref(0)
       src="/logofinal.png"
       class="rating-logo"
       :class="{ on: i <= (hovered || modelValue) }"
-      @mouseenter="hovered = i"
-      @mouseleave="hovered = 0"
-      @click="emit('update:modelValue', i)"
+      @mouseenter="setHover(i)"
+      @mouseleave="clearHover()"
+      @click="pick(i)"
       alt=""
     />
     <span v-if="modelValue" class="rating-num">{{ modelValue }}/10</span>

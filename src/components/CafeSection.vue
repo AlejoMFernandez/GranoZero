@@ -1,13 +1,19 @@
-<script setup>
-import { ref } from 'vue'
-import { cafes } from '../data/cafes.js'
-import CafeCard  from './CafeCard.vue'
-import CafeModal from './CafeModal.vue'
+<script>
+  import { cafes } from '../data/cafes.js'
+  import CafeCard  from './CafeCard.vue'
+  import CafeModal from './CafeModal.vue'
 
-const selectedCafe = ref(null)
-
-// Selección manual para la landing — variedad de intensidades
-const preview = cafes.filter(c => ['espresso', 'ristretto', 'latte'].includes(c.id))
+  export default {
+    name: 'CafeSection',
+    components: { CafeCard, CafeModal },
+    data() {
+      return {
+        selectedCafe: null,
+        cafes,
+        preview: cafes.filter(c => ['espresso', 'ristretto', 'latte'].includes(c.id)),
+      }
+    },
+  }
 </script>
 
 <template>
@@ -20,7 +26,7 @@ const preview = cafes.filter(c => ['espresso', 'ristretto', 'latte'].includes(c.
       </p>
     </div>
 
-    <!-- 3 cafés de preview -->
+    <!-- 3 cafes de preview -->
     <div class="cafe-grid">
       <CafeCard
         v-for="cafe in preview"
@@ -57,7 +63,7 @@ const preview = cafes.filter(c => ['espresso', 'ristretto', 'latte'].includes(c.
   margin-bottom: 36px;
 }
 
-/* ── CTA ────────────────────────────────────────────── */
+/* cta */
 .carta-cta {
   display: flex; align-items: center; gap: 24px;
 }

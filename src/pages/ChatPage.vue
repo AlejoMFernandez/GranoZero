@@ -1,73 +1,72 @@
-<script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { useAuthStore } from '../stores/auth'
+<script>
+import { subscribeToAuthStateChanges } from '../services/auth'
 import {
   fetchPublicChatMessages,
   sendPublicChatMessage,
   subscribeToPublicChatNewMessages,
 } from '../services/public-chat'
 
-const auth     = useAuthStore()
-const messages = ref([])
-const body     = ref('')
-const sending  = ref(false)
-const listRef  = ref(null)
-let unsubscribe = null
+let unsubscribeFromChat = () => {}
 
-onMounted(async () => {
-  messages.value = await fetchPublicChatMessages()
-  scrollAbajo()
-
-  unsubscribe = subscribeToPublicChatNewMessages(msg => {
-    messages.value.push(msg)
-    nextTick(scrollAbajo)
-  })
-})
-
-onUnmounted(() => {
-  if (unsubscribe) unsubscribe()
-})
-
-function scrollAbajo() {
-  nextTick(() => {
-    if (listRef.value) listRef.value.scrollTop = listRef.value.scrollHeight
-  })
-}
-
-async function enviar() {
-  if (!body.value.trim() || sending.value) return
-  sending.value = true
-  try {
-    await sendPublicChatMessage({ email: auth.user.email, body: body.value.trim() })
-    body.value = ''
-  } catch (e) {
-    console.error(e)
-  }
-  sending.value = false
-}
-
-function onEnter(e) {
-  if (!e.shiftKey) {
-    e.preventDefault()
-    enviar()
-  }
-}
-
-function esPropio(msg) {
-  return msg.email === auth.user.email
-}
-
-function nombre(msg) {
-  if (esPropio(msg) && auth.user.username) return auth.user.username
-  return msg.email?.split('@')[0] ?? 'anónimo'
-}
-
-function inicial(msg) {
-  return nombre(msg)[0].toUpperCase()
-}
-
-function hora(ts) {
-  return new Date(ts).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
+export default {
+  name: 'ChatPage',
+  data() {
+    return {
+      messages: [],
+      body:     '',
+      sending:  false,
+      authUser: { id: null, email: null, username: null },
+    }
+  },
+  methods: {
+    async enviar() {
+      if (!this.body.trim() || this.sending) return
+      this.sending = true
+      try {
+        await sendPublicChatMessage({ email: this.authUser.email, body: this.body.trim() })
+        this.body = ''
+      } catch (e) {
+        console.error(e)
+      }
+      this.sending = false
+    },
+    onEnter(e) {
+      if (!e.shiftKey) {
+        e.preventDefault()
+        this.enviar()
+      }
+    },
+    esPropio(msg) {
+      return msg.email === this.authUser.email
+    },
+    nombre(msg) {
+      if (this.esPropio(msg) && this.authUser.username) return this.authUser.username
+      return msg.email?.split('@')[0] ?? 'anónimo'
+    },
+    inicial(msg) {
+      return this.nombre(msg)[0].toUpperCase()
+    },
+    hora(ts) {
+      return new Date(ts).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
+    },
+    scrollAbajo() {
+      this.$nextTick(() => {
+        if (this.$refs.listRef) this.$refs.listRef.scrollTop = this.$refs.listRef.scrollHeight
+      })
+    },
+  },
+  async mounted() {
+    subscribeToAuthStateChanges(newUser => { this.authUser = newUser })
+    this.messages = await fetchPublicChatMessages()
+    this.scrollAbajo()
+    unsubscribeFromChat = subscribeToPublicChatNewMessages(msg => {
+      this.messages.push(msg)
+      this.scrollAbajo()
+    })
+  },
+  unmounted() {
+    unsubscribeFromChat()
+  },
 }
 </script>
 
@@ -114,7 +113,7 @@ function hora(ts) {
 
     <!-- Input -->
     <div class="chat-input-wrap">
-      <div v-if="!auth.user.id" class="chat-login-aviso">
+      <div v-if="!authUser.id" class="chat-login-aviso">
         <p>Ingresá o registrate para participar en el chat.</p>
       </div>
       <form v-else class="chat-form" @submit.prevent="enviar">

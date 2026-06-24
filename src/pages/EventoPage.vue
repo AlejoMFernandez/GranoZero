@@ -29,10 +29,6 @@
               <span class="detalle-label">Lugar</span>
               <span class="detalle-val">Lattente, San Telmo</span>
             </div>
-            <div class="detalle">
-              <span class="detalle-label">Registro</span>
-              <span class="detalle-val">granozero.app</span>
-            </div>
           </div>
 
           <p class="sec-sub" style="margin-top: 28px">
@@ -59,8 +55,13 @@
   <SiteFooter />
 </template>
 
-<script setup>
+<script>
 import SiteFooter from '../components/SiteFooter.vue'
+
+export default {
+  name: 'EventoPage',
+  components: { SiteFooter },
+}
 </script>
 
 <style scoped>

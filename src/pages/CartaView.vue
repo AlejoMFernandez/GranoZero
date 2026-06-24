@@ -1,20 +1,19 @@
-<script setup>
-import { ref, computed } from 'vue'
-import { cafes }     from '../data/cafes.js'
-import CafeCard      from '../components/CafeCard.vue'
-import CafeModal     from '../components/CafeModal.vue'
-import SiteFooter    from '../components/SiteFooter.vue'
-import { useFavoritos } from '../composables/useFavoritos'
+<script>
+import { cafes }  from '../data/cafes.js'
+import CafeCard   from '../components/CafeCard.vue'
+import CafeModal  from '../components/CafeModal.vue'
+import SiteFooter from '../components/SiteFooter.vue'
 
-const selectedCafe = ref(null)
-const { favoritos, toggle, esFavorito } = useFavoritos()
-
-// Filtro: todos o solo favoritos
-const soloFavoritos = ref(false)
-
-const cafesVisibles = computed(() =>
-  soloFavoritos.value ? cafes.filter(c => esFavorito(c.id)) : cafes
-)
+export default {
+  name: 'CartaView',
+  components: { CafeCard, CafeModal, SiteFooter },
+  data() {
+    return {
+      cafes,
+      selectedCafe: null,
+    }
+  },
+}
 </script>
 
 <template>
@@ -24,47 +23,18 @@ const cafesVisibles = computed(() =>
       <span class="eyebrow">La carta completa</span>
       <h1 class="sec-title">Cada café, una historia.</h1>
       <p class="sec-sub">
-        Los diez tipos de café — tocá cualquiera para ver todos los detalles.<br>
-        Guardá los que te gustan con ♥ para encontrarlos rápido.
+        Los diez tipos de café — tocá cualquiera para ver todos los detalles.
       </p>
-
-      <!-- Filtros -->
-      <div class="carta-filtros">
-        <button
-          class="filtro-btn"
-          :class="{ activo: !soloFavoritos }"
-          @click="soloFavoritos = false"
-        >
-          Todos ({{ cafes.length }})
-        </button>
-        <button
-          class="filtro-btn"
-          :class="{ activo: soloFavoritos }"
-          @click="soloFavoritos = true"
-        >
-          ♥ Favoritos ({{ favoritos.length }})
-        </button>
-      </div>
     </header>
 
-    <!-- Grid de cafés -->
-      <div v-if="cafesVisibles.length > 0" :key="soloFavoritos ? 'fav' : 'all'" class="carta-grid">
-        <CafeCard
-          v-for="cafe in cafesVisibles"
-          :key="cafe.id"
-          :cafe="cafe"
-          :mostrar-favorito="true"
-          :es-favorito="esFavorito(cafe.id)"
-         
-          @select="selectedCafe = $event"
-          @toggle-favorito="toggle"
-        />
-      </div>
-
-      <!-- Sin favoritos -->
-      <div v-else key="vacio" class="carta-vacia">
-        <p>Todavía no tenés favoritos.<br>Tocá ♡ en cualquier café para agregarlo.</p>
-      </div>
+    <div class="carta-grid">
+      <CafeCard
+        v-for="cafe in cafes"
+        :key="cafe.id"
+        :cafe="cafe"
+        @select="selectedCafe = $event"
+      />
+    </div>
 
   </div>
 
@@ -81,20 +51,6 @@ const cafesVisibles = computed(() =>
 
 .carta-header { padding-bottom: 48px; }
 
-/* ── Filtros ─────────────────────────────────────────── */
-.carta-filtros {
-  display: flex; gap: 10px;
-  margin-top: 28px;
-}
-.filtro-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
-  border: 1px solid var(--line); color: var(--dim);
-  background: transparent; padding: 8px 16px;
-}
-.filtro-btn:hover     { border-color: rgba(250,247,240,.3); color: var(--cream); }
-.filtro-btn.activo    { border-color: var(--gold); color: var(--gold); background: rgba(184,130,10,.07); }
-
 /* ── Grid ───────────────────────────────────────────── */
 .carta-grid {
   display: grid;
@@ -105,23 +61,7 @@ const cafesVisibles = computed(() =>
   margin: 0 9vw;
 }
 
-/* ── Estado vacío ───────────────────────────────────── */
-.carta-vacia {
-  margin: 0 9vw 80px;
-  padding: 56px 36px;
-  border: 1px solid var(--line);
-  text-align: center;
-}
-.carta-vacia p {
-  font-size: 15px; font-weight: 300;
-  color: var(--dim); line-height: 1.7;
-  font-style: italic;
-}
-
-
 @media (max-width: 640px) {
-  .carta-grid    { grid-template-columns: 1fr; margin: 0; }
-  .carta-vacia   { margin: 0 0 60px; }
-  .carta-filtros { flex-wrap: wrap; }
+  .carta-grid { grid-template-columns: 1fr; margin: 0; }
 }
 </style>

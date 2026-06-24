@@ -1,34 +1,24 @@
-<script setup>
+<script>
 import BeanIcon from './BeanIcon.vue'
 import IntensityScale from './IntensityScale.vue'
 
-const props = defineProps({
-  cafe:             { type: Object,  required: true },
-  // Opcionales — solo se usan en CartaView (no en la landing)
-  mostrarFavorito:  { type: Boolean, default: false },
-  esFavorito:       { type: Boolean, default: false },
-})
-defineEmits(['select', 'toggle-favorito'])
+export default {
+  name: 'CafeCard',
+  components: { BeanIcon, IntensityScale },
+  props: {
+    cafe: { type: Object, required: true },
+  },
+  emits: ['select'],
+}
 </script>
 
 <template>
   <article class="card" @click="$emit('select', cafe)">
 
-    <!-- Bean decorativa -->
+    <!-- logo decorativo usando el BEANICON component -->
     <div class="bean-deco" aria-hidden="true">
       <BeanIcon :size="36" color="#FAF7F0" :stroke="5" />
     </div>
-
-    <!-- Botón de favorito (solo en la carta completa) -->
-    <button
-      v-if="mostrarFavorito"
-      class="btn-favorito"
-      :class="{ activo: esFavorito }"
-      :title="esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos'"
-      @click.stop="$emit('toggle-favorito', cafe.id)"
-    >
-      {{ esFavorito ? '♥' : '♡' }}
-    </button>
 
     <span class="card-tag">{{ cafe.tag }}</span>
     <h3 class="card-name">{{ cafe.name }}</h3>
@@ -41,7 +31,6 @@ defineEmits(['select', 'toggle-favorito'])
 
     <div class="card-footer">
       <IntensityScale :value="cafe.intensity" />
-      <span class="card-cta">Ver más →</span>
     </div>
   </article>
 </template>
@@ -62,18 +51,6 @@ defineEmits(['select', 'toggle-favorito'])
   position: absolute; top: 16px; right: 16px;
   opacity: .11; pointer-events: none;
 }
-
-/* ── Botón favorito ─────────────────────────────────── */
-.btn-favorito {
-  position: absolute; top: 14px; left: 14px;
-  background: none; border: none;
-  font-size: 16px;
-  color: rgba(250,247,240,.2);
-  z-index: 2;
-  line-height: 1;
-}
-.btn-favorito:hover  { color: var(--gold); }
-.btn-favorito.activo { color: var(--gold); }
 
 .card-tag {
   display: block;

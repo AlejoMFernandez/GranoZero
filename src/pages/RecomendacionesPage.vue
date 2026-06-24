@@ -1,69 +1,67 @@
-<script setup>
-import { ref, computed, onMounted } from 'vue'
+<script>
 import { fetchAllPosts }    from '../services/posts'
 import { fetchAllProfiles } from '../services/profile'
 import IntensityScale from '../components/IntensityScale.vue'
 import SiteFooter     from '../components/SiteFooter.vue'
 
-const posts    = ref([])
-const perfiles = ref({})
-
-onMounted(async () => {
-  posts.value = await fetchAllPosts()
-  const ps = await fetchAllProfiles()
-  ps.forEach(p => { perfiles.value[p.user_id] = p.username })
-})
-
-// Agrupar reseñas por lugar → café → promedio
-const recomendaciones = computed(() => {
-  // Solo las reseñas que tienen ubicación Y puntaje
-  const conDatos = posts.value.filter(p => p.location_name && p.rating)
-
-  const mapa = {}
-
-  conDatos.forEach(post => {
-    const lugar = post.location_name
-    if (!mapa[lugar]) {
-      mapa[lugar] = { nombre: lugar, lat: post.lat, lng: post.lng, cafes: {} }
+export default {
+  name: 'RecomendacionesPage',
+  components: { IntensityScale, SiteFooter },
+  data() {
+    return {
+      posts:     [],
+      perfiles:  {},
+      expandido: null,
     }
-    const tipo = post.cafe_type || 'General'
-    if (!mapa[lugar].cafes[tipo]) {
-      mapa[lugar].cafes[tipo] = { ratings: [], posts: [] }
-    }
-    mapa[lugar].cafes[tipo].ratings.push(post.rating)
-    mapa[lugar].cafes[tipo].posts.push(post)
-  })
-
-  // Convertir a array y calcular promedios
-  return Object.values(mapa).map(loc => ({
-    nombre: loc.nombre,
-    lat:    loc.lat,
-    lng:    loc.lng,
-    cafes: Object.entries(loc.cafes)
-      .map(([tipo, data]) => ({
-        tipo,
-        promedio: Math.round(data.ratings.reduce((a, b) => a + b, 0) / data.ratings.length),
-        cantidad: data.ratings.length,
-        posts:    data.posts,
+  },
+  computed: {
+    recomendaciones() {
+      const conDatos = this.posts.filter(p => p.location_name && p.rating)
+      const mapa = {}
+      conDatos.forEach(post => {
+        const lugar = post.location_name
+        if (!mapa[lugar]) {
+          mapa[lugar] = { nombre: lugar, lat: post.lat, lng: post.lng, cafes: {} }
+        }
+        const tipo = post.cafe_type || 'General'
+        if (!mapa[lugar].cafes[tipo]) {
+          mapa[lugar].cafes[tipo] = { ratings: [], posts: [] }
+        }
+        mapa[lugar].cafes[tipo].ratings.push(post.rating)
+        mapa[lugar].cafes[tipo].posts.push(post)
+      })
+      return Object.values(mapa).map(loc => ({
+        nombre: loc.nombre,
+        lat:    loc.lat,
+        lng:    loc.lng,
+        cafes: Object.entries(loc.cafes)
+          .map(([tipo, data]) => ({
+            tipo,
+            promedio: Math.round(data.ratings.reduce((a, b) => a + b, 0) / data.ratings.length),
+            cantidad: data.ratings.length,
+            posts:    data.posts,
+          }))
+          .sort((a, b) => b.promedio - a.promedio),
       }))
-      .sort((a, b) => b.promedio - a.promedio), // mejores primero
-  }))
-})
-
-// Qué elemento está expandido (string "nombre-tipo" o null)
-const expandido = ref(null)
-
-function toggleExpandir(key) {
-  expandido.value = expandido.value === key ? null : key
-}
-
-function mapaLink(loc) {
-  if (loc.lat && loc.lng) return `https://maps.google.com/?q=${loc.lat},${loc.lng}`
-  return `https://maps.google.com/?q=${encodeURIComponent(loc.nombre)}`
-}
-
-function formatFecha(ts) {
-  return new Date(ts).toLocaleDateString('es-AR', { month: 'short', day: 'numeric', year: 'numeric' })
+    },
+  },
+  methods: {
+    toggleExpandir(key) {
+      this.expandido = this.expandido === key ? null : key
+    },
+    mapaLink(loc) {
+      if (loc.lat && loc.lng) return `https://maps.google.com/?q=${loc.lat},${loc.lng}`
+      return `https://maps.google.com/?q=${encodeURIComponent(loc.nombre)}`
+    },
+    formatFecha(ts) {
+      return new Date(ts).toLocaleDateString('es-AR', { month: 'short', day: 'numeric', year: 'numeric' })
+    },
+  },
+  async mounted() {
+    this.posts = await fetchAllPosts()
+    const ps = await fetchAllProfiles()
+    ps.forEach(p => { this.perfiles[p.user_id] = p.username })
+  },
 }
 </script>
 

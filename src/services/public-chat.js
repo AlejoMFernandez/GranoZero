@@ -1,4 +1,4 @@
-/** Chat público — portado del TP1, sin modificaciones */
+// chat público
 import { supabase } from '../lib/supabase'
 
 export async function sendPublicChatMessage({ email, body }) {

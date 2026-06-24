@@ -1,59 +1,62 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useAuthStore } from '../stores/auth'
+<script>
+import { logout } from '../services/auth'
 import BeanIcon from './BeanIcon.vue'
 
-const auth = useAuthStore()
-const emit = defineEmits(['open-auth', 'open-quiz'])
-
-// ── Scroll-aware background ───────────────────────────
-const scrolled = ref(false)
-function onScroll() { scrolled.value = window.scrollY > 60 }
-onMounted(()  => window.addEventListener('scroll', onScroll, { passive: true }))
-onUnmounted(() => window.removeEventListener('scroll', onScroll))
-
-// ── Dropdowns ─────────────────────────────────────────
-const dropOpen      = ref(false)
-const nosotrosOpen  = ref(false)
-const mobileOpen    = ref(false)
-const userDropOpen  = ref(false)
-
-function closeAll() {
-  dropOpen.value     = false
-  nosotrosOpen.value = false
-  mobileOpen.value   = false
-  userDropOpen.value = false
+export default {
+  name: 'NavBar',
+  components: { BeanIcon },
+  props: {
+    user: { type: Object, default: () => ({ id: null, email: null, username: null }) },
+  },
+  emits: ['open-quiz'],
+  data() {
+    return {
+      dropOpen:      false,
+      nosotrosOpen:  false,
+      mobileOpen:    false,
+      userDropOpen:  false,
+      secciones: [
+        { label: 'La carta',        to: '/carta',            desc: 'Los 10 tipos de café' },
+        { label: 'Glosario',        to: '/glosario',         desc: '20 términos clave del especialidad' },
+        { label: 'Chat',            to: '/chat',             desc: 'Comunidad en tiempo real' },
+        { label: 'Reseñas',         to: '/resenas',          desc: 'Lo que opinan los cafeteros' },
+        { label: 'Recomendaciones', to: '/recomendaciones',  desc: 'Los mejores lugares según la comunidad' },
+      ],
+      nosotros: [
+        { label: 'Primera Cata', to: '/evento', desc: '5 de Julio · Lattente, San Telmo' },
+      ],
+    }
+  },
+  computed: {
+    seccionesMovil() {
+      return [
+        ...this.secciones,
+        ...this.nosotros,
+        { label: 'Cafeteros', to: '/cafeteros' },
+        { label: 'Planes',    to: '/precios'   },
+      ]
+    },
+    inicial() {
+      return (this.user.username || this.user.email || '?')[0].toUpperCase()
+    },
+  },
+  methods: {
+    closeAll() {
+      this.dropOpen     = false
+      this.nosotrosOpen = false
+      this.mobileOpen   = false
+      this.userDropOpen = false
+    },
+    async handleLogout() {
+      await logout()
+      this.closeAll()
+    },
+  },
 }
-
-// ── "Explorar": contenido educativo sobre café ────────
-const secciones = [
-  { label: 'La carta',         to: '/carta',    desc: 'Los 10 tipos de café' },
-  { label: 'Glosario',         to: '/glosario', desc: '20 términos clave del especialidad' },
-  { label: 'Chat',             to: '/chat',     desc: 'Comunidad en tiempo real' },
-  { label: 'Reseñas',          to: '/resenas',         desc: 'Lo que opinan los cafeteros' },
-  { label: 'Recomendaciones',  to: '/recomendaciones', desc: 'Los mejores lugares según la comunidad' },
-]
-
-// ── "Nosotros": identidad de marca y eventos ──────────
-const nosotros = [
-  { label: 'Primera Cata',       to: '/evento', desc: '5 de Julio · Lattente, San Telmo' },
-  { label: 'Identidad de marca', to: '/marca',  desc: 'Objetos, comunicación y plataforma' },
-]
-
-// Para el menú mobile incluimos todo
-const seccionesMovil = [
-  ...secciones,
-  ...nosotros,
-  { label: 'Cafeteros', to: '/cafeteros' },
-  { label: 'Planes',    to: '/precios'   },
-]
-
-// Primera letra del usuario para el avatar
-const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperCase()
 </script>
 
 <template>
-  <nav class="navbar" :class="{ scrolled }">
+  <nav class="navbar">
 
     <!-- Logo -->
     <RouterLink to="/" class="logo" @click="closeAll">
@@ -134,18 +137,18 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 
       <!-- Usuario logueado → avatar con dropdown -->
       <div
-        v-if="auth.user.id"
+        v-if="user.id"
         class="user-drop-wrap"
         @mouseenter="userDropOpen = true"
         @mouseleave="userDropOpen = false"
       >
-        <button class="user-avatar" :title="auth.user.username">
-          {{ inicial() }}
+        <button class="user-avatar" :title="user.username">
+          {{ inicial }}
         </button>
 
         <div v-if="userDropOpen" class="user-dropdown">
             <RouterLink
-              :to="`/perfil/${auth.user.id}`"
+              :to="'/perfil/' + user.id"
               class="udrop-item"
               @click="closeAll"
             >
@@ -153,16 +156,16 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
             </RouterLink>
             <button
               class="udrop-item udrop-item--salir"
-              @click="auth.logout(); closeAll()"
+              @click="handleLogout"
             >
               Cerrar sesión
             </button>
           </div>
         </div>
 
-      <!-- No logueado → un solo botón "Acceder" -->
+      <!-- No logueado → botones a páginas de auth -->
       <template v-else>
-        <button class="btn-acceder" @click="$emit('open-auth', 'login')">Acceder</button>
+        <RouterLink to="/ingresar" class="btn-acceder">Acceder</RouterLink>
       </template>
     </div>
 
@@ -188,32 +191,28 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
         Quiz ✦
       </button>
       <div class="mob-auth">
-        <template v-if="auth.user.id">
-          <RouterLink :to="`/perfil/${auth.user.id}`" class="mob-link" @click="closeAll">Mi perfil</RouterLink>
-          <button class="mob-link" @click="auth.logout(); closeAll()">Cerrar sesión</button>
+        <template v-if="user.id">
+          <RouterLink :to="'/perfil/' + user.id" class="mob-link" @click="closeAll">Mi perfil</RouterLink>
+          <button class="mob-link" @click="handleLogout">Cerrar sesión</button>
         </template>
         <template v-else>
-          <button class="mob-link mob-link--gold" @click="$emit('open-auth','login'); closeAll()">Acceder</button>
+          <RouterLink to="/ingresar" class="mob-link mob-link--gold" @click="closeAll">Acceder</RouterLink>
         </template>
       </div>
     </div>
 </template>
 
 <style scoped>
-/* ── Navbar base ─────────────────────────────────────── */
+/* navbar */
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 300;
   display: flex; align-items: center;
   padding: 20px 48px; gap: 32px;
-  background: linear-gradient(to bottom, rgba(20,8,0,.95) 0%, transparent 100%);
-}
-.navbar.scrolled {
   background: rgba(20,8,0,.97);
-  padding: 14px 48px;
   box-shadow: 0 1px 0 rgba(184,130,10,.12);
 }
 
-/* ── Logo ────────────────────────────────────────────── */
+/* logo */
 .logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .logo-img  { height: 26px; width: auto; }
 .logo-text {
@@ -222,7 +221,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 }
 .logo-text em { font-style: italic; color: var(--gold); }
 
-/* ── Nav centro ──────────────────────────────────────── */
+/* navegacion */
 .nav-centro { display: flex; align-items: center; gap: 22px; flex: 1; }
 
 .nav-link {
@@ -235,12 +234,12 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 .nav-link:hover,
 .nav-link.router-link-active { color: var(--cream); }
 
-/* Botón Quiz — acento dorado sutil */
+/* quiz */
 .nav-link--quiz { color: rgba(184,130,10,.75); }
 .nav-link--quiz:hover { color: var(--gold); }
 .quiz-ornament { font-size: 8px; opacity: .7; }
 
-/* ── Dropdown Explorar ───────────────────────────────── */
+/* drpdowns */
 .dropdown-wrap { position: relative; }
 
 .nav-link--drop .drop-arrow { }
@@ -255,7 +254,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   box-shadow: 0 16px 40px rgba(0,0,0,.5);
 }
 
-/* Puente invisible que evita el gap entre botón y panel */
+/* puente */
 .dropdown::before {
   content: '';
   position: absolute;
@@ -279,10 +278,10 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 
 .drop-desc { font-size: 11px; font-weight: 300; color: var(--dim); }
 
-/* ── Auth área ───────────────────────────────────────── */
+/* acceder */
 .nav-auth { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
-/* ── Avatar + dropdown usuario ──────────────────────── */
+/* icon de user */
 .user-drop-wrap { position: relative; }
 
 .user-avatar {
@@ -309,7 +308,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   box-shadow: 0 12px 32px rgba(0,0,0,.5);
 }
 
-/* Puente para el dropdown de usuario también */
+/* puente para el dropdown de usuario también */
 .user-dropdown::before {
   content: '';
   position: absolute;
@@ -329,7 +328,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 .udrop-item--salir { color: rgba(250,247,240,.3); }
 .udrop-item--salir:hover { color: var(--cream); }
 
-/* ── Link Planes ─────────────────────────────────────── */
+/* link planes */
 .nav-link--planes {
   font-size: 10px; letter-spacing: 2px;
   border: 1px solid rgba(184,130,10,.35);
@@ -341,7 +340,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   border-color: var(--gold); color: var(--gold);
 }
 
-/* ── Botón Acceder ────────────────────────────────────── */
+/* acceder */
 .btn-acceder {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid rgba(184,130,10,.5);
@@ -350,7 +349,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 }
 .btn-acceder:hover { background: var(--gold); color: var(--brown); }
 
-/* ── Hamburger ───────────────────────────────────────── */
+/* menu mobile hamburguesa*/
 .hamburger {
   display: none;
   flex-direction: column; gap: 5px;
@@ -363,7 +362,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 }
 .hamburger:hover span { background: var(--cream); }
 
-/* ── Mobile menu ─────────────────────────────────────── */
+/* mobile menu */
 .mobile-menu {
   position: fixed; top: 60px; left: 0; right: 0; z-index: 299;
   background: rgba(20,8,0,.98);
@@ -380,15 +379,14 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 .mob-link:hover { color: var(--cream); }
 .mob-link--gold  { color: var(--gold) !important; }
 .mob-link--quiz  { color: rgba(184,130,10,.75) !important; }
-.mob-auth { margin-top: 8px; }
+.mob-auth { margin-top: 8px; display: flex; justify-content: space-between; align-items: center; }
 
 
-/* ── Responsive ──────────────────────────────────────── */
+/* responsive mobile */
 @media (max-width: 900px) {
   .navbar    { padding: 18px 22px; }
   .nav-centro,
   .nav-auth  { display: none; }
   .hamburger { display: flex; }
-  .navbar.scrolled { padding: 14px 22px; }
 }
 </style>

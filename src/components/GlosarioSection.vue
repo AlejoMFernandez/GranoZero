@@ -1,21 +1,28 @@
-<script setup>
+<script>
 import BeanSeparator from './BeanSeparator.vue'
 
-// Solo 3 términos como preview en la landing
-const preview = [
-  {
-    t: 'Café de especialidad',
-    d: 'Granos que alcanzan 80+ puntos en la escala SCA. El top 5% de la producción mundial, con trazabilidad completa y sin defectos.',
+export default {
+  name: 'GlosarioSection',
+  components: { BeanSeparator },
+  data() {
+    return {
+      preview: [
+        {
+          t: 'Café de especialidad',
+          d: 'Granos que alcanzan 80+ puntos en la escala SCA. El top 5% de la producción mundial, con trazabilidad completa y sin defectos.',
+        },
+        {
+          t: 'Extracción',
+          d: 'El proceso de disolver los compuestos del café molido en agua. Tiempo, temperatura y presión determinan el resultado en taza.',
+        },
+        {
+          t: 'Terroir',
+          d: 'El conjunto de suelo, altitud, clima y entorno que imprime su carácter en el grano. Igual que en el vino.',
+        },
+      ],
+    }
   },
-  {
-    t: 'Extracción',
-    d: 'El proceso de disolver los compuestos del café molido en agua. Tiempo, temperatura y presión determinan el resultado en taza.',
-  },
-  {
-    t: 'Terroir',
-    d: 'El conjunto de suelo, altitud, clima y entorno que imprime su carácter en el grano. Igual que en el vino.',
-  },
-]
+}
 </script>
 
 <template>
@@ -33,7 +40,7 @@ const preview = [
       <BeanSeparator />
     </div>
 
-    <!-- 3 términos -->
+    <!-- 3 palabras preview -->
     <div class="glosario-grid">
       <div
         v-for="item in preview"
@@ -81,7 +88,7 @@ const preview = [
 .termino:last-child { border-right: none; }
 .termino:hover { background: rgba(184,130,10,.03); }
 
-/* Logo GranoZero pintado en dorado como ícono de cada término */
+/* Logo GranoZero pintado en dorado */
 .viñeta-logo {
   width: 14px; height: 14px;
   object-fit: contain; flex-shrink: 0;
@@ -101,7 +108,7 @@ const preview = [
   color: var(--mid); line-height: 1.65;
 }
 
-/* ── CTA ────────────────────────────────────────────── */
+/* cta */
 .glosario-cta {
   display: flex; align-items: center; gap: 24px;
 }

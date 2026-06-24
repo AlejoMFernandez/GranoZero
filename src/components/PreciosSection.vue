@@ -1,10 +1,6 @@
-<script setup>
-import { ref } from 'vue'
+<script>
+import { subscribeToAuthStateChanges } from '../services/auth'
 import BeanIcon from './BeanIcon.vue'
-import { useAuthStore } from '../stores/auth'
-
-const auth = useAuthStore()
-const mostrarProximamente = ref(false)
 
 const planes = [
   {
@@ -32,49 +28,44 @@ const planes = [
     sub: 'USD / mes',
     destacado: true,
     items: [
-      { texto: 'Todo lo del plan Explorador',   incluido: true  },
-      { texto: 'Reseñas y chat',                incluido: true  },
-      { texto: 'Favoritos guardados',           incluido: true  },
-      { texto: 'Timer de extracción',           incluido: true  },
-      { texto: 'Calculadora de ratio',          incluido: true  },
-      { texto: 'Notas de cata personales',      incluido: true  },
-      { texto: 'Badge "Entendido" en el perfil', incluido: true },
-      { texto: 'Guías de preparación',          incluido: false },
+      { texto: 'Carta completa de cafés',         incluido: true  },
+      { texto: 'Quiz sensorial',                  incluido: true  },
+      { texto: 'Glosario de términos',            incluido: true  },
+      { texto: 'Reseñas y chat',                  incluido: true  },
+      { texto: 'Favoritos guardados',             incluido: true  },
+      { texto: 'Timer de extracción',             incluido: true  },
+      { texto: 'Calculadora de ratio',            incluido: true  },
+      { texto: 'Notas de cata personales',        incluido: true  },
+      { texto: 'Badge "Entendido" en el perfil',  incluido: true  },
+      { texto: 'Guías de preparación',            incluido: false },
     ],
     cta: 'Quiero ser Entendido',
     gratis: false,
   },
-  {
-    id: 'experto',
-    nombre: 'Experto',
-    precio: '$9.99',
-    sub: 'USD / mes',
-    destacado: false,
-    items: [
-      { texto: 'Todo lo del plan Entendido',    incluido: true  },
-      { texto: 'Guías avanzadas por método',    incluido: true  },
-      { texto: 'Archivo de catas y perfiles',   incluido: true  },
-      { texto: 'Badge "Experto" en el perfil',  incluido: true  },
-      { texto: 'Acceso anticipado a novedades', incluido: true  },
-      { texto: 'Soporte prioritario',           incluido: true  },
-      { texto: 'Perfil destacado en comunidad', incluido: true  },
-      { texto: 'Eventos exclusivos',            incluido: true, pronto: true },
-    ],
-    cta: 'Ser Experto',
-    gratis: false,
-  },
 ]
 
-const emit = defineEmits(['open-auth'])
-
-function clicarPlan(plan) {
-  // Si está logueado y el plan tiene costo → mostrar "próximamente"
-  if (auth.user.id && !plan.gratis) {
-    mostrarProximamente.value = true
-    return
-  }
-  // Si no está logueado → abrir modal de auth para que se registre
-  emit('open-auth', 'register')
+export default {
+  name: 'PreciosSection',
+  components: { BeanIcon },
+  data() {
+    return {
+      authUser:            { id: null, email: null, username: null },
+      mostrarProximamente: false,
+      planes,
+    }
+  },
+  methods: {
+    clicarPlan(plan) {
+      if (this.authUser.id && !plan.gratis) {
+        this.mostrarProximamente = true
+        return
+      }
+      this.$router.push('/crear-cuenta')
+    },
+  },
+  mounted() {
+    subscribeToAuthStateChanges(newUser => { this.authUser = newUser })
+  },
 }
 </script>
 
@@ -144,18 +135,16 @@ function clicarPlan(plan) {
   </section>
 
   <!-- Popup "Próximamente" -->
-  <Teleport to="body">
-    <div v-if="mostrarProximamente" class="prox-overlay" @click.self="mostrarProximamente = false">
-        <div class="prox-modal">
-          <img src="/logofinal.png" class="prox-logo" alt="GranoZero" />
-          <h3 class="prox-titulo">Próximamente</h3>
-          <p class="prox-sub">
-            Los pagos están en preparación. Por ahora podés disfrutar de todo el contenido gratuito mientras tanto.
-          </p>
-          <button class="prox-btn" @click="mostrarProximamente = false">Entendido</button>
-        </div>
+  <div v-if="mostrarProximamente" class="prox-overlay" @click.self="mostrarProximamente = false">
+      <div class="prox-modal">
+        <img src="/logofinal.png" class="prox-logo" alt="GranoZero" />
+        <h3 class="prox-titulo">Próximamente</h3>
+        <p class="prox-sub">
+          Los pagos están en preparación. Por ahora podés disfrutar de todo el contenido gratuito mientras tanto.
+        </p>
+        <button class="prox-btn" @click="mostrarProximamente = false">Entendido</button>
       </div>
-  </Teleport>
+    </div>
 </template>
 
 <style scoped>
@@ -165,9 +154,9 @@ function clicarPlan(plan) {
 /* ── Grid de planes ─────────────────────────────────── */
 .planes-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1px;
-  max-width: 1060px;
+  max-width: 800px;
   background: var(--line);
   border: 1px solid var(--line);
 }

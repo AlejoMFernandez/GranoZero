@@ -1,4 +1,4 @@
-/** Servicio de perfiles — portado directamente del TP1 */
+// perfiles
 import { supabase } from '../lib/supabase'
 
 export async function fetchAllProfiles() {
