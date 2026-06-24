@@ -35,21 +35,24 @@ export default {
       this.locationDisplay = ''
       this.locationLat     = null
       this.locationLng     = null
-      if (this.$refs.placesContainer) {
-        this.$refs.placesContainer.innerHTML = ''
+      if (this.$refs.locationInput) {
+        this.$refs.locationInput.value = ''
         this.initGooglePlaces()
       }
     },
     initGooglePlaces() {
-      if (!this.$refs.placesContainer || !window.google?.maps?.places) return
-      const pac = new window.google.maps.places.PlaceAutocompleteElement()
-      this.$refs.placesContainer.appendChild(pac)
-      pac.addEventListener('gmp-placeselect', async ({ place }) => {
-        await place.fetchFields({ fields: ['displayName', 'formattedAddress', 'location'] })
-        this.locationName    = place.displayName
-        this.locationDisplay = place.formattedAddress
-        this.locationLat     = place.location.lat()
-        this.locationLng     = place.location.lng()
+      if (!this.$refs.locationInput || !window.google?.maps?.places) return
+      const ac = new window.google.maps.places.Autocomplete(this.$refs.locationInput, {
+        types: ['establishment'],
+        fields: ['name', 'formatted_address', 'geometry'],
+      })
+      ac.addListener('place_changed', () => {
+        const place = ac.getPlace()
+        if (!place.geometry) return
+        this.locationName    = place.name || ''
+        this.locationDisplay = place.formatted_address || ''
+        this.locationLat     = place.geometry.location.lat()
+        this.locationLng     = place.geometry.location.lng()
       })
     },
     async abrirForm() {
@@ -71,7 +74,7 @@ export default {
           body:            this.cuerpo,
           rating:          this.rating   || null,
           cafeType:        this.cafeType || null,
-          locationName:    this.locationName.trim() || null,
+          locationName:    (this.locationName || '').trim() || null,
           locationDisplay: this.locationDisplay     || null,
           lat:             this.locationLat,
           lng:             this.locationLng,
@@ -226,7 +229,12 @@ export default {
 
           <div class="campo">
             <span>¿Dónde lo tomaste? <em class="opcional">(opcional)</em></span>
-            <div ref="placesContainer" class="places-container"></div>
+            <input
+              ref="locationInput"
+              type="text"
+              placeholder="Buscá una cafetería…"
+              v-show="!locationDisplay"
+            />
             <div v-if="locationDisplay" class="ubicacion-ok">
               <span class="ubicacion-texto">{{ locationDisplay }}</span>
               <button class="btn-quitar" @click="quitarUbicacion">✕</button>
@@ -455,9 +463,4 @@ details[open] .resena-mapa-sum { color: var(--gold); border-color: rgba(184,130,
   .form-modal-top  { padding: 20px 20px 0; }
   .form-campos     { padding: 16px 20px 24px; }
 }
-</style>
-
-<style>
-.places-container { width: 100%; }
-.places-container gmp-placeautocomplete { width: 100%; }
 </style>
