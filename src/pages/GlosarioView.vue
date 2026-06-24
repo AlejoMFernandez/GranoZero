@@ -117,7 +117,6 @@ const terminosFiltrados = computed(() => {
   color: var(--cream);
   font-family: 'DM Sans', sans-serif; font-size: 14px;
   padding: 11px 16px; outline: none;
-  transition: border-color .2s;
 }
 .buscador:focus { border-color: rgba(184,130,10,.4); }
 .buscador::placeholder { color: var(--dim); }
@@ -142,7 +141,6 @@ const terminosFiltrados = computed(() => {
   padding: 28px 26px;
   border-right:  1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  transition: background .22s;
 }
 .termino:hover { background: rgba(184,130,10,.03); }
 /* Quitar borde derecho del último de cada fila */

@@ -206,7 +206,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   display: flex; align-items: center;
   padding: 20px 48px; gap: 32px;
   background: linear-gradient(to bottom, rgba(20,8,0,.95) 0%, transparent 100%);
-  transition: background .3s ease, padding .3s ease, box-shadow .3s ease;
 }
 .navbar.scrolled {
   background: rgba(20,8,0,.97);
@@ -230,7 +229,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   background: none; border: none;
   font-size: 11px; font-weight: 500;
   letter-spacing: 2.5px; text-transform: uppercase;
-  color: var(--dim); transition: color .2s;
+  color: var(--dim);
   display: flex; align-items: center; gap: 5px;
 }
 .nav-link:hover,
@@ -244,7 +243,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 /* ── Dropdown Explorar ───────────────────────────────── */
 .dropdown-wrap { position: relative; }
 
-.nav-link--drop .drop-arrow { transition: transform .2s; }
+.nav-link--drop .drop-arrow { }
 .nav-link--drop.open .drop-arrow { transform: rotate(180deg); }
 
 .dropdown {
@@ -268,14 +267,13 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 .drop-item {
   display: flex; flex-direction: column; gap: 2px;
   padding: 10px 14px;
-  transition: background .18s;
 }
 .drop-item:hover { background: rgba(184,130,10,.08); }
 
 .drop-label {
   font-size: 12px; font-weight: 500;
   letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--cream); transition: color .18s;
+  color: var(--cream);
 }
 .drop-item:hover .drop-label { color: var(--gold); }
 
@@ -295,7 +293,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   font-family: 'Playfair Display', serif;
   font-size: 15px; font-style: italic;
   display: flex; align-items: center; justify-content: center;
-  transition: background .2s, border-color .2s;
   flex-shrink: 0;
 }
 .user-avatar:hover {
@@ -326,7 +323,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   padding: 10px 14px; text-align: left;
   background: none; border: none;
   font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--mid); transition: background .18s, color .18s;
+  color: var(--mid);
 }
 .udrop-item:hover { background: rgba(184,130,10,.08); color: var(--cream); }
 .udrop-item--salir { color: rgba(250,247,240,.3); }
@@ -337,7 +334,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   font-size: 10px; letter-spacing: 2px;
   border: 1px solid rgba(184,130,10,.35);
   color: rgba(184,130,10,.8); padding: 7px 14px;
-  transition: background .2s, color .2s, border-color .2s;
 }
 .nav-link--planes:hover,
 .nav-link--planes.router-link-active {
@@ -350,7 +346,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid rgba(184,130,10,.5);
   color: var(--gold); background: transparent;
-  padding: 8px 18px; transition: background .2s, color .2s;
+  padding: 8px 18px;
 }
 .btn-acceder:hover { background: var(--gold); color: var(--brown); }
 
@@ -364,7 +360,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 .hamburger span {
   width: 22px; height: 1.5px;
   background: var(--dim); display: block;
-  transition: background .2s;
 }
 .hamburger:hover span { background: var(--cream); }
 
@@ -381,7 +376,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   font-size: 14px; font-weight: 300; letter-spacing: 1px;
   color: var(--mid); padding: 10px 0;
   border-bottom: 1px solid var(--line);
-  transition: color .2s;
 }
 .mob-link:hover { color: var(--cream); }
 .mob-link--gold  { color: var(--gold) !important; }

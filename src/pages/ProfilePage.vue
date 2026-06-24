@@ -220,7 +220,7 @@ function formatFecha(ts) {
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid var(--line); color: var(--dim);
   background: transparent; padding: 9px 18px;
-  transition: border-color .2s, color .2s; flex-shrink: 0;
+  flex-shrink: 0;
 }
 .btn-editar:hover { border-color: rgba(250,247,240,.3); color: var(--cream); }
 
@@ -253,7 +253,6 @@ function formatFecha(ts) {
   color: var(--cream);
   font-family: 'DM Sans', sans-serif; font-size: 14px;
   padding: 11px 13px; outline: none; resize: vertical;
-  transition: border-color .2s;
 }
 .campo select {
   appearance: none;
@@ -272,7 +271,6 @@ function formatFecha(ts) {
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
   background: var(--gold); color: var(--brown);
   border: none; padding: 12px 22px;
-  transition: opacity .2s;
 }
 .btn-guardar:disabled { opacity: .5; }
 .btn-cancelar {
@@ -280,16 +278,8 @@ function formatFecha(ts) {
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid var(--line); color: var(--dim);
   background: transparent; padding: 12px 22px;
-  transition: border-color .2s, color .2s;
 }
 .btn-cancelar:hover { border-color: rgba(250,247,240,.25); color: var(--cream); }
-
-/* ── Transición edición ─────────────────────────────── */
-.slide-down-enter-active, .slide-down-leave-active {
-  transition: opacity .25s ease, max-height .3s ease;
-  overflow: hidden; max-height: 500px;
-}
-.slide-down-enter-from, .slide-down-leave-to { opacity: 0; max-height: 0; }
 
 /* ── Posts ──────────────────────────────────────────── */
 .perfil-posts { padding: 52px 9vw; }
@@ -302,7 +292,6 @@ function formatFecha(ts) {
 .posts-lista { display: flex; flex-direction: column; gap: 1px; }
 .post-item {
   border: 1px solid var(--line); padding: 24px 22px;
-  transition: background .2s;
 }
 .post-item:hover { background: rgba(184,130,10,.04); }
 .post-meta { margin-bottom: 8px; }

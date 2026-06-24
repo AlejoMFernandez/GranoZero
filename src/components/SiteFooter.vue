@@ -83,7 +83,6 @@
 .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .footer-nav a {
   font-size: 13px; font-weight: 300; color: var(--dim);
-  transition: color .2s;
 }
 .footer-nav a:hover { color: var(--cream); }
 
@@ -94,7 +93,6 @@
 .red {
   display: flex; align-items: center; gap: 10px;
   color: var(--dim); font-size: 13px; font-weight: 300;
-  transition: color .2s;
 }
 .red:hover { color: var(--cream); }
 

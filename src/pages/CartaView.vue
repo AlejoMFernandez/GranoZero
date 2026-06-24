@@ -91,7 +91,6 @@ const cafesVisibles = computed(() =>
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid var(--line); color: var(--dim);
   background: transparent; padding: 8px 16px;
-  transition: border-color .2s, color .2s, background .2s;
 }
 .filtro-btn:hover     { border-color: rgba(250,247,240,.3); color: var(--cream); }
 .filtro-btn.activo    { border-color: var(--gold); color: var(--gold); background: rgba(184,130,10,.07); }

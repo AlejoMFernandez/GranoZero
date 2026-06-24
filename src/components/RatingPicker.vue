@@ -41,10 +41,8 @@ const hovered = ref(0)
   filter: sepia(1) saturate(4) brightness(0.75);
   opacity: .1;
   cursor: pointer;
-  transition: opacity .12s, transform .1s;
 }
 .rating-logo.on       { opacity: .9; }
-.rating-logo:hover    { transform: scale(1.15); }
 
 .rating-num {
   font-family: 'Space Mono', monospace;

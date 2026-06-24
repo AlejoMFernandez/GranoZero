@@ -31,7 +31,6 @@ defineProps({
   /* convierte el logo a marrón-ámbar cálido */
   filter: sepia(1) saturate(4) brightness(0.75);
   opacity: .1;
-  transition: opacity .2s;
   flex-shrink: 0;
 }
 .escala-logo.on { opacity: .9; }

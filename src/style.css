@@ -35,7 +35,6 @@ button { font-family: inherit; }
   padding: 13px 34px;
   border: 1px solid var(--gold);
   color: var(--gold); background: transparent;
-  transition: background .22s, color .22s;
 }
 .btn:hover { background: var(--gold); color: var(--brown); }
 .btn-sec {

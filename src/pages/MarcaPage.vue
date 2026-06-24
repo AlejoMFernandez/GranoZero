@@ -210,9 +210,7 @@ import IntensityScale from '../components/IntensityScale.vue'
   width: 100%; display: block;
   object-fit: cover;
   border: 1px solid var(--line);
-  transition: transform .4s ease;
 }
-.foto-item:hover img { transform: scale(1.02); }
 
 .foto-label {
   font-family: 'Space Mono', monospace;

@@ -178,7 +178,7 @@ async function submit() {
 .modal-close {
   background: none; border: none;
   color: var(--dim); font-size: 14px;
-  transition: color .2s; padding: 4px;
+  padding: 4px;
 }
 .modal-close:hover { color: var(--cream); }
 
@@ -194,7 +194,6 @@ async function submit() {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   color: var(--dim); padding: 10px;
   border-bottom: 2px solid transparent;
-  transition: color .2s, border-color .2s;
 }
 .tabs button.active {
   color: var(--gold);
@@ -218,7 +217,6 @@ async function submit() {
   color: var(--cream);
   font-family: 'DM Sans', sans-serif; font-size: 14px;
   padding: 12px 14px; outline: none;
-  transition: border-color .2s;
 }
 .campo select {
   appearance: none;
@@ -245,7 +243,6 @@ async function submit() {
   font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
   background: var(--gold); color: var(--brown);
   border: none; padding: 14px;
-  transition: opacity .2s;
 }
 .btn-submit:disabled { opacity: .5; }
 .btn-submit:not(:disabled):hover { opacity: .85; }

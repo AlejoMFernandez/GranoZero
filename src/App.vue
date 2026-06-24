@@ -44,7 +44,7 @@
   />
 
   <QuizModal
-    :show="quizAbierto"
+    v-if="quizAbierto"
     @close="quizAbierto = false"
   />
 
@@ -67,7 +67,6 @@
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(0,0,0,.45);
-  transition: transform .2s, box-shadow .2s;
 }
 .quiz-fab:hover {
   transform: scale(1.1);
@@ -76,13 +75,11 @@
 .fab-logo {
   width: 26px; height: 26px; object-fit: contain;
   position: absolute;
-  transition: opacity .2s;
 }
 .fab-star {
   font-size: 22px; color: var(--brown);
   position: absolute;
   opacity: 0;
-  transition: opacity .2s;
 }
 .quiz-fab:hover .fab-logo { opacity: 0; }
 .quiz-fab:hover .fab-star { opacity: 1; }

@@ -166,7 +166,7 @@ function formatFecha(ts) {
   display: inline-block; margin-top: 16px;
   font-family: 'Space Mono', monospace;
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--dim); transition: color .2s;
+  color: var(--dim);
 }
 .link-resenas:hover { color: var(--gold); }
 
@@ -199,7 +199,7 @@ function formatFecha(ts) {
 .lugar-maps {
   font-family: 'Space Mono', monospace;
   font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--gold); flex-shrink: 0; transition: opacity .2s;
+  color: var(--gold); flex-shrink: 0;
 }
 .lugar-maps:hover { opacity: .7; }
 
@@ -234,7 +234,6 @@ function formatFecha(ts) {
   background: transparent; border: 1px solid var(--line);
   color: var(--dim); padding: 4px 10px;
   cursor: pointer; margin-left: auto;
-  transition: border-color .2s, color .2s;
 }
 .cafe-toggle:hover { border-color: rgba(250,247,240,.25); color: var(--cream); }
 

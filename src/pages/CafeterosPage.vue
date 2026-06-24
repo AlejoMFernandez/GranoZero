@@ -108,7 +108,6 @@ const perfilesFiltrados = computed(() => {
   color: var(--cream);
   font-family: 'DM Sans', sans-serif; font-size: 14px;
   padding: 12px 16px; outline: none;
-  transition: border-color .2s;
 }
 .buscador:focus { border-color: rgba(184,130,10,.4); }
 .buscador::placeholder { color: var(--dim); }
@@ -134,7 +133,6 @@ const perfilesFiltrados = computed(() => {
   background: var(--brown);
   padding: 28px 24px;
   display: flex; gap: 18px; align-items: flex-start;
-  transition: background .2s;
 }
 .perfil-card:hover { background: rgba(184,130,10,.05); }
 

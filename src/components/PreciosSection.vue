@@ -177,7 +177,6 @@ function clicarPlan(plan) {
   background: var(--brown);
   padding: 36px 32px 32px;
   position: relative;
-  transition: background .22s;
 }
 .plan:hover { background: rgba(184,130,10,.04); }
 
@@ -261,7 +260,7 @@ function clicarPlan(plan) {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid rgba(250,247,240,.18);
   color: var(--dim); background: transparent;
-  padding: 13px; transition: border-color .2s, color .2s;
+  padding: 13px;
 }
 .plan-cta:hover {
   border-color: rgba(250,247,240,.45);
@@ -321,7 +320,6 @@ function clicarPlan(plan) {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   background: var(--gold); color: var(--brown);
   border: none; padding: 13px 32px;
-  transition: opacity .2s;
 }
 .prox-btn:hover { opacity: .85; }
 

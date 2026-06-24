@@ -77,14 +77,8 @@ import BeanIcon from './BeanIcon.vue'
 .scroll-arrow {
   position: absolute; bottom: 36px; left: 50%;
   transform: translateX(-50%);
-  animation: bounce 2.2s ease-in-out infinite;
   pointer-events: none;
 }
-@keyframes bounce {
-  0%,100% { transform: translateX(-50%) translateY(0); }
-  50%      { transform: translateX(-50%) translateY(8px); }
-}
-
 @media (max-width: 640px) {
   .hero-title { font-size: 44px; }
   .hero-btns  { flex-direction: column; align-items: center; }

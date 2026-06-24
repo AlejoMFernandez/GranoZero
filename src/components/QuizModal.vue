@@ -1,13 +1,12 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { cafes } from '../data/cafes.js'
 import BeanIcon from './BeanIcon.vue'
 
-const props = defineProps({ show: { type: Boolean, default: false } })
-const emit  = defineEmits(['close'])
+const emit = defineEmits(['close'])
 
-// Reiniciar al abrir
-watch(() => props.show, (v) => { if (v) reiniciar() })
+// Reiniciar al montar
+onMounted(() => reiniciar())
 
 /* 
 A FUTURO:
@@ -89,7 +88,7 @@ function reiniciar() {
 
 <template>
   <Teleport to="body">
-    <div v-if="show" class="overlay" @click.self="$emit('close')">
+    <div class="overlay" @click.self="$emit('close')">
         <div class="quiz-modal" role="dialog" aria-modal="true">
 
           <!-- Header del modal -->
@@ -183,7 +182,7 @@ function reiniciar() {
 .btn-cerrar {
   background: none; border: none;
   color: var(--dim); font-size: 14px;
-  padding: 4px; transition: color .2s; flex-shrink: 0;
+  padding: 4px; flex-shrink: 0;
 }
 .btn-cerrar:hover { color: var(--cream); }
 
@@ -199,7 +198,6 @@ function reiniciar() {
   border: 1px solid rgba(250,247,240,.1);
   background: transparent; text-align: left;
   color: var(--mid); font-size: 14px; font-weight: 300;
-  transition: border-color .2s, color .2s, background .2s, opacity .2s;
 }
 .opcion:hover {
   border-color: rgba(184,130,10,.5);
@@ -257,14 +255,12 @@ function reiniciar() {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid rgba(250,247,240,.18); color: var(--dim);
   background: transparent; padding: 11px 22px;
-  transition: border-color .2s, color .2s;
 }
 .btn-reiniciar:hover { border-color: rgba(250,247,240,.45); color: var(--mid); }
 .btn-cerrar-final {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid rgba(184,130,10,.4); color: var(--gold);
   background: transparent; padding: 11px 22px;
-  transition: background .2s, color .2s;
 }
 .btn-cerrar-final:hover { background: var(--gold); color: var(--brown); }
 

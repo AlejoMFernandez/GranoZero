@@ -94,7 +94,6 @@ import { RouterLink } from 'vue-router'
   font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
   border: 1px solid var(--gold); color: var(--gold);
   background: transparent; padding: 13px 28px;
-  transition: background .22s, color .22s;
 }
 .btn-ver-planes:hover { background: var(--gold); color: var(--brown); }
 

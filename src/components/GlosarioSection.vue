@@ -77,7 +77,6 @@ const preview = [
   display: flex; align-items: flex-start; gap: 16px;
   padding: 26px 24px;
   border-right: 1px solid var(--line);
-  transition: background .22s;
 }
 .termino:last-child { border-right: none; }
 .termino:hover { background: rgba(184,130,10,.03); }

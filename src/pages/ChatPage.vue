@@ -258,7 +258,6 @@ function hora(ts) {
   font-family: 'DM Sans', sans-serif; font-size: 14px;
   padding: 10px 14px; outline: none;
   border-radius: 8px;
-  transition: border-color .2s;
   line-height: 1.5;
 }
 .chat-textarea:focus { border-color: rgba(184,130,10,.4); }
@@ -270,7 +269,6 @@ function hora(ts) {
   border: 1px solid rgba(184,130,10,.5); color: var(--gold);
   background: transparent; padding: 10px 20px;
   border-radius: 6px;
-  transition: background .2s, color .2s;
   flex-shrink: 0;
 }
 .chat-btn-enviar:hover:not(:disabled) { background: var(--gold); color: var(--brown); }
