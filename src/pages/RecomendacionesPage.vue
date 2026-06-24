@@ -73,9 +73,9 @@ function formatFecha(ts) {
 
       <!-- Header -->
       <div class="reco-header">
-        <span v-reveal class="eyebrow">Comunidad</span>
-        <h1 v-reveal class="sec-title">Recomendaciones.</h1>
-        <p v-reveal class="sec-sub">
+        <span class="eyebrow">Comunidad</span>
+        <h1 class="sec-title">Recomendaciones.</h1>
+        <p class="sec-sub">
           Qué tomar y dónde — generado a partir de las reseñas de los cafeteros.
         </p>
         <RouterLink to="/resenas" class="link-resenas">← Ver todas las reseñas</RouterLink>
@@ -93,7 +93,7 @@ function formatFecha(ts) {
         <div
           v-for="lugar in recomendaciones"
           :key="lugar.nombre"
-          v-reveal
+         
           class="lugar-card"
         >
           <!-- Nombre del lugar + link a Maps -->
@@ -166,7 +166,7 @@ function formatFecha(ts) {
   display: inline-block; margin-top: 16px;
   font-family: 'Space Mono', monospace;
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--dim); transition: color .2s;
+  color: var(--dim);
 }
 .link-resenas:hover { color: var(--gold); }
 
@@ -199,7 +199,7 @@ function formatFecha(ts) {
 .lugar-maps {
   font-family: 'Space Mono', monospace;
   font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--gold); flex-shrink: 0; transition: opacity .2s;
+  color: var(--gold); flex-shrink: 0;
 }
 .lugar-maps:hover { opacity: .7; }
 
@@ -234,7 +234,6 @@ function formatFecha(ts) {
   background: transparent; border: 1px solid var(--line);
   color: var(--dim); padding: 4px 10px;
   cursor: pointer; margin-left: auto;
-  transition: border-color .2s, color .2s;
 }
 .cafe-toggle:hover { border-color: rgba(250,247,240,.25); color: var(--cream); }
 

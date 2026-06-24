@@ -9,7 +9,6 @@ const ProfilePage   = () => import('../pages/ProfilePage.vue')
 const CafeterosPage = () => import('../pages/CafeterosPage.vue')
 const PreciosPage   = () => import('../pages/PreciosPage.vue')
 const ResenasPage   = () => import('../pages/ResenasPage.vue')
-const MapaPage      = () => import('../pages/MapaPage.vue')
 const MarcaPage     = () => import('../pages/MarcaPage.vue')
 const EventoPage          = () => import('../pages/EventoPage.vue')
 const RecomendacionesPage = () => import('../pages/RecomendacionesPage.vue')
@@ -23,7 +22,6 @@ const routes = [
   { path: '/cafeteros',     component: CafeterosPage, name: 'cafeteros' },
   { path: '/precios',       component: PreciosPage,   name: 'precios'   },
   { path: '/resenas',       component: ResenasPage,   name: 'resenas'   },
-  { path: '/mapa',          component: MapaPage,      name: 'mapa'      },
   { path: '/marca',         component: MarcaPage,     name: 'marca'     },
   { path: '/evento',          component: EventoPage,          name: 'evento'          },
   { path: '/recomendaciones', component: RecomendacionesPage, name: 'recomendaciones' },

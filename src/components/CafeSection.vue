@@ -13,9 +13,9 @@ const preview = cafes.filter(c => ['espresso', 'ristretto', 'latte'].includes(c.
 <template>
   <section id="carta" class="section cafe-section">
     <div class="section-header">
-      <span v-reveal class="eyebrow">La carta</span>
-      <h2 v-reveal class="sec-title">Cada café, una historia.</h2>
-      <p v-reveal class="sec-sub">
+      <span class="eyebrow">La carta</span>
+      <h2 class="sec-title">Cada café, una historia.</h2>
+      <p class="sec-sub">
         Desde el ristretto más intenso hasta el latte más suave — tocá cualquier café para ver todos los detalles.
       </p>
     </div>
@@ -26,13 +26,13 @@ const preview = cafes.filter(c => ['espresso', 'ristretto', 'latte'].includes(c.
         v-for="cafe in preview"
         :key="cafe.id"
         :cafe="cafe"
-        v-reveal
+       
         @select="selectedCafe = $event"
       />
     </div>
 
     <!-- Link a la carta completa -->
-    <div v-reveal class="carta-cta">
+    <div class="carta-cta">
       <RouterLink to="/carta" class="btn">
         Ver los {{ cafes.length }} cafés →
       </RouterLink>

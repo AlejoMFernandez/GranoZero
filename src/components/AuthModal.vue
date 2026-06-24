@@ -54,7 +54,6 @@ async function submit() {
 
 <template>
   <Teleport to="body">
-    <Transition name="modal">
       <div class="overlay" @click.self="$emit('close')">
         <div class="modal" role="dialog" aria-modal="true">
 
@@ -76,7 +75,6 @@ async function submit() {
           </div>
 
           <!-- Formulario -->
-          <Transition name="slide" mode="out-in">
 
             <!-- Confirmación registro -->
             <div v-if="done" key="done" class="done">
@@ -145,11 +143,8 @@ async function submit() {
               </p>
             </form>
 
-          </Transition>
-
         </div>
       </div>
-    </Transition>
   </Teleport>
 </template>
 
@@ -183,7 +178,7 @@ async function submit() {
 .modal-close {
   background: none; border: none;
   color: var(--dim); font-size: 14px;
-  transition: color .2s; padding: 4px;
+  padding: 4px;
 }
 .modal-close:hover { color: var(--cream); }
 
@@ -199,7 +194,6 @@ async function submit() {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   color: var(--dim); padding: 10px;
   border-bottom: 2px solid transparent;
-  transition: color .2s, border-color .2s;
 }
 .tabs button.active {
   color: var(--gold);
@@ -223,7 +217,6 @@ async function submit() {
   color: var(--cream);
   font-family: 'DM Sans', sans-serif; font-size: 14px;
   padding: 12px 14px; outline: none;
-  transition: border-color .2s;
 }
 .campo select {
   appearance: none;
@@ -250,7 +243,6 @@ async function submit() {
   font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
   background: var(--gold); color: var(--brown);
   border: none; padding: 14px;
-  transition: opacity .2s;
 }
 .btn-submit:disabled { opacity: .5; }
 .btn-submit:not(:disabled):hover { opacity: .85; }
@@ -278,15 +270,5 @@ async function submit() {
 }
 .done-sub { font-size: 13px; color: var(--mid); line-height: 1.5; }
 
-/* ── Transiciones ──────────────────────────────────── */
-.modal-enter-active, .modal-leave-active {
-  transition: opacity .25s ease;
-}
-.modal-enter-from, .modal-leave-to { opacity: 0; }
 
-.slide-enter-active, .slide-leave-active {
-  transition: opacity .2s ease, transform .2s ease;
-}
-.slide-enter-from { opacity: 0; transform: translateY(8px); }
-.slide-leave-to   { opacity: 0; transform: translateY(-6px); }
 </style>

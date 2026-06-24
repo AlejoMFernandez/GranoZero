@@ -10,12 +10,12 @@ const emit = defineEmits(['open-auth'])
 
     <!-- Header de la página -->
     <div class="precios-page-header section">
-      <span v-reveal class="eyebrow">Planes</span>
-      <h1 v-reveal class="sec-title">
+      <span class="eyebrow">Planes</span>
+      <h1 class="sec-title">
         Empezá gratis.<br>
         <em>Profundizá</em> cuando quieras.
       </h1>
-      <p v-reveal class="sec-sub">
+      <p class="sec-sub">
         Todo el contenido es libre. Los que eligen ir más lejos tienen herramientas para hacerlo.
       </p>
     </div>
@@ -26,23 +26,23 @@ const emit = defineEmits(['open-auth'])
     <!-- FAQ mínimo -->
     <div class="faq section">
       <div class="faq-inner">
-        <span v-reveal class="eyebrow">Preguntas</span>
-        <h2 v-reveal class="faq-titulo">Frecuentes</h2>
+        <span class="eyebrow">Preguntas</span>
+        <h2 class="faq-titulo">Frecuentes</h2>
 
         <div class="faq-lista">
-          <div v-reveal class="faq-item">
+          <div class="faq-item">
             <p class="faq-q">¿Puedo cancelar en cualquier momento?</p>
             <p class="faq-a">Sí. No hay contratos ni compromisos. Cancelás cuando quieras desde tu perfil.</p>
           </div>
-          <div v-reveal class="faq-item">
+          <div class="faq-item">
             <p class="faq-q">¿Qué incluye el plan gratuito?</p>
-            <p class="faq-a">La carta completa de 10 cafés, el mapa de orígenes, el glosario y el quiz. Todo lo educativo siempre es libre.</p>
+            <p class="faq-a">La carta completa de 10 cafés, el glosario y el quiz. Todo lo educativo siempre es libre.</p>
           </div>
-          <div v-reveal class="faq-item">
+          <div class="faq-item">
             <p class="faq-q">¿Cómo pago el plan Entendido?</p>
             <p class="faq-a">Por ahora el pago está en desarrollo. Podés anotarte en la lista de espera y te avisamos cuando esté disponible.</p>
           </div>
-          <div v-reveal class="faq-item">
+          <div class="faq-item">
             <p class="faq-q">¿Mis datos están seguros?</p>
             <p class="faq-a">Usamos Supabase, que cumple con los estándares más altos de seguridad. Tu información no se comparte con terceros.</p>
           </div>

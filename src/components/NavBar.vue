@@ -28,7 +28,6 @@ function closeAll() {
 // ── "Explorar": contenido educativo sobre café ────────
 const secciones = [
   { label: 'La carta',         to: '/carta',    desc: 'Los 10 tipos de café' },
-  { label: 'Mapa de orígenes', to: '/mapa',     desc: 'De dónde viene tu café' },
   { label: 'Glosario',         to: '/glosario', desc: '20 términos clave del especialidad' },
   { label: 'Chat',             to: '/chat',     desc: 'Comunidad en tiempo real' },
   { label: 'Reseñas',          to: '/resenas',         desc: 'Lo que opinan los cafeteros' },
@@ -78,8 +77,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
           </svg>
         </button>
 
-        <Transition name="drop">
-          <div v-if="dropOpen" class="dropdown">
+        <div v-if="dropOpen" class="dropdown">
             <RouterLink
               v-for="sec in secciones"
               :key="sec.to"
@@ -91,7 +89,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
               <span class="drop-desc">{{ sec.desc }}</span>
             </RouterLink>
           </div>
-        </Transition>
       </div>
 
       <!-- Dropdown "Nosotros" -->
@@ -106,8 +103,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
             <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/>
           </svg>
         </button>
-        <Transition name="drop">
-          <div v-if="nosotrosOpen" class="dropdown">
+        <div v-if="nosotrosOpen" class="dropdown">
             <RouterLink
               v-for="sec in nosotros"
               :key="sec.to"
@@ -119,8 +115,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
               <span class="drop-desc">{{ sec.desc }}</span>
             </RouterLink>
           </div>
-        </Transition>
-      </div>
+        </div>
 
       <RouterLink to="/cafeteros" class="nav-link" @click="closeAll">Cafeteros</RouterLink>
 
@@ -148,8 +143,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
           {{ inicial() }}
         </button>
 
-        <Transition name="drop">
-          <div v-if="userDropOpen" class="user-dropdown">
+        <div v-if="userDropOpen" class="user-dropdown">
             <RouterLink
               :to="`/perfil/${auth.user.id}`"
               class="udrop-item"
@@ -164,8 +158,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
               Cerrar sesión
             </button>
           </div>
-        </Transition>
-      </div>
+        </div>
 
       <!-- No logueado → un solo botón "Acceder" -->
       <template v-else>
@@ -181,8 +174,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   </nav>
 
   <!-- Menú mobile -->
-  <Transition name="slide-down">
-    <div v-if="mobileOpen" class="mobile-menu">
+  <div v-if="mobileOpen" class="mobile-menu">
       <RouterLink
         v-for="sec in seccionesMovil"
         :key="sec.to"
@@ -205,7 +197,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
         </template>
       </div>
     </div>
-  </Transition>
 </template>
 
 <style scoped>
@@ -215,7 +206,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   display: flex; align-items: center;
   padding: 20px 48px; gap: 32px;
   background: linear-gradient(to bottom, rgba(20,8,0,.95) 0%, transparent 100%);
-  transition: background .3s ease, padding .3s ease, box-shadow .3s ease;
 }
 .navbar.scrolled {
   background: rgba(20,8,0,.97);
@@ -239,7 +229,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   background: none; border: none;
   font-size: 11px; font-weight: 500;
   letter-spacing: 2.5px; text-transform: uppercase;
-  color: var(--dim); transition: color .2s;
+  color: var(--dim);
   display: flex; align-items: center; gap: 5px;
 }
 .nav-link:hover,
@@ -253,7 +243,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 /* ── Dropdown Explorar ───────────────────────────────── */
 .dropdown-wrap { position: relative; }
 
-.nav-link--drop .drop-arrow { transition: transform .2s; }
+.nav-link--drop .drop-arrow { }
 .nav-link--drop.open .drop-arrow { transform: rotate(180deg); }
 
 .dropdown {
@@ -277,14 +267,13 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 .drop-item {
   display: flex; flex-direction: column; gap: 2px;
   padding: 10px 14px;
-  transition: background .18s;
 }
 .drop-item:hover { background: rgba(184,130,10,.08); }
 
 .drop-label {
   font-size: 12px; font-weight: 500;
   letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--cream); transition: color .18s;
+  color: var(--cream);
 }
 .drop-item:hover .drop-label { color: var(--gold); }
 
@@ -304,7 +293,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   font-family: 'Playfair Display', serif;
   font-size: 15px; font-style: italic;
   display: flex; align-items: center; justify-content: center;
-  transition: background .2s, border-color .2s;
   flex-shrink: 0;
 }
 .user-avatar:hover {
@@ -335,7 +323,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   padding: 10px 14px; text-align: left;
   background: none; border: none;
   font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--mid); transition: background .18s, color .18s;
+  color: var(--mid);
 }
 .udrop-item:hover { background: rgba(184,130,10,.08); color: var(--cream); }
 .udrop-item--salir { color: rgba(250,247,240,.3); }
@@ -346,7 +334,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   font-size: 10px; letter-spacing: 2px;
   border: 1px solid rgba(184,130,10,.35);
   color: rgba(184,130,10,.8); padding: 7px 14px;
-  transition: background .2s, color .2s, border-color .2s;
 }
 .nav-link--planes:hover,
 .nav-link--planes.router-link-active {
@@ -359,7 +346,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid rgba(184,130,10,.5);
   color: var(--gold); background: transparent;
-  padding: 8px 18px; transition: background .2s, color .2s;
+  padding: 8px 18px;
 }
 .btn-acceder:hover { background: var(--gold); color: var(--brown); }
 
@@ -373,7 +360,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 .hamburger span {
   width: 22px; height: 1.5px;
   background: var(--dim); display: block;
-  transition: background .2s;
 }
 .hamburger:hover span { background: var(--cream); }
 
@@ -390,25 +376,12 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   font-size: 14px; font-weight: 300; letter-spacing: 1px;
   color: var(--mid); padding: 10px 0;
   border-bottom: 1px solid var(--line);
-  transition: color .2s;
 }
 .mob-link:hover { color: var(--cream); }
 .mob-link--gold  { color: var(--gold) !important; }
 .mob-link--quiz  { color: rgba(184,130,10,.75) !important; }
 .mob-auth { margin-top: 8px; }
 
-/* ── Transiciones ────────────────────────────────────── */
-.drop-enter-active, .drop-leave-active {
-  transition: opacity .18s ease, transform .18s ease;
-}
-.drop-enter-from { opacity: 0; transform: translateY(-6px); }
-.drop-leave-to   { opacity: 0; transform: translateY(-6px); }
-
-.slide-down-enter-active, .slide-down-leave-active {
-  transition: opacity .22s ease, transform .22s ease;
-}
-.slide-down-enter-from { opacity: 0; transform: translateY(-10px); }
-.slide-down-leave-to   { opacity: 0; transform: translateY(-10px); }
 
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 900px) {

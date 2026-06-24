@@ -1,24 +1,24 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useAuthStore } from './stores/auth'
-import NavBar    from './components/NavBar.vue'
-import AuthModal from './components/AuthModal.vue'
-import QuizModal from './components/QuizModal.vue'
+  import { ref, onMounted } from 'vue'
+  import { useAuthStore } from './stores/auth'
+  import NavBar    from './components/NavBar.vue'
+  import AuthModal from './components/AuthModal.vue'
+  import QuizModal from './components/QuizModal.vue'
 
-// ── Auth ─────────────────────────────────────────────
-const auth     = useAuthStore()
-const showAuth = ref(false)
-const authMode = ref('login')   // 'login' | 'register'
+  // authentication
+  const auth     = useAuthStore()
+  const showAuth = ref(false)
+  const authMode = ref('login')
 
-function openAuth(mode = 'login') {
-  authMode.value = mode
-  showAuth.value  = true
-}
+  function openAuth(mode = 'login') {
+    authMode.value = mode
+    showAuth.value  = true
+  }
 
-// ── Quiz (modal global, accesible desde NavBar y páginas) ──
-const quizAbierto = ref(false)
+  // quiz
+  const quizAbierto = ref(false)
 
-onMounted(() => auth.init())
+  onMounted(() => auth.init())
 </script>
 
 <template>
@@ -27,7 +27,7 @@ onMounted(() => auth.init())
     @open-quiz="quizAbierto = true"
   />
 
-  <!-- v-slot permite que las páginas emitan 'open-auth' y 'open-quiz' -->
+  <!-- v-slot -->
   <RouterView v-slot="{ Component }">
     <component
       :is="Component"
@@ -67,7 +67,6 @@ onMounted(() => auth.init())
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(0,0,0,.45);
-  transition: transform .2s, box-shadow .2s;
 }
 .quiz-fab:hover {
   transform: scale(1.1);
@@ -76,13 +75,11 @@ onMounted(() => auth.init())
 .fab-logo {
   width: 26px; height: 26px; object-fit: contain;
   position: absolute;
-  transition: opacity .2s;
 }
 .fab-star {
   font-size: 22px; color: var(--brown);
   position: absolute;
   opacity: 0;
-  transition: opacity .2s;
 }
 .quiz-fab:hover .fab-logo { opacity: 0; }
 .quiz-fab:hover .fab-star { opacity: 1; }

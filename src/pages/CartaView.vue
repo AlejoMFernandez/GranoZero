@@ -21,15 +21,15 @@ const cafesVisibles = computed(() =>
   <div class="carta-page">
 
     <header class="carta-header section">
-      <span v-reveal class="eyebrow">La carta completa</span>
-      <h1 v-reveal class="sec-title">Cada café, una historia.</h1>
-      <p v-reveal class="sec-sub">
+      <span class="eyebrow">La carta completa</span>
+      <h1 class="sec-title">Cada café, una historia.</h1>
+      <p class="sec-sub">
         Los diez tipos de café — tocá cualquiera para ver todos los detalles.<br>
         Guardá los que te gustan con ♥ para encontrarlos rápido.
       </p>
 
       <!-- Filtros -->
-      <div v-reveal class="carta-filtros">
+      <div class="carta-filtros">
         <button
           class="filtro-btn"
           :class="{ activo: !soloFavoritos }"
@@ -48,7 +48,6 @@ const cafesVisibles = computed(() =>
     </header>
 
     <!-- Grid de cafés -->
-    <Transition name="fade" mode="out-in">
       <div v-if="cafesVisibles.length > 0" :key="soloFavoritos ? 'fav' : 'all'" class="carta-grid">
         <CafeCard
           v-for="cafe in cafesVisibles"
@@ -56,7 +55,7 @@ const cafesVisibles = computed(() =>
           :cafe="cafe"
           :mostrar-favorito="true"
           :es-favorito="esFavorito(cafe.id)"
-          v-reveal
+         
           @select="selectedCafe = $event"
           @toggle-favorito="toggle"
         />
@@ -66,7 +65,6 @@ const cafesVisibles = computed(() =>
       <div v-else key="vacio" class="carta-vacia">
         <p>Todavía no tenés favoritos.<br>Tocá ♡ en cualquier café para agregarlo.</p>
       </div>
-    </Transition>
 
   </div>
 
@@ -93,7 +91,6 @@ const cafesVisibles = computed(() =>
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid var(--line); color: var(--dim);
   background: transparent; padding: 8px 16px;
-  transition: border-color .2s, color .2s, background .2s;
 }
 .filtro-btn:hover     { border-color: rgba(250,247,240,.3); color: var(--cream); }
 .filtro-btn.activo    { border-color: var(--gold); color: var(--gold); background: rgba(184,130,10,.07); }
@@ -121,9 +118,6 @@ const cafesVisibles = computed(() =>
   font-style: italic;
 }
 
-/* ── Transición ─────────────────────────────────────── */
-.fade-enter-active, .fade-leave-active { transition: opacity .2s ease; }
-.fade-enter-from, .fade-leave-to       { opacity: 0; }
 
 @media (max-width: 640px) {
   .carta-grid    { grid-template-columns: 1fr; margin: 0; }

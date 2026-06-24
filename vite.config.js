@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     vue(),
 
-    // ── PWA ──────────────────────────────────────────
+    // PWA
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {

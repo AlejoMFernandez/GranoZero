@@ -117,9 +117,9 @@ function mapaLink(post) {
 
       <!-- Header -->
       <div class="resenas-header">
-        <span v-reveal class="eyebrow">Comunidad</span>
-        <h1 v-reveal class="sec-title">Las reseñas.</h1>
-        <p v-reveal class="sec-sub">
+        <span class="eyebrow">Comunidad</span>
+        <h1 class="sec-title">Las reseñas.</h1>
+        <p class="sec-sub">
           Lo que los cafeteros opinan. Leé las experiencias de otros y dejá la tuya.
         </p>
 
@@ -145,7 +145,7 @@ function mapaLink(post) {
         <article
           v-for="post in posts"
           :key="post.id"
-          v-reveal
+         
           class="resena-item"
         >
           <div class="resena-meta">
@@ -194,7 +194,6 @@ function mapaLink(post) {
   </div>
 
   <!-- Modal formulario -->
-  <Transition name="modal">
     <div v-if="showForm" class="form-overlay" @click.self="cerrarForm">
       <div class="form-modal">
 
@@ -245,7 +244,6 @@ function mapaLink(post) {
 
       </div>
     </div>
-  </Transition>
 
   <SiteFooter />
 </template>
@@ -268,7 +266,6 @@ function mapaLink(post) {
   color: var(--gold);
   border: 1px solid rgba(184,130,10,.45);
   padding: 10px 18px;
-  transition: background .2s, border-color .2s;
 }
 .link-reco:hover {
   background: rgba(184,130,10,.1);
@@ -280,7 +277,6 @@ function mapaLink(post) {
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
   background: var(--gold); color: var(--brown);
   border: none; padding: 10px 20px;
-  transition: opacity .2s;
 }
 .btn-nueva:hover { opacity: .85; }
 .btn-nueva--sec {
@@ -301,7 +297,6 @@ function mapaLink(post) {
 .resena-item {
   border: 1px solid var(--line);
   padding: 28px 26px;
-  transition: background .2s;
 }
 .resena-item:hover { background: rgba(184,130,10,.03); }
 
@@ -348,7 +343,6 @@ function mapaLink(post) {
   font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
   color: var(--dim); cursor: pointer; list-style: none;
   border: 1px solid var(--line); padding: 7px 14px;
-  transition: border-color .2s, color .2s;
 }
 .resena-mapa-sum:hover { color: var(--cream); border-color: rgba(250,247,240,.25); }
 details[open] .resena-mapa-sum { color: var(--gold); border-color: rgba(184,130,10,.4); }
@@ -360,7 +354,7 @@ details[open] .resena-mapa-sum { color: var(--gold); border-color: rgba(184,130,
   display: inline-block; margin-top: 10px;
   font-family: 'Space Mono', monospace;
   font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--gold); transition: opacity .2s;
+  color: var(--gold);
 }
 .btn-maps:hover { opacity: .7; }
 
@@ -389,7 +383,7 @@ details[open] .resena-mapa-sum { color: var(--gold); border-color: rgba(184,130,
 .form-cerrar {
   background: none; border: none;
   font-size: 16px; color: var(--dim);
-  transition: color .2s; line-height: 1;
+  line-height: 1;
 }
 .form-cerrar:hover { color: var(--cream); }
 
@@ -419,7 +413,6 @@ details[open] .resena-mapa-sum { color: var(--gold); border-color: rgba(184,130,
   color: var(--cream);
   font-family: 'DM Sans', sans-serif; font-size: 14px;
   padding: 11px 13px; outline: none; resize: vertical;
-  transition: border-color .2s;
 }
 .campo select {
   appearance: none;
@@ -444,7 +437,7 @@ details[open] .resena-mapa-sum { color: var(--gold); border-color: rgba(184,130,
 .btn-quitar {
   background: transparent; border: none;
   color: var(--dim); font-size: 11px; padding: 0 2px;
-  flex-shrink: 0; transition: color .2s;
+  flex-shrink: 0;
 }
 .btn-quitar:hover { color: var(--cream); }
 
@@ -453,14 +446,10 @@ details[open] .resena-mapa-sum { color: var(--gold); border-color: rgba(184,130,
   font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
   background: var(--gold); color: var(--brown);
   border: none; padding: 13px 20px;
-  transition: opacity .2s; align-self: flex-start;
+  align-self: flex-start;
 }
 .btn-publicar:disabled { opacity: .5; }
 .btn-publicar:not(:disabled):hover { opacity: .85; }
-
-/* ── Transición modal ───────────────────────────────── */
-.modal-enter-active, .modal-leave-active { transition: opacity .22s ease; }
-.modal-enter-from, .modal-leave-to       { opacity: 0; }
 
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 640px) {

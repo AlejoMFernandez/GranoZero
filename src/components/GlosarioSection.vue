@@ -22,14 +22,14 @@ const preview = [
   <section id="glosario" class="section glosario-section">
 
     <div class="glosario-header">
-      <span v-reveal class="eyebrow">Glosario</span>
-      <h2 v-reveal class="sec-title">Las palabras<br>del café.</h2>
-      <p v-reveal class="sec-sub">
+      <span class="eyebrow">Glosario</span>
+      <h2 class="sec-title">Las palabras<br>del café.</h2>
+      <p class="sec-sub">
         Todo lo que necesitás saber para entender qué tenés en la taza — sin vueltas.
       </p>
     </div>
 
-    <div v-reveal class="glosario-sep">
+    <div class="glosario-sep">
       <BeanSeparator />
     </div>
 
@@ -38,7 +38,7 @@ const preview = [
       <div
         v-for="item in preview"
         :key="item.t"
-        v-reveal
+       
         class="termino"
       >
         <img src="/logofinal.png" class="viñeta-logo" aria-hidden="true" alt="" />
@@ -50,7 +50,7 @@ const preview = [
     </div>
 
     <!-- Link al glosario completo -->
-    <div v-reveal class="glosario-cta">
+    <div class="glosario-cta">
       <RouterLink to="/glosario" class="btn">
         Ver glosario completo →
       </RouterLink>
@@ -77,7 +77,6 @@ const preview = [
   display: flex; align-items: flex-start; gap: 16px;
   padding: 26px 24px;
   border-right: 1px solid var(--line);
-  transition: background .22s;
 }
 .termino:last-child { border-right: none; }
 .termino:hover { background: rgba(184,130,10,.03); }

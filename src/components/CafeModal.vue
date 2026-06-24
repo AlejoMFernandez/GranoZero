@@ -24,8 +24,7 @@ watch(() => props.cafe, val => {
 
 <template>
   <Teleport to="body">
-    <Transition name="modal">
-      <div v-if="cafe" class="overlay" @click.self="emit('close')">
+    <div v-if="cafe" class="overlay" @click.self="emit('close')">
         <div class="modal" role="dialog" :aria-label="cafe.name">
 
           <!-- Header -->
@@ -109,8 +108,7 @@ watch(() => props.cafe, val => {
           </div>
 
         </div>
-      </div>
-    </Transition>
+    </div>
   </Teleport>
 </template>
 
@@ -159,7 +157,6 @@ watch(() => props.cafe, val => {
 .close-btn {
   background: transparent; border: none;
   color: var(--dim); padding: 4px;
-  transition: color .2s;
 }
 .close-btn:hover { color: var(--cream); }
 
@@ -237,7 +234,6 @@ watch(() => props.cafe, val => {
 .bar-fill {
   height: 100%; background: var(--gold);
   border-radius: 1px;
-  transition: width .6s cubic-bezier(.25,.46,.45,.94);
 }
 .flavor-val {
   font-family: 'Space Mono', monospace;
@@ -273,23 +269,11 @@ watch(() => props.cafe, val => {
   color: rgba(250,247,240,.5); line-height: 1.65;
 }
 
-/* ── TRANSICIÓN ───────────────────────────────────────── */
-.modal-enter-active { transition: opacity .3s ease; }
-.modal-leave-active { transition: opacity .25s ease; }
-.modal-enter-active .modal { transition: transform .35s cubic-bezier(.25,.46,.45,.94), opacity .35s ease; }
-.modal-leave-active .modal  { transition: transform .25s ease, opacity .25s ease; }
-.modal-enter-from            { opacity: 0; }
-.modal-leave-to              { opacity: 0; }
-.modal-enter-from .modal    { transform: translateY(28px); opacity: 0; }
-.modal-leave-to   .modal    { transform: translateY(12px); opacity: 0; }
-
 /* ── MOBILE ───────────────────────────────────────────── */
 @media (max-width: 640px) {
   .overlay  { padding: 0; align-items: flex-end; }
   .modal    { max-height: 92vh; padding: 32px 24px; max-width: 100%; border-bottom: none; }
   .modal-name { font-size: 38px; }
   .specs-grid { grid-template-columns: repeat(2, 1fr); }
-  .modal-enter-from .modal { transform: translateY(100%); }
-  .modal-leave-to   .modal { transform: translateY(100%); }
 }
 </style>

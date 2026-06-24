@@ -2,7 +2,7 @@
   <section class="evento-sec">
 
     <!-- Foto grande con overlay -->
-    <div v-reveal class="evento-foto-wrap">
+    <div class="evento-foto-wrap">
       <img src="/evento/espacio.png" alt="Primera Cata GranoZero" class="evento-foto" />
       <div class="evento-overlay"></div>
 

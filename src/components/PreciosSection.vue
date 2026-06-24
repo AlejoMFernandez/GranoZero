@@ -16,7 +16,6 @@ const planes = [
     items: [
       { texto: 'Carta completa de cafés',       incluido: true  },
       { texto: 'Quiz sensorial',                incluido: true  },
-      { texto: 'Mapa de orígenes',              incluido: true  },
       { texto: 'Glosario de términos',          incluido: true  },
       { texto: 'Reseñas y chat',                incluido: false },
       { texto: 'Favoritos guardados',           incluido: false },
@@ -84,9 +83,9 @@ function clicarPlan(plan) {
 
     <!-- Header -->
     <div class="precios-header">
-      <span v-reveal class="eyebrow">Planes</span>
-      <h2 v-reveal class="sec-title">Empezá gratis.<br>Profundizá cuando quieras.</h2>
-      <p v-reveal class="sec-sub">
+      <span class="eyebrow">Planes</span>
+      <h2 class="sec-title">Empezá gratis.<br>Profundizá cuando quieras.</h2>
+      <p class="sec-sub">
         La información siempre es libre. Las herramientas para ir más lejos son para los que se toman el café en serio.
       </p>
     </div>
@@ -96,7 +95,7 @@ function clicarPlan(plan) {
       <div
         v-for="plan in planes"
         :key="plan.id"
-        v-reveal
+       
         class="plan"
         :class="{ destacado: plan.destacado }"
       >
@@ -146,8 +145,7 @@ function clicarPlan(plan) {
 
   <!-- Popup "Próximamente" -->
   <Teleport to="body">
-    <Transition name="prox">
-      <div v-if="mostrarProximamente" class="prox-overlay" @click.self="mostrarProximamente = false">
+    <div v-if="mostrarProximamente" class="prox-overlay" @click.self="mostrarProximamente = false">
         <div class="prox-modal">
           <img src="/logofinal.png" class="prox-logo" alt="GranoZero" />
           <h3 class="prox-titulo">Próximamente</h3>
@@ -157,7 +155,6 @@ function clicarPlan(plan) {
           <button class="prox-btn" @click="mostrarProximamente = false">Entendido</button>
         </div>
       </div>
-    </Transition>
   </Teleport>
 </template>
 
@@ -180,7 +177,6 @@ function clicarPlan(plan) {
   background: var(--brown);
   padding: 36px 32px 32px;
   position: relative;
-  transition: background .22s;
 }
 .plan:hover { background: rgba(184,130,10,.04); }
 
@@ -264,7 +260,7 @@ function clicarPlan(plan) {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid rgba(250,247,240,.18);
   color: var(--dim); background: transparent;
-  padding: 13px; transition: border-color .2s, color .2s;
+  padding: 13px;
 }
 .plan-cta:hover {
   border-color: rgba(250,247,240,.45);
@@ -324,11 +320,7 @@ function clicarPlan(plan) {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   background: var(--gold); color: var(--brown);
   border: none; padding: 13px 32px;
-  transition: opacity .2s;
 }
 .prox-btn:hover { opacity: .85; }
 
-/* Transición del popup */
-.prox-enter-active, .prox-leave-active { transition: opacity .2s ease; }
-.prox-enter-from, .prox-leave-to       { opacity: 0; }
 </style>

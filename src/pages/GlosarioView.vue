@@ -55,15 +55,15 @@ const terminosFiltrados = computed(() => {
   <div class="glosario-page">
 
     <header class="section glosario-header">
-      <span v-reveal class="eyebrow">Glosario completo</span>
-      <h1 v-reveal class="sec-title">Las palabras<br>del café.</h1>
-      <p v-reveal class="sec-sub">
+      <span class="eyebrow">Glosario completo</span>
+      <h1 class="sec-title">Las palabras<br>del café.</h1>
+      <p class="sec-sub">
         Todo lo que necesitás saber para entender qué tenés en la taza — sin vueltas.
       </p>
-      <div v-reveal class="sep-wrap"><BeanSeparator /></div>
+      <div class="sep-wrap"><BeanSeparator /></div>
 
       <!-- Buscador -->
-      <div v-reveal class="buscador-wrap">
+      <div class="buscador-wrap">
         <input
           v-model="busqueda"
           class="buscador"
@@ -85,7 +85,7 @@ const terminosFiltrados = computed(() => {
       <div
         v-for="item in terminosFiltrados"
         :key="item.t"
-        v-reveal
+       
         class="termino"
       >
         <span class="termino-nombre">{{ item.t }}</span>
@@ -117,7 +117,6 @@ const terminosFiltrados = computed(() => {
   color: var(--cream);
   font-family: 'DM Sans', sans-serif; font-size: 14px;
   padding: 11px 16px; outline: none;
-  transition: border-color .2s;
 }
 .buscador:focus { border-color: rgba(184,130,10,.4); }
 .buscador::placeholder { color: var(--dim); }
@@ -142,7 +141,6 @@ const terminosFiltrados = computed(() => {
   padding: 28px 26px;
   border-right:  1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  transition: background .22s;
 }
 .termino:hover { background: rgba(184,130,10,.03); }
 /* Quitar borde derecho del último de cada fila */

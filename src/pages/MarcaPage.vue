@@ -3,9 +3,9 @@
 
     <!-- Header -->
     <header class="section marca-header">
-      <span v-reveal class="eyebrow">Identidad de marca</span>
-      <h1 v-reveal class="sec-title">La marca.</h1>
-      <p v-reveal class="sec-sub">
+      <span class="eyebrow">Identidad de marca</span>
+      <h1 class="sec-title">La marca.</h1>
+      <p class="sec-sub">
         Cómo GranoZero aparece en el mundo — desde los objetos físicos
         hasta los medios digitales.
       </p>
@@ -13,21 +13,21 @@
 
     <!-- Universo visual: el sistema detrás de la marca -->
     <section class="section universo-sec" style="padding-top:0">
-      <span v-reveal class="eyebrow">Universo visual</span>
-      <h2 v-reveal class="bloque-titulo">El sistema detrás de la marca.</h2>
-      <p v-reveal class="sec-sub" style="margin-bottom: 44px">
+      <span class="eyebrow">Universo visual</span>
+      <h2 class="bloque-titulo">El sistema detrás de la marca.</h2>
+      <p class="sec-sub" style="margin-bottom: 44px">
         Antes de los objetos, un lenguaje: el grano se repite, se sella,
         se mide y separa el contenido — en cualquier soporte, con o sin el logo.
       </p>
 
       <!-- 01 · Patrones -->
-      <div v-reveal class="universo-bloque">
+      <div class="universo-bloque">
         <h3 class="universo-sub">01 · Patrones</h3>
         <div class="patron-swatch bean-pattern"></div>
       </div>
 
       <!-- 02 · Sistema de sellos -->
-      <div v-reveal class="universo-bloque">
+      <div class="universo-bloque">
         <h3 class="universo-sub">02 · Sistema de sellos</h3>
         <div class="sellos-fila">
           <BeanBadge label="Single Origin"   variant="dark"    />
@@ -38,7 +38,7 @@
       </div>
 
       <!-- 03 · Ornamentos y separadores -->
-      <div v-reveal class="universo-bloque">
+      <div class="universo-bloque">
         <h3 class="universo-sub">03 · Ornamentos y separadores</h3>
         <div class="ornamento-niveles">
           <div>
@@ -60,7 +60,7 @@
       </div>
 
       <!-- 04 · Escala de intensidad -->
-      <div v-reveal class="universo-bloque">
+      <div class="universo-bloque">
         <h3 class="universo-sub">04 · Escala de intensidad</h3>
         <div class="escala-demo">
           <div class="escala-fila"><span class="escala-fila-label">Espresso</span> <IntensityScale :value="9" /></div>
@@ -72,9 +72,9 @@
 
     <!-- Aplicaciones gráficas -->
     <section class="section" style="padding-top:0">
-      <span v-reveal class="eyebrow">Aplicaciones gráficas</span>
-      <h2 v-reveal class="bloque-titulo">Objetos de la marca</h2>
-      <div v-reveal class="grid-4">
+      <span class="eyebrow">Aplicaciones gráficas</span>
+      <h2 class="bloque-titulo">Objetos de la marca</h2>
+      <div class="grid-4">
         <div class="foto-item">
           <img src="/marca/taza.png"     alt="Taza GranoZero" />
           <span class="foto-label">Taza</span>
@@ -96,9 +96,9 @@
 
     <!-- Comunicación digital -->
     <section class="section">
-      <span v-reveal class="eyebrow">Comunicación digital</span>
-      <h2 v-reveal class="bloque-titulo">Redes sociales</h2>
-      <div v-reveal class="grid-3">
+      <span class="eyebrow">Comunicación digital</span>
+      <h2 class="bloque-titulo">Redes sociales</h2>
+      <div class="grid-3">
         <div class="foto-item">
           <img src="/comunicacion/banner.png" alt="Banner GranoZero" />
           <span class="foto-label">Banner web</span>
@@ -116,9 +116,9 @@
 
     <!-- App digital -->
     <section class="section">
-      <span v-reveal class="eyebrow">Plataforma</span>
-      <h2 v-reveal class="bloque-titulo">Aplicación digital</h2>
-      <div v-reveal class="grid-3">
+      <span class="eyebrow">Plataforma</span>
+      <h2 class="bloque-titulo">Aplicación digital</h2>
+      <div class="grid-3">
         <div class="foto-item foto-item--full">
           <img src="/digital/desktop.png" alt="App desktop GranoZero" />
           <span class="foto-label">Desktop</span>
@@ -210,9 +210,7 @@ import IntensityScale from '../components/IntensityScale.vue'
   width: 100%; display: block;
   object-fit: cover;
   border: 1px solid var(--line);
-  transition: transform .4s ease;
 }
-.foto-item:hover img { transform: scale(1.02); }
 
 .foto-label {
   font-family: 'Space Mono', monospace;

@@ -1,25 +1,21 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { onMounted, onUnmounted } from 'vue'
+import { ref, watch } from 'vue'
 import { cafes } from '../data/cafes.js'
 import BeanIcon from './BeanIcon.vue'
-import { useAuthStore } from '../stores/auth'
-import { updateUserProfile } from '../services/profile'
-
-const auth = useAuthStore()
 
 const props = defineProps({ show: { type: Boolean, default: false } })
 const emit  = defineEmits(['close'])
 
-// Cerrar con Escape
-function onKey(e) { if (e.key === 'Escape') emit('close') }
-onMounted(()  => document.addEventListener('keydown', onKey))
-onUnmounted(() => document.removeEventListener('keydown', onKey))
-
 // Reiniciar al abrir
 watch(() => props.show, (v) => { if (v) reiniciar() })
 
-// ── Preguntas ──────────────────────────────────────────
+/* 
+A FUTURO:
+Hacer logica dependiendo de los resultados del usuario, para que el resultado del quiz sea distinto según lo que haya respondido el user.
+Por ahora el resultado es fijo
+*/
+
+// preguntas y resultados
 const PREGUNTAS = [
   {
     texto: '¿Qué buscás en una buena taza?',
@@ -59,85 +55,41 @@ const PREGUNTAS = [
   },
 ]
 
-const MAPA = { A: 'espresso', B: 'cappuccino', C: 'latte', D: 'americano' }
-const CAFE_EMPATE = 'cortado'
-
-const FRASES = {
-  A: 'Sos la autenticidad. Sin filtros, sin adornos. Todo está ahí desde el primer sorbo.',
-  B: 'Sos el equilibrio. La forma hace al fondo. El ritual y el resultado no son cosas distintas.',
-  C: 'Sos la calidez. El café como excusa para quedarse un poco más.',
-  D: 'Sos la curiosidad. Encontrás profundidad donde otros solo ven un vaso largo.',
-  empate: 'Sos el punto exacto. Ni demasiado ni poco — la precisión como filosofía.',
+// resultado siempre es el mismo
+const RESULTADO_FIJO = {
+  cafe:  cafes.find(c => c.id === 'cortado'),
+  frase: 'Sos el equilibrio. Ni demasiado ni poco — la precisión como filosofía.',
 }
 
-// ── Estado ─────────────────────────────────────────────
-const paso       = ref(0)
-const respuestas = ref([])
-const elegida    = ref(null)
-const resultado  = ref(null)
-
-const progreso = computed(() => (paso.value / PREGUNTAS.length) * 100)
+// estados
+const paso      = ref(0)
+const elegida   = ref(null)
+const resultado = ref(null)
 
 function elegir(letra) {
   if (elegida.value) return
   elegida.value = letra
-  respuestas.value.push(letra)
   setTimeout(() => {
     elegida.value = null
     if (paso.value < PREGUNTAS.length - 1) {
       paso.value++
     } else {
-      calcularResultado()
+      resultado.value = RESULTADO_FIJO
       paso.value = PREGUNTAS.length
     }
   }, 450)
 }
 
-function calcularResultado() {
-  const votos = { A: 0, B: 0, C: 0, D: 0 }
-  respuestas.value.forEach(r => votos[r]++)
-  const max      = Math.max(...Object.values(votos))
-  const ganadoras = Object.keys(votos).filter(k => votos[k] === max)
-  const letra    = ganadoras.length > 1 ? null : ganadoras[0]
-  const cafeId   = letra ? MAPA[letra] : CAFE_EMPATE
-  resultado.value = {
-    cafe:  cafes.find(c => c.id === cafeId),
-    frase: letra ? FRASES[letra] : FRASES.empate,
-  }
-}
-
 function reiniciar() {
-  paso.value         = 0
-  respuestas.value   = []
-  elegida.value      = null
-  resultado.value    = null
-  guardado.value     = false
-}
-
-// ── Guardar en perfil ──────────────────────────────────
-const guardado     = ref(false)
-const guardando    = ref(false)
-
-async function guardarEnPerfil() {
-  if (!auth.user.id || !resultado.value) return
-  guardando.value = true
-  try {
-    await updateUserProfile({
-      userId:      auth.user.id,
-      profileData: { favorite_preparation: resultado.value.cafe.id },
-    })
-    guardado.value = true
-  } catch (e) {
-    console.error(e)
-  }
-  guardando.value = false
+  paso.value      = 0
+  elegida.value   = null
+  resultado.value = null
 }
 </script>
 
 <template>
   <Teleport to="body">
-    <Transition name="modal">
-      <div v-if="show" class="overlay" @click.self="$emit('close')">
+    <div v-if="show" class="overlay" @click.self="$emit('close')">
         <div class="quiz-modal" role="dialog" aria-modal="true">
 
           <!-- Header del modal -->
@@ -149,17 +101,7 @@ async function guardarEnPerfil() {
             <button class="btn-cerrar" @click="$emit('close')" aria-label="Cerrar">✕</button>
           </div>
 
-          <!-- Barra de progreso (solo durante las preguntas) -->
-          <div v-if="paso < PREGUNTAS.length" class="barra-wrap">
-            <div class="barra-fondo">
-              <div class="barra-relleno" :style="{ width: progreso + '%' }"></div>
-            </div>
-            <span class="barra-texto">{{ paso + 1 }} / {{ PREGUNTAS.length }}</span>
-          </div>
-
           <!-- Contenido (pregunta o resultado) -->
-          <Transition name="slide" mode="out-in">
-
             <!-- PREGUNTA -->
             <div v-if="paso < PREGUNTAS.length" :key="'p' + paso" class="pregunta">
               <p class="pregunta-texto">{{ PREGUNTAS[paso].texto }}</p>
@@ -198,39 +140,17 @@ async function guardarEnPerfil() {
                 </div>
               </div>
 
-              <!-- Guardar en perfil -->
-              <div class="resultado-guardar">
-                <template v-if="auth.user.id">
-                  <button
-                    v-if="!guardado"
-                    class="btn-guardar-perfil"
-                    :disabled="guardando"
-                    @click="guardarEnPerfil"
-                  >
-                    {{ guardando ? 'Guardando…' : '♥ Guardar como favorito en mi perfil' }}
-                  </button>
-                  <p v-else class="guardado-ok">✓ Guardado en tu perfil</p>
-                </template>
-                <p v-else class="guardar-aviso">
-                  Ingresá para guardar este resultado en tu perfil.
-                </p>
-              </div>
-
               <div class="resultado-acciones">
                 <button class="btn-reiniciar" @click="reiniciar">Volver a empezar</button>
                 <button class="btn-cerrar-final" @click="$emit('close')">Cerrar</button>
               </div>
             </div>
-
-          </Transition>
         </div>
       </div>
-    </Transition>
   </Teleport>
 </template>
 
 <style scoped>
-/* ── Overlay ────────────────────────────────────────── */
 .overlay {
   position: fixed; inset: 0; z-index: 800;
   background: rgba(0,0,0,.75);
@@ -238,7 +158,6 @@ async function guardarEnPerfil() {
   padding: 24px;
 }
 
-/* ── Modal ──────────────────────────────────────────── */
 .quiz-modal {
   background: #2a1200;
   border: 1px solid rgba(184,130,10,.2);
@@ -248,7 +167,6 @@ async function guardarEnPerfil() {
   padding: 36px 36px 32px;
 }
 
-/* ── Header ─────────────────────────────────────────── */
 .quiz-modal-header {
   display: flex; justify-content: space-between; align-items: flex-start;
   margin-bottom: 28px;
@@ -265,27 +183,10 @@ async function guardarEnPerfil() {
 .btn-cerrar {
   background: none; border: none;
   color: var(--dim); font-size: 14px;
-  padding: 4px; transition: color .2s; flex-shrink: 0;
+  padding: 4px; flex-shrink: 0;
 }
 .btn-cerrar:hover { color: var(--cream); }
 
-/* ── Barra de progreso ─────────────────────────────── */
-.barra-wrap {
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 28px;
-}
-.barra-fondo { flex: 1; height: 2px; background: rgba(250,247,240,.1); }
-.barra-relleno {
-  height: 100%; background: var(--gold);
-  transition: width .4s ease;
-}
-.barra-texto {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px; letter-spacing: 2px; color: var(--dim);
-  white-space: nowrap;
-}
-
-/* ── Pregunta ──────────────────────────────────────── */
 .pregunta-texto {
   font-family: 'Playfair Display', serif;
   font-size: 24px; line-height: 1.3;
@@ -298,7 +199,6 @@ async function guardarEnPerfil() {
   border: 1px solid rgba(250,247,240,.1);
   background: transparent; text-align: left;
   color: var(--mid); font-size: 14px; font-weight: 300;
-  transition: border-color .2s, color .2s, background .2s, opacity .2s;
 }
 .opcion:hover {
   border-color: rgba(184,130,10,.5);
@@ -317,7 +217,6 @@ async function guardarEnPerfil() {
   min-width: 14px; flex-shrink: 0;
 }
 
-/* ── Resultado ─────────────────────────────────────── */
 .resultado { display: flex; flex-direction: column; gap: 18px; }
 .resultado-top { display: flex; align-items: center; gap: 18px; }
 .resultado-etiqueta {
@@ -352,58 +251,20 @@ async function guardarEnPerfil() {
   color: var(--dim); border: 1px solid var(--line); padding: 3px 8px;
 }
 
-/* ── Guardar en perfil ─────────────────────────────── */
-.resultado-guardar {
-  border: 1px solid var(--line);
-  padding: 16px 18px;
-  background: rgba(184,130,10,.04);
-}
-.btn-guardar-perfil {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--gold); background: none; border: none;
-  transition: opacity .2s;
-}
-.btn-guardar-perfil:hover:not(:disabled) { opacity: .75; }
-.btn-guardar-perfil:disabled { opacity: .5; }
-.guardado-ok {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--gold);
-}
-.guardar-aviso {
-  font-size: 12px; font-weight: 300; color: var(--dim);
-  font-style: italic;
-}
-
-/* ── Acciones del resultado ────────────────────────── */
 .resultado-acciones { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn-reiniciar {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid rgba(250,247,240,.18); color: var(--dim);
   background: transparent; padding: 11px 22px;
-  transition: border-color .2s, color .2s;
 }
 .btn-reiniciar:hover { border-color: rgba(250,247,240,.45); color: var(--mid); }
 .btn-cerrar-final {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
   border: 1px solid rgba(184,130,10,.4); color: var(--gold);
   background: transparent; padding: 11px 22px;
-  transition: background .2s, color .2s;
 }
 .btn-cerrar-final:hover { background: var(--gold); color: var(--brown); }
 
-/* ── Transiciones ──────────────────────────────────── */
-.modal-enter-active, .modal-leave-active { transition: opacity .25s ease; }
-.modal-enter-from, .modal-leave-to       { opacity: 0; }
-
-.slide-enter-active, .slide-leave-active {
-  transition: opacity .25s ease, transform .25s ease;
-}
-.slide-enter-from { opacity: 0; transform: translateY(10px); }
-.slide-leave-to   { opacity: 0; transform: translateY(-8px); }
-
-/* ── Mobile ─────────────────────────────────────────── */
 @media (max-width: 480px) {
   .quiz-modal { padding: 28px 22px 24px; }
   .pregunta-texto { font-size: 20px; }

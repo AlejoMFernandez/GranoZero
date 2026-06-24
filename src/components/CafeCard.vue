@@ -51,7 +51,6 @@ defineEmits(['select', 'toggle-favorito'])
   background: var(--brown);
   padding: 32px 28px;
   position: relative; overflow: hidden;
-  transition: background .22s, border-color .22s;
   border: 1px solid transparent;
 }
 .card:hover {
@@ -70,11 +69,10 @@ defineEmits(['select', 'toggle-favorito'])
   background: none; border: none;
   font-size: 16px;
   color: rgba(250,247,240,.2);
-  transition: color .2s, transform .15s;
   z-index: 2;
   line-height: 1;
 }
-.btn-favorito:hover  { color: var(--gold); transform: scale(1.15); }
+.btn-favorito:hover  { color: var(--gold); }
 .btn-favorito.activo { color: var(--gold); }
 
 .card-tag {
@@ -116,7 +114,7 @@ defineEmits(['select', 'toggle-favorito'])
 .card-cta {
   font-family: 'Space Mono', monospace;
   font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--dim); transition: color .2s;
+  color: var(--dim);
 }
 .card:hover .card-cta { color: var(--gold); }
 </style>

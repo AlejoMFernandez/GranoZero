@@ -10,18 +10,4 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 
-// ── Directiva global: v-reveal (IntersectionObserver scroll reveal) ──
-app.directive('reveal', {
-  mounted(el) {
-    el.classList.add('reveal')
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        el.classList.add('in')
-        obs.disconnect()
-      }
-    }, { threshold: 0.1 })
-    obs.observe(el)
-  },
-})
-
 app.mount('#app')
