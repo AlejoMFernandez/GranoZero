@@ -34,9 +34,9 @@ const perfilesFiltrados = computed(() => {
 
       <!-- Header -->
       <div class="cafeteros-header">
-        <span v-reveal class="eyebrow">Comunidad</span>
-        <h1 v-reveal class="sec-title">Los cafeteros.</h1>
-        <p v-reveal class="sec-sub">
+        <span class="eyebrow">Comunidad</span>
+        <h1 class="sec-title">Los cafeteros.</h1>
+        <p class="sec-sub">
           Las personas que forman parte de GranoZero. Cada uno con su preparación favorita y su forma de entender el café.
         </p>
       </div>
@@ -44,7 +44,7 @@ const perfilesFiltrados = computed(() => {
       <BeanSeparator />
 
       <!-- Buscador -->
-      <div v-reveal class="buscador-wrap">
+      <div class="buscador-wrap">
         <input
           v-model="busqueda"
           class="buscador"
@@ -69,7 +69,7 @@ const perfilesFiltrados = computed(() => {
           v-for="p in perfilesFiltrados"
           :key="p.user_id"
           :to="`/perfil/${p.user_id}`"
-          v-reveal
+         
           class="perfil-card"
         >
           <!-- Avatar -->

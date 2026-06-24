@@ -1,0 +1,11 @@
+Carrera: Diseño y Desarrollo Web
+Materia: Clientes Web Mobile
+Cuatrimestre: 4to cuatrimestre
+Año: 2026
+Turno: Noche Virtual
+Comisión: DWN4AV
+Alumno: Fernandez, Alejo
+Docente: Santiago Gallino
+Carácter de entrega: 1er parcial (TP1)
+
+Nota: Implementé la funcionalidad de perfiles de usuario (vista de perfil y edición de datos propios) aunque quedó fuera de la consigna de esta entrega, ya que ya había cursado la materia el año pasado con usted y contaba con ese conocimiento previo. Lo incluí para aprovechar lo aprendido y sumar complejidad al trabajo.

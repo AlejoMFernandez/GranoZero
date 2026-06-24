@@ -16,7 +16,6 @@ const planes = [
     items: [
       { texto: 'Carta completa de cafés',       incluido: true  },
       { texto: 'Quiz sensorial',                incluido: true  },
-      { texto: 'Mapa de orígenes',              incluido: true  },
       { texto: 'Glosario de términos',          incluido: true  },
       { texto: 'Reseñas y chat',                incluido: false },
       { texto: 'Favoritos guardados',           incluido: false },
@@ -84,9 +83,9 @@ function clicarPlan(plan) {
 
     <!-- Header -->
     <div class="precios-header">
-      <span v-reveal class="eyebrow">Planes</span>
-      <h2 v-reveal class="sec-title">Empezá gratis.<br>Profundizá cuando quieras.</h2>
-      <p v-reveal class="sec-sub">
+      <span class="eyebrow">Planes</span>
+      <h2 class="sec-title">Empezá gratis.<br>Profundizá cuando quieras.</h2>
+      <p class="sec-sub">
         La información siempre es libre. Las herramientas para ir más lejos son para los que se toman el café en serio.
       </p>
     </div>
@@ -96,7 +95,7 @@ function clicarPlan(plan) {
       <div
         v-for="plan in planes"
         :key="plan.id"
-        v-reveal
+       
         class="plan"
         :class="{ destacado: plan.destacado }"
       >
@@ -146,8 +145,7 @@ function clicarPlan(plan) {
 
   <!-- Popup "Próximamente" -->
   <Teleport to="body">
-    <Transition name="prox">
-      <div v-if="mostrarProximamente" class="prox-overlay" @click.self="mostrarProximamente = false">
+    <div v-if="mostrarProximamente" class="prox-overlay" @click.self="mostrarProximamente = false">
         <div class="prox-modal">
           <img src="/logofinal.png" class="prox-logo" alt="GranoZero" />
           <h3 class="prox-titulo">Próximamente</h3>
@@ -157,7 +155,6 @@ function clicarPlan(plan) {
           <button class="prox-btn" @click="mostrarProximamente = false">Entendido</button>
         </div>
       </div>
-    </Transition>
   </Teleport>
 </template>
 
@@ -328,7 +325,4 @@ function clicarPlan(plan) {
 }
 .prox-btn:hover { opacity: .85; }
 
-/* Transición del popup */
-.prox-enter-active, .prox-leave-active { transition: opacity .2s ease; }
-.prox-enter-from, .prox-leave-to       { opacity: 0; }
 </style>

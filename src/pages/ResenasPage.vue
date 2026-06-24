@@ -117,9 +117,9 @@ function mapaLink(post) {
 
       <!-- Header -->
       <div class="resenas-header">
-        <span v-reveal class="eyebrow">Comunidad</span>
-        <h1 v-reveal class="sec-title">Las reseñas.</h1>
-        <p v-reveal class="sec-sub">
+        <span class="eyebrow">Comunidad</span>
+        <h1 class="sec-title">Las reseñas.</h1>
+        <p class="sec-sub">
           Lo que los cafeteros opinan. Leé las experiencias de otros y dejá la tuya.
         </p>
 
@@ -145,7 +145,7 @@ function mapaLink(post) {
         <article
           v-for="post in posts"
           :key="post.id"
-          v-reveal
+         
           class="resena-item"
         >
           <div class="resena-meta">
@@ -194,7 +194,6 @@ function mapaLink(post) {
   </div>
 
   <!-- Modal formulario -->
-  <Transition name="modal">
     <div v-if="showForm" class="form-overlay" @click.self="cerrarForm">
       <div class="form-modal">
 
@@ -245,7 +244,6 @@ function mapaLink(post) {
 
       </div>
     </div>
-  </Transition>
 
   <SiteFooter />
 </template>

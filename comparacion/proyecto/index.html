@@ -1,0 +1,36 @@
+<!doctype html>
+<html class="h-full" lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GranoZero</title>
+  </head>
+  <body class="h-full">
+    <!-- 
+    # Clases dinámicas con valores arbitrarios en Tailwind
+    Va a ocurrir durante el diseño de la web que nos encontremos con valores de estilos que no
+    están en los defaults que trae Tailwind.
+    Dentro de esos casos, vamos a encontrar con situaciones donde el valor que queremos usar
+    solo lo necesitamos usar en un único lugar ("one-off"). Por ejemplo, el formato de la grilla
+    del layout.
+
+    Para este tipo de casos, podemos resolverlos fácilmente usando clases con valores arbitrarios,
+    que siguen el formato:
+      .identificador-[valor]
+
+    Por ejemplo:
+      h-[33px] =>  .h-\[33px\] { height: 33px }
+
+    Importante: si el valor tiene espacios, como no son caracteres válidos de nombre de clase, debemos
+    reemplazarlos con "_".
+
+    Por ejemplo:
+      grid-rows-[60px_1fr_100px] 
+        => .grid-rows-\[60px_1fr_100px\] { grid-template-rows: 60px 1fr 100px }
+    -->
+    <div id="app" class="grid grid-rows-[60px_1fr_100px] h-full"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+

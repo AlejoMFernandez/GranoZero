@@ -1,7 +1,6 @@
 <script setup>
 import HeroSection     from '../components/HeroSection.vue'
 import CafeSection     from '../components/CafeSection.vue'
-import MapaMundi       from '../components/MapaMundi.vue'
 import GlosarioSection from '../components/GlosarioSection.vue'
 import MarcaSection    from '../components/MarcaSection.vue'
 import EventoSection   from '../components/EventoSection.vue'
@@ -18,8 +17,6 @@ defineEmits(['open-auth', 'open-quiz'])
 
   <!-- Contenido educativo primero -->
   <CafeSection />
-  <MapaMundi />
-
   <!-- Identidad y comunidad -->
   <MarcaSection />
   <GlosarioSection />

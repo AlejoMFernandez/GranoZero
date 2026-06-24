@@ -55,15 +55,15 @@ const terminosFiltrados = computed(() => {
   <div class="glosario-page">
 
     <header class="section glosario-header">
-      <span v-reveal class="eyebrow">Glosario completo</span>
-      <h1 v-reveal class="sec-title">Las palabras<br>del café.</h1>
-      <p v-reveal class="sec-sub">
+      <span class="eyebrow">Glosario completo</span>
+      <h1 class="sec-title">Las palabras<br>del café.</h1>
+      <p class="sec-sub">
         Todo lo que necesitás saber para entender qué tenés en la taza — sin vueltas.
       </p>
-      <div v-reveal class="sep-wrap"><BeanSeparator /></div>
+      <div class="sep-wrap"><BeanSeparator /></div>
 
       <!-- Buscador -->
-      <div v-reveal class="buscador-wrap">
+      <div class="buscador-wrap">
         <input
           v-model="busqueda"
           class="buscador"
@@ -85,7 +85,7 @@ const terminosFiltrados = computed(() => {
       <div
         v-for="item in terminosFiltrados"
         :key="item.t"
-        v-reveal
+       
         class="termino"
       >
         <span class="termino-nombre">{{ item.t }}</span>

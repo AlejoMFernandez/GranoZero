@@ -1,24 +1,24 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useAuthStore } from './stores/auth'
-import NavBar    from './components/NavBar.vue'
-import AuthModal from './components/AuthModal.vue'
-import QuizModal from './components/QuizModal.vue'
+  import { ref, onMounted } from 'vue'
+  import { useAuthStore } from './stores/auth'
+  import NavBar    from './components/NavBar.vue'
+  import AuthModal from './components/AuthModal.vue'
+  import QuizModal from './components/QuizModal.vue'
 
-// ── Auth ─────────────────────────────────────────────
-const auth     = useAuthStore()
-const showAuth = ref(false)
-const authMode = ref('login')   // 'login' | 'register'
+  // authentication
+  const auth     = useAuthStore()
+  const showAuth = ref(false)
+  const authMode = ref('login')
 
-function openAuth(mode = 'login') {
-  authMode.value = mode
-  showAuth.value  = true
-}
+  function openAuth(mode = 'login') {
+    authMode.value = mode
+    showAuth.value  = true
+  }
 
-// ── Quiz (modal global, accesible desde NavBar y páginas) ──
-const quizAbierto = ref(false)
+  // quiz
+  const quizAbierto = ref(false)
 
-onMounted(() => auth.init())
+  onMounted(() => auth.init())
 </script>
 
 <template>
@@ -27,7 +27,7 @@ onMounted(() => auth.init())
     @open-quiz="quizAbierto = true"
   />
 
-  <!-- v-slot permite que las páginas emitan 'open-auth' y 'open-quiz' -->
+  <!-- v-slot -->
   <RouterView v-slot="{ Component }">
     <component
       :is="Component"

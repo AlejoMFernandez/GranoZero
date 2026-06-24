@@ -13,10 +13,10 @@
 
         <!-- Info del evento -->
         <div class="evento-info">
-          <span v-reveal class="eyebrow">Próximo evento</span>
-          <h1 v-reveal class="sec-title">Primera Cata.</h1>
+          <span class="eyebrow">Próximo evento</span>
+          <h1 class="sec-title">Primera Cata.</h1>
 
-          <div v-reveal class="evento-detalles">
+          <div class="evento-detalles">
             <div class="detalle">
               <span class="detalle-label">Fecha</span>
               <span class="detalle-val">5 de Julio de 2026</span>
@@ -35,11 +35,11 @@
             </div>
           </div>
 
-          <p v-reveal class="sec-sub" style="margin-top: 28px">
+          <p class="sec-sub" style="margin-top: 28px">
             Una noche para aprender a distinguir orígenes, procesos y perfiles de sabor.
           </p>
 
-          <ul v-reveal class="bean-bullets" style="margin-top: 18px; max-width: 480px">
+          <ul class="bean-bullets" style="margin-top: 18px; max-width: 480px">
             <li>Tres cafés de distintos orígenes, catados en conjunto</li>
             <li>Un barista guía cada cata y explica el proceso</li>
             <li>Para todos los niveles — curiosos y entendidos son bienvenidos</li>
@@ -47,7 +47,7 @@
         </div>
 
         <!-- Imágenes del evento -->
-        <div v-reveal class="evento-fotos">
+        <div class="evento-fotos">
           <img src="/evento/rollup.png"     alt="Rollup Primera Cata"    class="evento-foto" />
           <img src="/evento/invitacion.png" alt="Invitación Primera Cata" class="evento-foto" />
         </div>

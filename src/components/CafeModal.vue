@@ -24,8 +24,7 @@ watch(() => props.cafe, val => {
 
 <template>
   <Teleport to="body">
-    <Transition name="modal">
-      <div v-if="cafe" class="overlay" @click.self="emit('close')">
+    <div v-if="cafe" class="overlay" @click.self="emit('close')">
         <div class="modal" role="dialog" :aria-label="cafe.name">
 
           <!-- Header -->
@@ -109,8 +108,7 @@ watch(() => props.cafe, val => {
           </div>
 
         </div>
-      </div>
-    </Transition>
+    </div>
   </Teleport>
 </template>
 

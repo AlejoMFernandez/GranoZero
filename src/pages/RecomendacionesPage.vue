@@ -73,9 +73,9 @@ function formatFecha(ts) {
 
       <!-- Header -->
       <div class="reco-header">
-        <span v-reveal class="eyebrow">Comunidad</span>
-        <h1 v-reveal class="sec-title">Recomendaciones.</h1>
-        <p v-reveal class="sec-sub">
+        <span class="eyebrow">Comunidad</span>
+        <h1 class="sec-title">Recomendaciones.</h1>
+        <p class="sec-sub">
           Qué tomar y dónde — generado a partir de las reseñas de los cafeteros.
         </p>
         <RouterLink to="/resenas" class="link-resenas">← Ver todas las reseñas</RouterLink>
@@ -93,7 +93,7 @@ function formatFecha(ts) {
         <div
           v-for="lugar in recomendaciones"
           :key="lugar.nombre"
-          v-reveal
+         
           class="lugar-card"
         >
           <!-- Nombre del lugar + link a Maps -->

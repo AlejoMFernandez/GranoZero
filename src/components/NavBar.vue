@@ -28,7 +28,6 @@ function closeAll() {
 // ── "Explorar": contenido educativo sobre café ────────
 const secciones = [
   { label: 'La carta',         to: '/carta',    desc: 'Los 10 tipos de café' },
-  { label: 'Mapa de orígenes', to: '/mapa',     desc: 'De dónde viene tu café' },
   { label: 'Glosario',         to: '/glosario', desc: '20 términos clave del especialidad' },
   { label: 'Chat',             to: '/chat',     desc: 'Comunidad en tiempo real' },
   { label: 'Reseñas',          to: '/resenas',         desc: 'Lo que opinan los cafeteros' },
@@ -78,8 +77,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
           </svg>
         </button>
 
-        <Transition name="drop">
-          <div v-if="dropOpen" class="dropdown">
+        <div v-if="dropOpen" class="dropdown">
             <RouterLink
               v-for="sec in secciones"
               :key="sec.to"
@@ -91,7 +89,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
               <span class="drop-desc">{{ sec.desc }}</span>
             </RouterLink>
           </div>
-        </Transition>
       </div>
 
       <!-- Dropdown "Nosotros" -->
@@ -106,8 +103,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
             <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/>
           </svg>
         </button>
-        <Transition name="drop">
-          <div v-if="nosotrosOpen" class="dropdown">
+        <div v-if="nosotrosOpen" class="dropdown">
             <RouterLink
               v-for="sec in nosotros"
               :key="sec.to"
@@ -119,8 +115,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
               <span class="drop-desc">{{ sec.desc }}</span>
             </RouterLink>
           </div>
-        </Transition>
-      </div>
+        </div>
 
       <RouterLink to="/cafeteros" class="nav-link" @click="closeAll">Cafeteros</RouterLink>
 
@@ -148,8 +143,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
           {{ inicial() }}
         </button>
 
-        <Transition name="drop">
-          <div v-if="userDropOpen" class="user-dropdown">
+        <div v-if="userDropOpen" class="user-dropdown">
             <RouterLink
               :to="`/perfil/${auth.user.id}`"
               class="udrop-item"
@@ -164,8 +158,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
               Cerrar sesión
             </button>
           </div>
-        </Transition>
-      </div>
+        </div>
 
       <!-- No logueado → un solo botón "Acceder" -->
       <template v-else>
@@ -181,8 +174,7 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
   </nav>
 
   <!-- Menú mobile -->
-  <Transition name="slide-down">
-    <div v-if="mobileOpen" class="mobile-menu">
+  <div v-if="mobileOpen" class="mobile-menu">
       <RouterLink
         v-for="sec in seccionesMovil"
         :key="sec.to"
@@ -205,7 +197,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
         </template>
       </div>
     </div>
-  </Transition>
 </template>
 
 <style scoped>
@@ -397,18 +388,6 @@ const inicial = () => (auth.user.username || auth.user.email || '?')[0].toUpperC
 .mob-link--quiz  { color: rgba(184,130,10,.75) !important; }
 .mob-auth { margin-top: 8px; }
 
-/* ── Transiciones ────────────────────────────────────── */
-.drop-enter-active, .drop-leave-active {
-  transition: opacity .18s ease, transform .18s ease;
-}
-.drop-enter-from { opacity: 0; transform: translateY(-6px); }
-.drop-leave-to   { opacity: 0; transform: translateY(-6px); }
-
-.slide-down-enter-active, .slide-down-leave-active {
-  transition: opacity .22s ease, transform .22s ease;
-}
-.slide-down-enter-from { opacity: 0; transform: translateY(-10px); }
-.slide-down-leave-to   { opacity: 0; transform: translateY(-10px); }
 
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 900px) {

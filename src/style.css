@@ -1,4 +1,4 @@
-/* ── VARIABLES ──────────────────────────────────────── */
+/* colores fijos */
 :root {
   --brown:    #3E1C00;
   --gold:     #B8820A;
@@ -10,7 +10,7 @@
   --gold-t:   rgba(184,130,10,.15);
 }
 
-/* ── RESET ──────────────────────────────────────────── */
+/* reseteo de espaciados */
 *, *::before, *::after {
   margin: 0; padding: 0;
   box-sizing: border-box;
@@ -27,16 +27,7 @@ a    { text-decoration: none; color: inherit; }
 img  { display: block; max-width: 100%; }
 button { font-family: inherit; }
 
-
-/* ── SCROLL REVEAL ──────────────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity .65s ease, transform .65s ease;
-}
-.reveal.in { opacity: 1; transform: translateY(0); }
-
-/* ── BOTONES BASE ───────────────────────────────────── */
+/* botones */
 .btn {
   display: inline-block;
   font-size: 11px; font-weight: 500;
@@ -57,7 +48,7 @@ button { font-family: inherit; }
   border-color: rgba(250,247,240,.4);
 }
 
-/* ── TIPOGRAFÍA COMÚN ───────────────────────────────── */
+/* titulos/textos */
 .eyebrow {
   display: block;
   font-family: 'Space Mono', monospace;
@@ -74,19 +65,25 @@ button { font-family: inherit; }
   color: var(--mid); max-width: 480px;
 }
 
-/* ── SECCIONES ──────────────────────────────────────── */
+/* margenes fijos para las seccoines */
 .section { padding: 108px 9vw; }
 
-/* ── UNIVERSO VISUAL: patrón de granos ─────────────────
-   Textura tileable a partir del isotipo, para reforzar la
-   identidad en cualquier fondo sin necesidad del logo completo. */
+/* patrón de granos  */
 .bean-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cellipse cx='14' cy='14' rx='6' ry='9' fill='%23B8820A' fill-opacity='.08' transform='rotate(-20 14 14)'/%3E%3Cellipse cx='42' cy='42' rx='6' ry='9' fill='%23B8820A' fill-opacity='.08' transform='rotate(-20 42 42)'/%3E%3C/svg%3E");
-  background-size: 56px 56px;
+  position: relative;
+}
+.bean-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/logofinal.png');
+  background-repeat: repeat;
+  background-size: 48px 48px; 
+  opacity: 0.06;
+  pointer-events: none;
 }
 
-/* ── UNIVERSO VISUAL: viñetas con grano ────────────────
-   Nivel 03 de ornamentos — listas con el grano como bullet. */
+/* viñetas con grano */
 .bean-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .bean-bullets li {
   position: relative; padding-left: 22px;
@@ -95,20 +92,17 @@ button { font-family: inherit; }
 }
 .bean-bullets li::before {
   content: '';
-  position: absolute; left: 0; top: 5px;
-  width: 7px; height: 10px;
-  border-radius: 50%;
-  background: var(--gold);
+  position: absolute; left: 0; top: 3px;
+  width: 14px; height: 14px;
+  background-image: url('/logofinal.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.7;
 }
 
-/* ── MOBILE ─────────────────────────────────────────── */
+/* celular*/
 @media (max-width: 640px) {
   .section   { padding: 64px 6vw; }
   .sec-title { font-size: 32px; }
   .sec-sub   { font-size: 15px; }
 }
-
-/* ── SCROLLBAR ──────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--brown); }
-::-webkit-scrollbar-thumb { background: var(--caramel); }

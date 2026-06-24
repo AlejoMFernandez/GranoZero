@@ -112,7 +112,6 @@ function formatFecha(ts) {
       </div>
 
       <!-- Formulario de edición -->
-      <Transition name="slide-down">
         <div v-if="editing" class="perfil-edit">
           <div class="perfil-edit-inner">
             <h2 class="edit-titulo">Editar perfil</h2>
@@ -146,7 +145,6 @@ function formatFecha(ts) {
             </div>
           </div>
         </div>
-      </Transition>
 
       <!-- Reseñas del usuario -->
       <div class="perfil-posts">

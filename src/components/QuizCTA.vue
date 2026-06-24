@@ -8,15 +8,15 @@ const emit = defineEmits(['open-quiz'])
     <img src="/logofinal.png" class="quiz-bg-logo" aria-hidden="true" alt="" />
     <div class="quiz-cta-inner">
       <div class="quiz-cta-texto">
-        <span v-reveal class="eyebrow">El quiz</span>
-        <h2 v-reveal class="sec-title">¿Qué café sos?</h2>
-        <p v-reveal class="sec-sub">
+        <span class="eyebrow">El quiz</span>
+        <h2 class="sec-title">¿Qué café sos?</h2>
+        <p class="sec-sub">
           Cuatro preguntas. Una respuesta sobre vos.<br>
           Descubrí el café que refleja tu forma de tomar.
         </p>
       </div>
 
-      <div v-reveal class="quiz-cta-accion">
+      <div class="quiz-cta-accion">
         <button class="btn btn-quiz" @click="$emit('open-quiz')">
           Descubrir mi café
         </button>

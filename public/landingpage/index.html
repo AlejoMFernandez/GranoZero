@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  
   <style>
-    /* ── Variables ──────────────────────────────────────── */
+    /* variables */
     :root {
       --brown:  #3E1C00;
       --dark:   #3E1C00;
@@ -23,7 +24,7 @@
       --gold-a: rgba(184,130,10,.08);
     }
 
-    /* ── Reset ──────────────────────────────────────────── */
+    /* reinicios de estilos */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -36,7 +37,7 @@
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
 
-    /* ── Scroll reveal ──────────────────────────────────── */
+    /* scrolleo */
     .reveal {
       opacity: 0;
       transform: translateY(24px);
@@ -44,7 +45,7 @@
     }
     .reveal.in { opacity: 1; transform: none; }
 
-    /* ── Reusable tokens ────────────────────────────────── */
+    /* titulos/textos */
     .eyebrow {
       display: block;
       font-family: 'Space Mono', monospace;
@@ -72,7 +73,7 @@
       color: var(--mid); max-width: 520px;
     }
 
-    /* ── Buttons ────────────────────────────────────────── */
+    /* botones */
     .btn {
       display: inline-block;
       font-family: 'Space Mono', monospace;
@@ -84,13 +85,14 @@
       transition: background .22s, color .22s;
     }
     .btn:hover { background: var(--gold); color: var(--dark); }
+
     .btn-gold {
       background: var(--gold); color: var(--dark);
       border-color: var(--gold);
     }
     .btn-gold:hover { opacity: .88; background: var(--gold); color: var(--dark); }
 
-    /* ── NAV ────────────────────────────────────────────── */
+    /* header */
     nav {
       position: fixed; inset: 0 0 auto 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
@@ -117,7 +119,7 @@
     }
     .nav-btn:hover { background: var(--gold); color: var(--dark); }
 
-    /* ── HERO ───────────────────────────────────────────── */
+    /* seccion1 */
     .hero {
       height: 100vh;
       display: flex; flex-direction: column;
@@ -147,7 +149,7 @@
     .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 
 
-    /* ── STATS BAR ──────────────────────────────────────── */
+    /* barra de estadísticas */
     .stats-bar {
       display: flex; align-items: center; justify-content: center;
       flex-wrap: wrap; gap: 0;
@@ -172,7 +174,7 @@
       color: var(--dim); margin-top: 6px; display: block;
     }
 
-    /* ── QUÉ ES ─────────────────────────────────────────── */
+    /* qué es */
     .que-es { padding: 96px 7vw; }
     .que-es-head { max-width: 660px; margin-bottom: 64px; }
 
@@ -201,7 +203,7 @@
       color: var(--mid); margin-top: 12px;
     }
 
-    /* ── LA CARTA ───────────────────────────────────────── */
+    /* la carta */
     .la-carta {
       padding: 96px 7vw;
       background: rgba(0,0,0,.2);
@@ -247,7 +249,7 @@
     }
     .int-logo.on { opacity: .9; }
 
-    /* ── EXPLORAR: MAPA + GLOSARIO ──────────────────────── */
+    /* explorar: mapa + glosario */
     .explorar {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 1px; background: var(--line);
@@ -273,7 +275,7 @@
     }
     .exp-link:hover { opacity: .6; }
 
-    /* ── IDENTIDAD ──────────────────────────────────────── */
+    /* identidad */
     .identidad {
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
@@ -295,8 +297,7 @@
       background: linear-gradient(to right, var(--dark2) 0%, transparent 40%);
     }
 
-
-    /* ── COMUNIDAD ──────────────────────────────────────── */
+    /* comunidad */
     .comunidad {
       padding: 96px 7vw;
       border-top: 1px solid var(--line);
@@ -340,7 +341,7 @@
       font-size: 8px; color: var(--dim); margin-left: 8px;
     }
 
-    /* ── QUIZ CTA ───────────────────────────────────────── */
+    /* quiz cta */
     .quiz-cta {
       padding: 120px 7vw;
       text-align: center;
@@ -359,7 +360,7 @@
     .quiz-star { font-size: 28px; color: var(--gold); opacity: .45; display: block; margin-bottom: 18px; }
     .quiz-sub { max-width: 440px; margin: 0 auto 42px; }
 
-    /* ── FOOTER ─────────────────────────────────────────── */
+    /* footer */
     footer {
       padding: 48px 7vw;
       border-top: 1px solid var(--line);
@@ -380,7 +381,7 @@
     }
     .footer-link:hover { opacity: .6; }
 
-    /* ── RESPONSIVE ─────────────────────────────────────── */
+    /* responsive */
     @media (max-width: 900px) {
       .pilares         { grid-template-columns: 1fr; }
       .cafes-grid      { grid-template-columns: 1fr; }
@@ -407,10 +408,11 @@
       .hero-cta .btn, .hero-cta .btn-gold { padding: 12px 24px; font-size: 9px; }
     }
   </style>
+
 </head>
+
 <body>
 
-  <!-- ── NAV ─────────────────────────────────────────────── -->
   <nav id="nav">
     <a href="#" class="nav-brand">
       <img src="./logofinal.png" alt="GranoZero" />
@@ -420,7 +422,6 @@
     <a href="https://granozero.vercel.app" class="nav-btn">Entrar a la app →</a>
   </nav>
 
-  <!-- ── HERO ─────────────────────────────────────────────── -->
   <section class="hero">
     <img src="./logofinal.png" class="hero-watermark" alt="" aria-hidden="true" />
 
@@ -440,7 +441,6 @@
 
   </section>
 
-  <!-- ── STATS BAR ─────────────────────────────────────────── -->
   <div class="stats-bar">
     <div class="stat reveal">
       <span class="stat-num">10</span>
@@ -460,7 +460,6 @@
     </div>
   </div>
 
-  <!-- ── QUÉ ES ─────────────────────────────────────────────── -->
   <section class="que-es" id="que-es">
     <div class="que-es-head">
       <span class="eyebrow reveal">La plataforma</span>
@@ -504,7 +503,6 @@
     </div>
   </section>
 
-  <!-- ── LA CARTA ───────────────────────────────────────────── -->
   <section class="la-carta">
     <div class="carta-head">
       <div>
@@ -561,7 +559,6 @@
     </div>
   </section>
 
-  <!-- ── MAPA + GLOSARIO ─────────────────────────────────────── -->
   <div class="explorar">
     <div class="exp-item reveal">
       <div class="exp-num">01</div>
@@ -587,7 +584,6 @@
     </div>
   </div>
 
-  <!-- ── IDENTIDAD DE MARCA ───────────────────────────────────── -->
   <section class="identidad">
     <div class="ident-inner">
       <div class="ident-texto">
@@ -608,7 +604,6 @@
     </div>
   </section>
 
-  <!-- ── COMUNIDAD ─────────────────────────────────────────────── -->
   <section class="comunidad">
     <div class="com-head">
       <div>
@@ -664,7 +659,6 @@
     </div>
   </section>
 
-  <!-- ── QUIZ CTA ───────────────────────────────────────────────── -->
   <section class="quiz-cta">
     <img src="./logofinal.png" class="quiz-watermark" alt="" aria-hidden="true" />
     <span class="quiz-star">✦</span>
@@ -677,7 +671,6 @@
     <a href="https://granozero.vercel.app" class="btn btn-gold reveal">Hacer el quiz →</a>
   </section>
 
-  <!-- ── FOOTER ─────────────────────────────────────────────────── -->
   <footer>
     <a href="https://granozero.vercel.app" class="footer-brand">
       <img src="./logofinal.png" alt="GranoZero" />
@@ -688,13 +681,12 @@
   </footer>
 
   <script>
-    // Nav shadow on scroll
     const nav = document.getElementById('nav')
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 50)
     }, { passive: true })
 
-    // Scroll reveal
+    // scroleo de la clase REVEAL
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -706,5 +698,6 @@
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
   </script>
+  
 </body>
 </html>

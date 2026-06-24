@@ -8,21 +8,20 @@ import { RouterLink } from 'vue-router'
 
       <!-- Texto izquierda -->
       <div class="precios-cta-texto">
-        <span v-reveal class="eyebrow">Planes</span>
-        <h2 v-reveal class="precios-cta-titulo">
+        <span class="eyebrow">Planes</span>
+        <h2 class="precios-cta-titulo">
           ¿Querés tener<br><em>privilegios</em>?
         </h2>
-        <p v-reveal class="precios-cta-sub">
+        <p class="precios-cta-sub">
           La información siempre es libre.<br>
           Las herramientas para ir más lejos son para los que se toman el café en serio.
         </p>
       </div>
 
       <!-- Derecha: lista rápida + CTA -->
-      <div v-reveal class="precios-cta-derecha">
+      <div class="precios-cta-derecha">
         <ul class="precios-cta-lista">
           <li><span class="item-check">✓</span> Carta completa de cafés</li>
-          <li><span class="item-check">✓</span> Mapa de orígenes</li>
           <li><span class="item-check">✓</span> Glosario de 20 términos</li>
           <li class="gold"><span class="item-check">✦</span> Timer de extracción</li>
           <li class="gold"><span class="item-check">✦</span> Calculadora de ratio</li>

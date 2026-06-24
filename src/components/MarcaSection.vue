@@ -1,13 +1,13 @@
 <template>
   <section class="marca-sec section">
     <div class="marca-inner">
-      <span v-reveal class="eyebrow">Identidad</span>
-      <h2 v-reveal class="sec-title">La marca<br>en el mundo real.</h2>
-      <p v-reveal class="sec-sub">
+      <span class="eyebrow">Identidad</span>
+      <h2 class="sec-title">La marca<br>en el mundo real.</h2>
+      <p class="sec-sub">
         Del grano a la identidad. GranoZero está pensada para estar en
         cada rincón de la experiencia del café.
       </p>
-      <div v-reveal class="marca-cta">
+      <div class="marca-cta">
         <RouterLink to="/marca" class="btn">Ver identidad completa →</RouterLink>
       </div>
     </div>
